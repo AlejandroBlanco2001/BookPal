@@ -1,4 +1,4 @@
-import 'package:bookpal/app/pages/main_page.dart';
+import 'package:bookpal/app/pages/main_page/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
