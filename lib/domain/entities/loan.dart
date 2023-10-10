@@ -9,7 +9,7 @@ abstract class Loan {
   final DateTime startDate;
   final DateTime dueDate;
   DateTime? returnDate;
-  final LoanStatus status;
+  LoanStatus status;
 
   Loan({
     required this.id,

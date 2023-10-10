@@ -1,16 +1,15 @@
 
 
 import 'package:bookpal/data/enums/fine_status.dart';
-import 'package:equatable/equatable.dart';
 
-abstract class Fine extends Equatable {
+abstract class Fine {
   final String id;
   final String loanId;
   final double amount;
-  final FineStatus status;
+  FineStatus status;
   final DateTime payDate;
   
-  const Fine({
+  Fine({
     required this.id,
     required this.loanId,
     this.amount = 0,
@@ -19,13 +18,4 @@ abstract class Fine extends Equatable {
   });
 
   get hasBeenPaid => status == FineStatus.paid;
-
-  @override
-  List<Object?> get props => [
-    id,
-    loanId,
-    amount,
-    status,
-    payDate
-  ];
 }

@@ -1,9 +1,8 @@
 
 
 import 'package:bookpal/data/enums/book_status.dart';
-import 'package:equatable/equatable.dart';
 
-abstract class PhysicalBook extends Equatable {
+abstract class PhysicalBook {
   final String id;
   final String barcode;
   final String referenceId;
@@ -16,10 +15,10 @@ abstract class PhysicalBook extends Equatable {
   final String? publisher;
   final DateTime? publicationDate;
   final String? language;
-  final BookStatus status;
+  BookStatus status;
   final String? bibliographicGps;
 
-  const PhysicalBook({
+  PhysicalBook({
     required this.id,
     required this.barcode,
     required this.referenceId,
@@ -35,22 +34,4 @@ abstract class PhysicalBook extends Equatable {
     this.status = BookStatus.available,
     this.bibliographicGps,
   });
-
-  @override
-  List<Object?> get props => [
-    id,
-    barcode,
-    referenceId,
-    title,
-    edition,
-    deweyCode,
-    creationDate,
-    isbn,
-    isbn13,
-    publisher,
-    publicationDate,
-    language,
-    status,
-    bibliographicGps,
-  ];
 }
