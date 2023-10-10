@@ -13,8 +13,8 @@ abstract class Fine extends Equatable {
   const Fine({
     required this.id,
     required this.loanId,
-    required this.amount,
-    required this.status,
+    this.amount = 0,
+    this.status = FineStatus.unpaid,
     required this.payDate
   });
 

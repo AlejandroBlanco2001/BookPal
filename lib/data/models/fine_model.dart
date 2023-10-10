@@ -5,8 +5,8 @@ class FineModel extends Fine {
   const FineModel({
     required String id,
     required String loanId,
-    required double amount,
-    required FineStatus status,
+    double amount = 0,
+    FineStatus status = FineStatus.unpaid,
     required DateTime payDate,
   }) : super(
           id: id,

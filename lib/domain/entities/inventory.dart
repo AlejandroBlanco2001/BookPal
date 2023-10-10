@@ -15,7 +15,7 @@ abstract class Inventory {
     required this.physicalBookBarcode,
     required this.creationDate,
     required this.quantity,
-    required this.minimunQuantity,
+    this.minimunQuantity = 0,
     required this.maximumQUantity,
     this.reorderQuantity
   }) : lastUpdate = creationDate;

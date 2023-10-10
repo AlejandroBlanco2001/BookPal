@@ -9,7 +9,7 @@ class InventoryModel extends Inventory {
     required DateTime creationDate,
     required DateTime lastUpdate,
     required int quantity,
-    required int minimunQuantity,
+    int minimunQuantity = 0,
     required int maximumQUantity,
     int? reorderQuantity
   }) : super(
