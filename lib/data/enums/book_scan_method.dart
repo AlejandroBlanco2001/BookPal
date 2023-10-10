@@ -1,0 +1,4 @@
+enum BookScanMethod {
+  barcode,
+  nfc
+}

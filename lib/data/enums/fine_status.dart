@@ -1,0 +1,4 @@
+enum FineStatus {
+  paid,
+  unpaid
+}
