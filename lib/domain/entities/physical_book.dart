@@ -16,7 +16,7 @@ abstract class PhysicalBook extends Equatable {
   final String? publisher;
   final DateTime? publicationDate;
   final String? language;
-  final BookStatus status = BookStatus.available;
+  final BookStatus status;
   final String? bibliographicGps;
 
   const PhysicalBook({
