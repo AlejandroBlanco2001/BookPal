@@ -4,7 +4,7 @@ import 'package:bookpal/data/enums/book_status.dart';
 import 'package:bookpal/domain/entities/physical_book.dart';
 
 class PhysicalBookModel extends PhysicalBook {
-  const PhysicalBookModel({
+  PhysicalBookModel({
     required String id,
     required String barcode,
     required String referenceId,
@@ -15,7 +15,7 @@ class PhysicalBookModel extends PhysicalBook {
     String? isbn,
     String? isbn13,
     String? publisher,
-    DateTime? publicationDate,
+    DateTime? publishDate,
     String? language,
     BookStatus status = BookStatus.available,
     String? bibliographicGps,
@@ -30,7 +30,7 @@ class PhysicalBookModel extends PhysicalBook {
     isbn: isbn,
     isbn13: isbn13,
     publisher: publisher,
-    publicationDate: publicationDate,
+    publishDate: publishDate,
     language: language,
     status: status,
     bibliographicGps: bibliographicGps,
@@ -48,7 +48,7 @@ class PhysicalBookModel extends PhysicalBook {
     isbn: json['isbn'] ?? "",
     isbn13: json['isbn13'] ?? "",
     publisher: json['publisher'] ?? "",
-    publicationDate: json['publicationDate'] ?? "",
+    publishDate: json['publicationDate'] ?? "",
     language: json['language'] ?? "",
     status: json['status'] ?? "",
     bibliographicGps: json['bibliographicGps'] ?? "",

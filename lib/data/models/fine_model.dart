@@ -2,7 +2,7 @@ import 'package:bookpal/data/enums/fine_status.dart';
 import 'package:bookpal/domain/entities/fine.dart';
 
 class FineModel extends Fine {
-  const FineModel({
+  FineModel({
     required String id,
     required String loanId,
     double amount = 0,

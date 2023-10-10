@@ -13,7 +13,7 @@ abstract class PhysicalBook {
   final String? isbn;
   final String? isbn13;
   final String? publisher;
-  final DateTime? publicationDate;
+  final DateTime? publishDate;
   final String? language;
   BookStatus status;
   final String? bibliographicGps;
@@ -29,7 +29,7 @@ abstract class PhysicalBook {
     this.isbn,
     this.isbn13,
     this.publisher,
-    this.publicationDate,
+    this.publishDate,
     this.language,
     this.status = BookStatus.available,
     this.bibliographicGps,
