@@ -6,15 +6,15 @@ class Book extends Equatable {
   final String id;
   final String referenceId;
   final String author;
-  final String originalTitle;
-  final DateTime publishDate;
+  final String? originalTitle;
+  final DateTime? publishDate;
 
   const Book({
 		required this.id,
 		required this.referenceId,
 		required this.author,
-		required this.originalTitle,
-		required this.publishDate
+		this.originalTitle,
+		this.publishDate
 	});
 
 	@override

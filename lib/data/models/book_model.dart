@@ -7,8 +7,8 @@ class BookModel extends Book {
     required String id,
     required String referenceId,
     required String author,
-    required String originalTitle,
-    required DateTime publishDate
+    String? originalTitle,
+    DateTime? publishDate
   }) : super(
     id: id,
     referenceId: referenceId,
@@ -22,7 +22,7 @@ class BookModel extends Book {
     referenceId: json['referenceId'] ?? "",
     author: json['author'] ?? "",
     originalTitle: json['originalTitle'] ?? "",
-    publishDate: json['publishDate'] ?? DateTime.now()
+    publishDate: json['publishDate']
   );
 
 }

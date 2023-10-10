@@ -11,8 +11,8 @@ class UserModel extends User {
     required String dateOfBirth,
     required String email,
     required String password,
-    required String academicProgram,
-    required String isAdmin,
+    String? academicProgram,
+    bool isAdmin = false,
   }) : super(
           id: id,
           companyId: companyId,

@@ -12,21 +12,21 @@ class User extends Equatable{
 	final String dateOfBirth;
 	final String email;
 	final String password;
-	final String academicProgram;
-	final String isAdmin;
+	final String? academicProgram;
+	final bool isAdmin;
 
 	const User({
 		required this.id,
 		required this.companyId,
 		required this.firstName,
-		this.secondName,
+		this.secondName = "",
 		required this.lastName,
 		this.secondLastName,
 		required this.dateOfBirth,
 		required this.email,
 		required this.password,
-		required this.academicProgram,
-		required this.isAdmin,
+		this.academicProgram,
+		this.isAdmin = false,
 	});
 
 	@override
