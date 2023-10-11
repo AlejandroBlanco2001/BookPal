@@ -22,8 +22,8 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
 
   @override
   Future<HttpResponse<UserModel>> getUser({
-    contentType = contentType,
-    required id,
+    String contentType = contentType,
+    required String id,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -43,7 +43,11 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = UserModel.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
@@ -51,8 +55,8 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
 
   @override
   Future<HttpResponse<BookModel>> getBook({
-    contentType = contentType,
-    required id,
+    String contentType = contentType,
+    required String id,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -72,7 +76,11 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = BookModel.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
@@ -80,8 +88,8 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
 
   @override
   Future<HttpResponse<CompanyModel>> getCompany({
-    contentType = contentType,
-    required id,
+    String contentType = contentType,
+    required String id,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -101,7 +109,11 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = CompanyModel.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
@@ -109,8 +121,8 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
 
   @override
   Future<HttpResponse<FineModel>> getFine({
-    contentType = contentType,
-    required id,
+    String contentType = contentType,
+    required String id,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -130,7 +142,11 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = FineModel.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
@@ -138,8 +154,8 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
 
   @override
   Future<HttpResponse<List<FineModel>>> getFinesByUser({
-    contentType = contentType,
-    required userId,
+    String contentType = contentType,
+    required String userId,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -159,7 +175,11 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     var value = _result.data!
         .map((dynamic i) => FineModel.fromJson(i as Map<String, dynamic>))
         .toList();
@@ -169,8 +189,8 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
 
   @override
   Future<HttpResponse<InventoryModel>> getInventory({
-    contentType = contentType,
-    required id,
+    String contentType = contentType,
+    required String id,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -190,7 +210,11 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = InventoryModel.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
@@ -198,8 +222,8 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
 
   @override
   Future<HttpResponse<List<InventoryModel>>> getInventoryForItem({
-    contentType = contentType,
-    required itemId,
+    String contentType = contentType,
+    required String itemId,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -219,7 +243,11 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     var value = _result.data!
         .map((dynamic i) => InventoryModel.fromJson(i as Map<String, dynamic>))
         .toList();
@@ -229,8 +257,8 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
 
   @override
   Future<HttpResponse<LoanModel>> getLoan({
-    contentType = contentType,
-    required id,
+    String contentType = contentType,
+    required String id,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -250,7 +278,11 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = LoanModel.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
@@ -258,8 +290,8 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
 
   @override
   Future<HttpResponse<List<LoanModel>>> getLoansByUser({
-    contentType = contentType,
-    required userId,
+    String contentType = contentType,
+    required String userId,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -279,7 +311,11 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     var value = _result.data!
         .map((dynamic i) => LoanModel.fromJson(i as Map<String, dynamic>))
         .toList();
@@ -289,8 +325,8 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
 
   @override
   Future<HttpResponse<NotificationModel>> getNotification({
-    contentType = contentType,
-    required id,
+    String contentType = contentType,
+    required String id,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -310,7 +346,11 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = NotificationModel.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
@@ -318,8 +358,8 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
 
   @override
   Future<HttpResponse<List<NotificationModel>>> getUserNotifications({
-    contentType = contentType,
-    required userId,
+    String contentType = contentType,
+    required String userId,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -339,7 +379,11 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     var value = _result.data!
         .map((dynamic i) =>
             NotificationModel.fromJson(i as Map<String, dynamic>))
@@ -350,8 +394,8 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
 
   @override
   Future<HttpResponse<PhysicalBookModel>> getPhysicalBook({
-    contentType = contentType,
-    required id,
+    String contentType = contentType,
+    required String id,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -371,7 +415,11 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = PhysicalBookModel.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
@@ -379,8 +427,8 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
 
   @override
   Future<HttpResponse<ReferenceModel>> getReference({
-    contentType = contentType,
-    required id,
+    String contentType = contentType,
+    required String id,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -400,16 +448,20 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = ReferenceModel.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
-  Future<HttpResponse<SubjectBookRelation>> getRelation({
-    contentType = contentType,
-    required id,
+  Future<HttpResponse<SubjectBookRelationModel>> getRelation({
+    String contentType = contentType,
+    required String id,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -417,7 +469,7 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<SubjectBookRelation>>(Options(
+        _setStreamType<HttpResponse<SubjectBookRelationModel>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -429,16 +481,20 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = SubjectBookRelation.fromJson(_result.data!);
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = SubjectBookRelationModel.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
   Future<HttpResponse<List<String>>> getRelatedSubjects({
-    contentType = contentType,
-    required bookId,
+    String contentType = contentType,
+    required String bookId,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -458,7 +514,11 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = _result.data!.cast<String>();
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
@@ -466,8 +526,8 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
 
   @override
   Future<HttpResponse<List<String>>> getRelatedBooks({
-    contentType = contentType,
-    required subjectId,
+    String contentType = contentType,
+    required String subjectId,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -487,7 +547,11 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = _result.data!.cast<String>();
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
@@ -495,8 +559,8 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
 
   @override
   Future<HttpResponse<SubjectModel>> getSubject({
-    contentType = contentType,
-    required id,
+    String contentType = contentType,
+    required String id,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -516,7 +580,11 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = SubjectModel.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
@@ -533,5 +601,22 @@ class _GeneralDatabaseApiService implements GeneralDatabaseApiService {
       }
     }
     return requestOptions;
+  }
+
+  String _combineBaseUrls(
+    String dioBaseUrl,
+    String? baseUrl,
+  ) {
+    if (baseUrl == null || baseUrl.trim().isEmpty) {
+      return dioBaseUrl;
+    }
+
+    final url = Uri.parse(baseUrl);
+
+    if (url.isAbsolute) {
+      return url.toString();
+    }
+
+    return Uri.parse(dioBaseUrl).resolveUri(url).toString();
   }
 }
