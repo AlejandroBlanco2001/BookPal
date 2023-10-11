@@ -6,6 +6,11 @@ import 'package:bookpal/domain/resources/data_state.dart';
 
 class InventoryRepositoryImplementation implements InventoryRepository {
   @override
+  Future<DataState<InventoryModel>> getInventory() {
+    throw UnimplementedError();
+  }
+
+  @override
   Future<DataState<InventoryModel>> getInventoryForItem() {
     throw UnimplementedError();
   }
