@@ -2,7 +2,11 @@
 
 import 'package:bookpal/data/enums/book_scan_method.dart';
 import 'package:bookpal/domain/entities/company.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'company_model.g.dart';
+
+@JsonSerializable()
 class CompanyModel extends Company {
   const CompanyModel({
     required String id,
@@ -20,12 +24,8 @@ class CompanyModel extends Company {
     secondaryColor: secondaryColor,
   );
 
-  factory CompanyModel.fromJson(Map<String, dynamic> json) => CompanyModel(
-    id: json['id'] ?? "",
-    name: json['name'] ?? "",
-    bookScanMethods: json['bookScanMethods'] ?? "",
-    logo: json['logo'] ?? "",
-    primaryColor: json['primaryColor'] ?? "",
-    secondaryColor: json['secondaryColor'] ?? "",
-  );
+  factory CompanyModel.fromJson(Map<String, dynamic> json) => _$CompanyModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CompanyModelToJson(this);
+  
 }

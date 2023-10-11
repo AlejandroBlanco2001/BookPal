@@ -1,6 +1,10 @@
 import 'package:bookpal/data/enums/fine_status.dart';
 import 'package:bookpal/domain/entities/fine.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'fine_model.g.dart';
+
+@JsonSerializable()
 class FineModel extends Fine {
   FineModel({
     required String id,
@@ -16,13 +20,8 @@ class FineModel extends Fine {
           status: status,
         );
 
-  @override
-  factory FineModel.fromJson(Map<String, dynamic> json) => FineModel(
-        id: json['id'] ?? "",
-        loanId: json['loan_id'] ?? "",
-        amount: json['amount'] ?? 0.0,
-        status: FineStatus.values[json['status'] ?? FineStatus.unpaid.index],
-        payDate: DateTime.parse(json['pay_date'] ?? ""),
-      );
+  factory FineModel.fromJson(Map<String, dynamic> json) => _$FineModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FineModelToJson(this);
 
 }

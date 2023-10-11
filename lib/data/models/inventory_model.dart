@@ -1,7 +1,11 @@
 
 
 import 'package:bookpal/domain/entities/inventory.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'inventory_model.g.dart';
+
+@JsonSerializable()
 class InventoryModel extends Inventory {
   InventoryModel({
     required String id,
@@ -22,15 +26,8 @@ class InventoryModel extends Inventory {
     reorderQuantity: reorderQuantity
   );
 
-  @override
-  factory InventoryModel.fromJson(Map<String, dynamic> json) => InventoryModel(
-    id: json['id'] ?? "",
-    physicalBookBarcode: json['physicalBookBarcode'] ?? "",
-    creationDate: json['creationDate'] ?? "",
-    lastUpdate: json['lastUpdate'] ?? "",
-    quantity: json['quantity'] ?? "",
-    minimunQuantity: json['minimunQuantity'] ?? "",
-    maximumQUantity: json['maximumQUantity'] ?? "",
-    reorderQuantity: json['reorderQuantity'] ?? ""
-  );
+  factory InventoryModel.fromJson(Map<String, dynamic> json) => _$InventoryModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$InventoryModelToJson(this);
+  
 }

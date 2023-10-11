@@ -2,7 +2,11 @@
 
 import 'package:bookpal/data/enums/book_status.dart';
 import 'package:bookpal/domain/entities/physical_book.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'physical_book_model.g.dart';
+
+@JsonSerializable()
 class PhysicalBookModel extends PhysicalBook {
   PhysicalBookModel({
     required String id,
@@ -36,21 +40,8 @@ class PhysicalBookModel extends PhysicalBook {
     bibliographicGps: bibliographicGps,
   );
 
-  @override
-  factory PhysicalBookModel.fromJson(Map<String, dynamic> json) => PhysicalBookModel(
-    id: json['id'] ?? "",
-    barcode: json['barcode'] ?? "",
-    referenceId: json['referenceId'] ?? "",
-    title: json['title'] ?? "",
-    edition: json['edition'] ?? "",
-    deweyCode: json['deweyCode'] ?? "",
-    creationDate: json['creationDate'] ?? "",
-    isbn: json['isbn'] ?? "",
-    isbn13: json['isbn13'] ?? "",
-    publisher: json['publisher'] ?? "",
-    publishDate: json['publicationDate'] ?? "",
-    language: json['language'] ?? "",
-    status: json['status'] ?? "",
-    bibliographicGps: json['bibliographicGps'] ?? "",
-  );
+  factory PhysicalBookModel.fromJson(Map<String, dynamic> json) => _$PhysicalBookModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PhysicalBookModelToJson(this);
+
 }

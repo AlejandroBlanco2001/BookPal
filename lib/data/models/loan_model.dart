@@ -2,7 +2,11 @@
 
 import 'package:bookpal/data/enums/loan_status.dart';
 import 'package:bookpal/domain/entities/loan.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'loan_model.g.dart';
+
+@JsonSerializable()
 class LoanModel extends Loan {
   LoanModel({
     required String id,
@@ -22,23 +26,8 @@ class LoanModel extends Loan {
           status: status
         );
 
-  factory LoanModel.fromJson(Map<String, dynamic> json) => LoanModel(
-        id: json['id'] ?? "",
-        userId: json['userId'] ?? "",
-        physicalBookBarcode: json['physicalBookBarcode'] ?? "",
-        startDate: DateTime.parse(json['startDate'] ?? ""),
-        dueDate: DateTime.parse(json['dueDate'] ?? ""),
-        returnDate: DateTime.parse(json['returnDate'] ?? ""),
-        status: LoanStatus.values[json['status'] ?? LoanStatus.active.index]
-      );
+  factory LoanModel.fromJson(Map<String, dynamic> json) => _$LoanModelFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'userId': userId,
-    'physicalBookBarcode': physicalBookBarcode,
-    'startDate': startDate.toIso8601String(),
-    'dueDate': dueDate.toIso8601String(),
-    'returnDate': returnDate?.toIso8601String(),
-    'status': status.name
-  };
+  Map<String, dynamic> toJson() => _$LoanModelToJson(this);
+  
 }

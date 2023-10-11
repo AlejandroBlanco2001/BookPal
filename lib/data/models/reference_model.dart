@@ -1,7 +1,11 @@
 
 
 import 'package:bookpal/domain/entities/reference.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'reference_model.g.dart';
+
+@JsonSerializable()
 class ReferenceModel extends Reference {
 
   const ReferenceModel({
@@ -14,10 +18,8 @@ class ReferenceModel extends Reference {
     referenceName: referenceName,
   );
 
-  @override
-  factory ReferenceModel.fromJson(Map<String, dynamic> json) => ReferenceModel(
-    id: json['id'] ?? "",
-    numericalId: json['numericalId'] ?? "",
-    referenceName: json['referenceName'] ?? "",
-  );
+  factory ReferenceModel.fromJson(Map<String, dynamic> json) => _$ReferenceModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ReferenceModelToJson(this);
+
 }

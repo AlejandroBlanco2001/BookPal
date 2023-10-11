@@ -1,5 +1,9 @@
 import 'package:bookpal/domain/entities/subject_book_relation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'subject_book_relation_model.g.dart';
+
+@JsonSerializable()
 class SubjectBookRelationModel extends SubjectBookRelation {
   
   const SubjectBookRelationModel({
@@ -12,16 +16,8 @@ class SubjectBookRelationModel extends SubjectBookRelation {
     bookId: bookId
   );
 
-  @override
-  factory SubjectBookRelationModel.fromJson(Map<String, dynamic> json) => SubjectBookRelationModel(
-    id: json['id'] ?? "",
-    subjectId: json['subject_id'] ?? "",
-    bookId: json['book_id'] ?? ""
-  );
+  factory SubjectBookRelationModel.fromJson(Map<String, dynamic> json) => _$SubjectBookRelationModelFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'subject_id': subjectId,
-        'book_id': bookId,
-      };
+  Map<String, dynamic> toJson() => _$SubjectBookRelationModelToJson(this);
+
 }
