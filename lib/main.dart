@@ -13,8 +13,8 @@ class BookPalState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [],
-      child: BookPal(),
+      providers: const [],
+      child: const BookPal(),
     );
   }
 }
