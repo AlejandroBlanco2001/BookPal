@@ -5,7 +5,7 @@ import 'package:bookpal/data/helpers/response_verifier.dart';
 import 'package:bookpal/data/models/subject_model.dart';
 import 'package:bookpal/domain/entities/subject.dart';
 import 'package:bookpal/domain/repositories/subject_repository.dart';
-import 'package:bookpal/domain/resources/data_state.dart';
+import 'package:bookpal/core/resources/data_state.dart';
 import 'package:dio/dio.dart';
 
 class SubjectRepositoryImplementation implements SubjectRepository {

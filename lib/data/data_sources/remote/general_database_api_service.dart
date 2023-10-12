@@ -1,4 +1,4 @@
-import 'package:bookpal/data/constants.dart';
+import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/data/models/book_model.dart';
 import 'package:bookpal/data/models/company_model.dart';
 import 'package:bookpal/data/models/fine_model.dart';

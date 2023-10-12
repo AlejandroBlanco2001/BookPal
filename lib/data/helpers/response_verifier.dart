@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bookpal/domain/resources/data_state.dart';
+import 'package:bookpal/core/resources/data_state.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
