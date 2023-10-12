@@ -56,7 +56,7 @@ abstract class GeneralDatabaseApiService {
   });
 
   @GET('/item-inventory/{itemId}')
-  Future<HttpResponse<List<InventoryModel>>> getInventoryForItem({
+  Future<HttpResponse<InventoryModel>> getInventoryForItem({
     @Header('Content-Type') String contentType = contentType,
     @Path() required String itemId
   });
