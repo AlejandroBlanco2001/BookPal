@@ -13,13 +13,27 @@ class BookRepositoryImplementation implements BookRepository {
   BookRepositoryImplementation(this._generalDatabaseApiService);
 
   @override
-  Future<DataState<BookModel>> getBook(String id) async{
+  Future<DataState<BookModel>> getBook(String barcode) async{
     try {
       final httpResponse = await _generalDatabaseApiService.getBook(
-        id: id,
+        barcode: barcode,
       );
 
       final ResponseVerifier<BookModel> responseVerifier = ResponseVerifier<BookModel>();
+
+      return responseVerifier.validateResponse(httpResponse);
+
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
+
+  @override
+  Future<DataState<List<BookModel>>> getBooks() async{
+    try {
+      final httpResponse = await _generalDatabaseApiService.getBooks();
+
+      final ResponseVerifier<List<BookModel>> responseVerifier = ResponseVerifier<List<BookModel>>();
 
       return responseVerifier.validateResponse(httpResponse);
 
