@@ -15,6 +15,7 @@ abstract class PhysicalBook {
   final String? publisher;
   final DateTime? publishDate;
   final String? language;
+  String? bookCover;
   BookStatus status;
   final String? bibliographicGps;
 
@@ -31,6 +32,7 @@ abstract class PhysicalBook {
     this.publisher,
     this.publishDate,
     this.language,
+    this.bookCover = '/no_cover.jpg',
     this.status = BookStatus.available,
     this.bibliographicGps,
   });

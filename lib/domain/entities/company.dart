@@ -15,7 +15,7 @@ abstract class Company extends Equatable {
     required this.id,
     required this.name,
     this.bookScanMethods = const [BookScanMethod.barcode],
-    this.logo,
+    this.logo = '/default_logo.png',
     this.primaryColor = "#000000",
     this.secondaryColor = "#000000",
   });

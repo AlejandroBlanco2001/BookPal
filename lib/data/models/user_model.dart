@@ -16,6 +16,7 @@ class UserModel extends User {
     required String email,
     required String password,
     String? academicProgram,
+    String profilePicture = '/default_avatar.jpg',
     bool isAdmin = false,
   }) : super(
           id: id,
@@ -28,6 +29,7 @@ class UserModel extends User {
           email: email,
           password: password,
           academicProgram: academicProgram,
+          profilePicture: profilePicture,
           isAdmin: isAdmin,
         );
   

@@ -21,6 +21,7 @@ class PhysicalBookModel extends PhysicalBook {
     String? publisher,
     DateTime? publishDate,
     String? language,
+    String bookCover = '/no_cover.jpg',
     BookStatus status = BookStatus.available,
     String? bibliographicGps,
   }) : super(
@@ -36,6 +37,7 @@ class PhysicalBookModel extends PhysicalBook {
     publisher: publisher,
     publishDate: publishDate,
     language: language,
+    bookCover: '',
     status: status,
     bibliographicGps: bibliographicGps,
   );

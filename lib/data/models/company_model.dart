@@ -12,7 +12,7 @@ class CompanyModel extends Company {
     required String id,
     required String name,
     List<BookScanMethod> bookScanMethods = const [BookScanMethod.barcode],
-    String? logo,
+    String? logo = '/default_logo.png',
     String? primaryColor = "#000000",
     String? secondaryColor = "#000000",
   }) : super(

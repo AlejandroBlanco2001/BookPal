@@ -14,6 +14,7 @@ class User extends Equatable{
 	final String password;
 	final String? academicProgram;
 	final bool isAdmin;
+  final String profilePicture;
 
 	const User({
 		required this.id,
@@ -26,6 +27,7 @@ class User extends Equatable{
 		required this.email,
 		required this.password,
 		this.academicProgram,
+    this.profilePicture  = '/default_avatar.jpg',
 		this.isAdmin = false,
 	});
 
