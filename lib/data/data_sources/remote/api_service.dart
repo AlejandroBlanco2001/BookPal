@@ -121,7 +121,7 @@ abstract class ApiService {
     @Path() required String itemId
   });
 
-  @GET('/loans/{id}')
+  @GET('/loan/{id}')
   Future<HttpResponse<LoanModel>> getLoan({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
@@ -133,6 +133,20 @@ abstract class ApiService {
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
     @Path() required String userId
+  });
+
+  @PUT('/loan/return/{id}')
+  Future<HttpResponse<LoanModel>> makeReturn({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('x-api-key') String apiKey = apiKey,
+    @Path() required String id
+  });
+
+  @POST('/loan')
+  Future<HttpResponse<LoanModel>> postLoan({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('x-api-key') String apiKey = apiKey,
+    @Body() required LoanModel loan
   });
 
   @GET('/notifications/{id}')
