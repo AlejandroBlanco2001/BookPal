@@ -1,14 +1,20 @@
 import 'package:bookpal/app/pages/main_page/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 void main() {
-  runApp(const BookPalState());
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences.getInstance().then((prefs) {
+    runApp(BookPalState(prefs:prefs));
+  });
 }
 
 class BookPalState extends StatelessWidget {
-  const BookPalState({super.key});
+  const BookPalState({super.key, required this.prefs});
+
+  final SharedPreferences prefs;
 
   @override
   Widget build(BuildContext context) {
