@@ -22,7 +22,7 @@ class InventoryRepositoryImplementation implements InventoryRepository {
       final ResponseVerifier<InventoryModel> responseVerifier = ResponseVerifier<InventoryModel>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(500,e);
     }
   }
 
@@ -35,7 +35,7 @@ class InventoryRepositoryImplementation implements InventoryRepository {
       final ResponseVerifier<InventoryModel> responseVerifier = ResponseVerifier<InventoryModel>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(500,e);
     }
   }
 }

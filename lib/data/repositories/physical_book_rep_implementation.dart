@@ -22,7 +22,7 @@ class PhysicalBookRepositoryImplementation implements PhysicalBookRepository {
       final ResponseVerifier<PhysicalBookModel> responseVerifier = ResponseVerifier<PhysicalBookModel>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(500,e);
     }
   }
 }

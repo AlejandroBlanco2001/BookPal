@@ -22,7 +22,7 @@ class SubjectBookRelationRepositoryImplementation implements SubjectBookRelation
       final ResponseVerifier<SubjectBookRelationModel> responseVerifier = ResponseVerifier<SubjectBookRelationModel>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(500,e);
     }
   }
   
@@ -35,7 +35,7 @@ class SubjectBookRelationRepositoryImplementation implements SubjectBookRelation
       final ResponseVerifier<List<String>> responseVerifier = ResponseVerifier<List<String>>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(500,e);
     }
   }
 
@@ -48,7 +48,7 @@ class SubjectBookRelationRepositoryImplementation implements SubjectBookRelation
       final ResponseVerifier<List<String>> responseVerifier = ResponseVerifier<List<String>>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(500,e);
     }
   }
 }

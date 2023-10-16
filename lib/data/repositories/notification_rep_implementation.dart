@@ -22,7 +22,7 @@ class NotificationRepositoryImplementation implements NotificationRepository {
       final ResponseVerifier<NotificationModel> responseVerifier = ResponseVerifier<NotificationModel>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(500,e);
     }
   }
   @override
@@ -34,7 +34,7 @@ class NotificationRepositoryImplementation implements NotificationRepository {
       final ResponseVerifier<List<NotificationModel>> responseVerifier = ResponseVerifier<List<NotificationModel>>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(500,e);
     }
   }
 }

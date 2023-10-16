@@ -22,7 +22,7 @@ class FineRepositoryImplementation implements FineRepository {
       final ResponseVerifier<Fine> responseVerifier = ResponseVerifier<Fine>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(500,e);
     }
   }
 
@@ -35,7 +35,7 @@ class FineRepositoryImplementation implements FineRepository {
       final ResponseVerifier<List<Fine>> responseVerifier = ResponseVerifier<List<Fine>>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(500,e);
     }
   }
 }

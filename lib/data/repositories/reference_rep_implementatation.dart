@@ -22,7 +22,7 @@ class ReferenceRepositoryImplementation implements ReferenceRepository {
       final ResponseVerifier<ReferenceModel> responseVerifier = ResponseVerifier<ReferenceModel>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(500,e);
     }
   }
 }

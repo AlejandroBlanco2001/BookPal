@@ -24,7 +24,7 @@ class BookRepositoryImplementation implements BookRepository {
       return responseVerifier.validateResponse(httpResponse);
 
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(500,e);
     }
   }
 
@@ -38,7 +38,7 @@ class BookRepositoryImplementation implements BookRepository {
       return responseVerifier.validateResponse(httpResponse);
 
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(500,e);
     }
   }
 }

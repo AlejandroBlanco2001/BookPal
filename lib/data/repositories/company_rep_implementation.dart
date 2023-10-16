@@ -26,7 +26,7 @@ class CompanyRepositoryImplementation implements CompanyRepository {
       return responseVerifier.validateResponse(httpResponse);
       
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(500,e);
     }
   }
 
@@ -43,7 +43,7 @@ class CompanyRepositoryImplementation implements CompanyRepository {
       return responseVerifier.validateResponse(httpResponse);
       
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(500,e);
     }
   }
 }
