@@ -14,11 +14,11 @@ import 'package:bookpal/data/models/user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
-part 'general_database_api_service.g.dart';
+part 'api_service.g.dart';
 
 @RestApi(baseUrl: baseUrl)
-abstract class GeneralDatabaseApiService {
-  factory GeneralDatabaseApiService(Dio dio, {String baseUrl}) = _GeneralDatabaseApiService;
+abstract class ApiService {
+  factory ApiService(Dio dio, {String baseUrl}) = _ApiService;
 
   @GET('/user/id/{id}')
   Future<HttpResponse<UserModel>> getUserById({
@@ -57,6 +57,14 @@ abstract class GeneralDatabaseApiService {
     @Body() required UserModel user
   });
 
+  @POST('/login')
+  Future<HttpResponse> login({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('x-api-key') String apiKey = apiKey,
+    @Body() required String email,
+    @Body() required String password
+  });
+
   @GET('/book/{barcode}')
   Future<HttpResponse<BookModel>> getBook({
     @Header('Content-Type') String contentType = contentType,
@@ -70,11 +78,19 @@ abstract class GeneralDatabaseApiService {
     @Header('x-api-key') String apiKey = apiKey,
   });
 
-  @GET('/companies/{id}')
+  @GET('/company/{id}')
   Future<HttpResponse<CompanyModel>> getCompany({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
     @Path() required String id
+  });
+
+  @PUT('/company/{id}')
+  Future<HttpResponse<CompanyModel>> putCompany({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('x-api-key') String apiKey = apiKey,
+    @Path() required String id,
+    @Body() required CompanyModel company
   });
 
   @GET('/fines/{id}')
