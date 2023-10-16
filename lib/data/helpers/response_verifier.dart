@@ -5,17 +5,18 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 class ResponseVerifier<T> {
-  DataState<T> validateResponse(
-      HttpResponse<T> httpResponse) {
+  DataState<T> validateResponse(HttpResponse<T> httpResponse) {
     if (httpResponse.response.statusCode == HttpStatus.ok) {
-      return DataSuccess(httpResponse.response.data);
+      return DataSuccess(httpResponse.response.statusCode!, httpResponse.response.data);
     } else {
-      return DataFailed(DioException(
-        requestOptions: httpResponse.response.requestOptions,
-        type: DioExceptionType.badResponse,
-        error: httpResponse.response.statusCode,
-        response: httpResponse.response,
-      ));
+      return DataFailed(
+          httpResponse.response.statusCode!,
+          DioException(
+            requestOptions: httpResponse.response.requestOptions,
+            type: DioExceptionType.badResponse,
+            error: httpResponse.response.statusMessage,
+            response: httpResponse.response,
+          ));
     }
   }
 }
