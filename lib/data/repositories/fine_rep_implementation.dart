@@ -1,6 +1,6 @@
 
 
-import 'package:bookpal/data/data_sources/remote/general_database_api_service.dart';
+import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/data/helpers/response_verifier.dart';
 import 'package:bookpal/domain/entities/fine.dart';
 import 'package:bookpal/domain/repositories/fine_repository.dart';
@@ -9,14 +9,14 @@ import 'package:dio/dio.dart';
 
 class FineRepositoryImplementation implements FineRepository {
 
-  final GeneralDatabaseApiService _generalDatabaseApiService;
+  final ApiService _apiService;
 
-  FineRepositoryImplementation(this._generalDatabaseApiService);
+  FineRepositoryImplementation(this._apiService);
 
   @override
   Future<DataState<Fine>> getFine(String id) async {
     try {
-      final httpResponse = await _generalDatabaseApiService.getFine(
+      final httpResponse = await _apiService.getFine(
         id: id,
       );
       final ResponseVerifier<Fine> responseVerifier = ResponseVerifier<Fine>();
@@ -29,7 +29,7 @@ class FineRepositoryImplementation implements FineRepository {
   @override
   Future<DataState<List<Fine>>> getFinesByUser(String userId) async {
     try {
-      final httpResponse = await _generalDatabaseApiService.getFinesByUser(
+      final httpResponse = await _apiService.getFinesByUser(
         userId: userId,
       );
       final ResponseVerifier<List<Fine>> responseVerifier = ResponseVerifier<List<Fine>>();

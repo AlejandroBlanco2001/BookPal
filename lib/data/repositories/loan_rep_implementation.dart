@@ -1,6 +1,6 @@
 
 
-import 'package:bookpal/data/data_sources/remote/general_database_api_service.dart';
+import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/data/helpers/response_verifier.dart';
 import 'package:bookpal/data/models/loan_model.dart';
 import 'package:bookpal/domain/repositories/loan_repository.dart';
@@ -9,14 +9,14 @@ import 'package:dio/dio.dart';
 
 class LoanRepositoryImplementation implements LoanRepository {
 
-  final GeneralDatabaseApiService _generalDatabaseApiService;
+  final ApiService _apiService;
 
-  LoanRepositoryImplementation(this._generalDatabaseApiService);
+  LoanRepositoryImplementation(this._apiService);
 
   @override
   Future<DataState<LoanModel>> getLoan(String id) async {
     try {
-      final httpResponse = await _generalDatabaseApiService.getLoan(
+      final httpResponse = await _apiService.getLoan(
         id: id,
       );
       final ResponseVerifier<LoanModel> responseVerifier = ResponseVerifier<LoanModel>();
@@ -29,7 +29,7 @@ class LoanRepositoryImplementation implements LoanRepository {
   @override
   Future<DataState<List<LoanModel>>> getLoansByUser(String userId) async {
     try {
-      final httpResponse = await _generalDatabaseApiService.getLoansByUser(
+      final httpResponse = await _apiService.getLoansByUser(
         userId: userId,
       );
       final ResponseVerifier<List<LoanModel>> responseVerifier = ResponseVerifier<List<LoanModel>>();

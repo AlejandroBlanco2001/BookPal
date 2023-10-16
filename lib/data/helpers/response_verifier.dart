@@ -8,13 +8,12 @@ class ResponseVerifier<T> {
   DataState<T> validateResponse(
       HttpResponse<T> httpResponse) {
     if (httpResponse.response.statusCode == HttpStatus.ok) {
-      return DataSucess(httpResponse.response.data);
+      return DataSuccess(httpResponse.response.data);
     } else {
       return DataFailed(DioException(
         requestOptions: httpResponse.response.requestOptions,
         type: DioExceptionType.badResponse,
-        error:
-            '${httpResponse.response.statusCode}: ${httpResponse.response.statusMessage}',
+        error: httpResponse.response.statusCode,
         response: httpResponse.response,
       ));
     }

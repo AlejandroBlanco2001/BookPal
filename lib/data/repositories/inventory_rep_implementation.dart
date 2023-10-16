@@ -1,6 +1,6 @@
 
 
-import 'package:bookpal/data/data_sources/remote/general_database_api_service.dart';
+import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/data/helpers/response_verifier.dart';
 import 'package:bookpal/data/models/inventory_model.dart';
 import 'package:bookpal/domain/repositories/inventory_repository.dart';
@@ -9,14 +9,14 @@ import 'package:dio/dio.dart';
 
 class InventoryRepositoryImplementation implements InventoryRepository {
 
-  final GeneralDatabaseApiService _generalDatabaseApiService;
+  final ApiService _apiService;
 
-  InventoryRepositoryImplementation(this._generalDatabaseApiService);
+  InventoryRepositoryImplementation(this._apiService);
 
   @override
   Future<DataState<InventoryModel>> getInventory(String id) async {
     try {
-      final httpResponse = await _generalDatabaseApiService.getInventory(
+      final httpResponse = await _apiService.getInventory(
         id: id,
       );
       final ResponseVerifier<InventoryModel> responseVerifier = ResponseVerifier<InventoryModel>();
@@ -29,7 +29,7 @@ class InventoryRepositoryImplementation implements InventoryRepository {
   @override
   Future<DataState<InventoryModel>> getInventoryForItem(String itemId) async {
     try {
-      final httpResponse = await _generalDatabaseApiService.getInventoryForItem(
+      final httpResponse = await _apiService.getInventoryForItem(
         itemId: itemId,
       );
       final ResponseVerifier<InventoryModel> responseVerifier = ResponseVerifier<InventoryModel>();

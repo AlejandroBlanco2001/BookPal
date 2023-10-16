@@ -1,5 +1,5 @@
 
-import 'package:bookpal/data/data_sources/remote/general_database_api_service.dart';
+import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/data/helpers/response_verifier.dart';
 import 'package:bookpal/data/models/book_model.dart';
 import 'package:bookpal/domain/repositories/book_repository.dart';
@@ -8,14 +8,14 @@ import 'package:dio/dio.dart';
 
 class BookRepositoryImplementation implements BookRepository {
 
-  final GeneralDatabaseApiService _generalDatabaseApiService;
+  final ApiService _apiService;
 
-  BookRepositoryImplementation(this._generalDatabaseApiService);
+  BookRepositoryImplementation(this._apiService);
 
   @override
   Future<DataState<BookModel>> getBook(String barcode) async{
     try {
-      final httpResponse = await _generalDatabaseApiService.getBook(
+      final httpResponse = await _apiService.getBook(
         barcode: barcode,
       );
 
@@ -31,7 +31,7 @@ class BookRepositoryImplementation implements BookRepository {
   @override
   Future<DataState<List<BookModel>>> getBooks() async{
     try {
-      final httpResponse = await _generalDatabaseApiService.getBooks();
+      final httpResponse = await _apiService.getBooks();
 
       final ResponseVerifier<List<BookModel>> responseVerifier = ResponseVerifier<List<BookModel>>();
 

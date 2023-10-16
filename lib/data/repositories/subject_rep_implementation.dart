@@ -1,6 +1,6 @@
 
 
-import 'package:bookpal/data/data_sources/remote/general_database_api_service.dart';
+import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/data/helpers/response_verifier.dart';
 import 'package:bookpal/data/models/subject_model.dart';
 import 'package:bookpal/domain/entities/subject.dart';
@@ -10,14 +10,14 @@ import 'package:dio/dio.dart';
 
 class SubjectRepositoryImplementation implements SubjectRepository {
 
-  final GeneralDatabaseApiService _generalDatabaseApiService;
+  final ApiService _apiService;
 
-  SubjectRepositoryImplementation(this._generalDatabaseApiService);
+  SubjectRepositoryImplementation(this._apiService);
 
   @override
   Future<DataState<Subject>> getSubject(String id) async {
     try {
-      final httpResponse = await _generalDatabaseApiService.getSubject(
+      final httpResponse = await _apiService.getSubject(
         id: id,
       );
       final ResponseVerifier<SubjectModel> responseVerifier = ResponseVerifier<SubjectModel>();

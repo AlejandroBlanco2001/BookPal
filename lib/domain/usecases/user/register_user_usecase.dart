@@ -5,11 +5,11 @@ import 'package:bookpal/core/usecases/usecase.dart';
 import 'package:bookpal/domain/entities/user.dart';
 import 'package:bookpal/domain/repositories/user_repository.dart';
 
-class CreateUserUsecase implements Usecase<DataState<User>> {
+class RegisterUserUsecase implements Usecase<DataState<User>> {
 
   final UserRepository _userRepository;
 
-  CreateUserUsecase(this._userRepository);
+  RegisterUserUsecase(this._userRepository);
 
   @override
   Future<DataState<User>> call({Map<String, dynamic>? params}) {
