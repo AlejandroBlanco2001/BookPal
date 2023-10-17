@@ -1,30 +1,17 @@
 
 import 'package:flutter/material.dart';
 
-class BookPalHomePage extends StatefulWidget {
+class BookPalHomePage extends StatelessWidget {
   const BookPalHomePage({super.key, required this.title});
 
   final String title;
-
-  @override
-  State<BookPalHomePage> createState() => _BookPalHomePageState();
-}
-
-class _BookPalHomePageState extends State<BookPalHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(title),
       ),
       body: Center(
         child: Column(
@@ -34,17 +21,18 @@ class _BookPalHomePageState extends State<BookPalHomePage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              'User',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () => {},
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), 
     );
   }
 }
+
