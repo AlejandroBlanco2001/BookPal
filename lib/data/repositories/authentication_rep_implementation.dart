@@ -1,5 +1,5 @@
 
-
+import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/resources/data_state.dart';
 import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/data/helpers/response_verifier.dart';
@@ -23,7 +23,9 @@ class AuthenticationRepositoryImplementation implements AuthenticationRepository
       final ResponseVerifier responseVerifier = ResponseVerifier();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(e);
+      final DataFailed fail = DataFailed(500, e);
+      logger.e(fail);
+      return DataFailed(500, e);
     }
   }
 
