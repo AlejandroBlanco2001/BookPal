@@ -14,7 +14,7 @@ class FineRepositoryImplementation implements FineRepository {
   FineRepositoryImplementation(this._apiService);
 
   @override
-  Future<DataState<Fine>> getFine(String id) async {
+  Future<DataState<Fine>> getFine(int id) async {
     try {
       final httpResponse = await _apiService.getFine(
         id: id,
@@ -27,7 +27,7 @@ class FineRepositoryImplementation implements FineRepository {
   }
 
   @override
-  Future<DataState<List<Fine>>> getFinesByUser(String userId) async {
+  Future<DataState<List<Fine>>> getFinesByUser(int userId) async {
     try {
       final httpResponse = await _apiService.getFinesByUser(
         userId: userId,

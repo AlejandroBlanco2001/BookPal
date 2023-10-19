@@ -30,12 +30,12 @@ class BookPalHomePage extends StatelessWidget {
       floatingActionButton: (defaultTargetPlatform == TargetPlatform.android)
           ? FloatingActionButton(
               onPressed: () =>
-                  {context.read<RemoteUserBloc>().add(const GetUser('5'))},
+                  {context.read<RemoteUserBloc>().add(const GetUser(5))},
               child: const Icon(Icons.add),
             )
           : CupertinoButton(
               onPressed: () =>
-                  {context.read<RemoteUserBloc>().add(const GetUser('5'))},
+                  {context.read<RemoteUserBloc>().add(const GetUser(5))},
               child: const Icon(Icons.add),
             ),
     );

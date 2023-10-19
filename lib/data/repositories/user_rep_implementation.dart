@@ -14,7 +14,7 @@ class UserRepositoryImplementation implements UserRepository {
   UserRepositoryImplementation(this._apiService);
 
   @override
-  Future<DataState<UserModel>> getUserById(String id) async {
+  Future<DataState<UserModel>> getUserById(int id) async {
     try {
 
       logger.i('getUserById: $id');
@@ -22,8 +22,6 @@ class UserRepositoryImplementation implements UserRepository {
       final httpResponse = await _apiService.getUserById(
         id: id,
       );
-
-      logger.i('Usuario conseguido ${httpResponse.data.email}');
 
       final ResponseVerifier<UserModel> responseVerifier =
           ResponseVerifier<UserModel>();
@@ -54,7 +52,7 @@ class UserRepositoryImplementation implements UserRepository {
   }
 
   @override
-  Future<DataState<UserModel>> putUserById(String id, User user) async {
+  Future<DataState<UserModel>> putUserById(int id, User user) async {
     try {
       final httpResponse = await _apiService.putUserById(
         id: id,

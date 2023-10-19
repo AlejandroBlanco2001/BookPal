@@ -14,7 +14,7 @@ class NotificationRepositoryImplementation implements NotificationRepository {
   NotificationRepositoryImplementation(this._apiService);
 
   @override
-  Future<DataState<NotificationModel>> getNotification(String id) async {
+  Future<DataState<NotificationModel>> getNotification(int id) async {
     try {
       final httpResponse = await _apiService.getNotification(
         id: id,
@@ -26,7 +26,7 @@ class NotificationRepositoryImplementation implements NotificationRepository {
     }
   }
   @override
-  Future<DataState<List<NotificationModel>>> getUserNotifications(String userId) async {
+  Future<DataState<List<NotificationModel>>> getUserNotifications(int userId) async {
     try {
       final httpResponse = await _apiService.getUserNotifications(
         userId: userId,

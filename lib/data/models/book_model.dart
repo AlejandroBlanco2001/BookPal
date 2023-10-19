@@ -8,8 +8,8 @@ part 'book_model.g.dart';
 @JsonSerializable()
 class BookModel extends Book {
   const BookModel({
-    required String id,
-    required String referenceId,
+    required int id,
+    required int referenceId,
     required String author,
     String? originalTitle,
     DateTime? publishDate

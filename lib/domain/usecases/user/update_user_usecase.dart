@@ -1,5 +1,3 @@
-
-
 import 'package:bookpal/core/resources/data_state.dart';
 import 'package:bookpal/core/usecases/usecase.dart';
 import 'package:bookpal/domain/entities/user.dart';
@@ -12,11 +10,12 @@ class UpdateUserUsecase implements Usecase<DataState<User>> {
 
   @override
   Future<DataState<User>> call({Map<String, dynamic>? params}) {
-    String identifier = params!['id'] ?? params['email'];
+    String? email = params!['email'];
+    int? id = params['id'];
     User user = params['user'];
-    if (identifier.contains('@')) {
-      return _userRepository.putUserById(identifier, user);
+    if (email != null) {
+      return _userRepository.putUserByEmail(email, user);
     }
-    return _userRepository.putUserByEmail(identifier, user);
+    return _userRepository.putUserById(id!, user);
   }
 }

@@ -15,7 +15,7 @@ class SubjectRepositoryImplementation implements SubjectRepository {
   SubjectRepositoryImplementation(this._apiService);
 
   @override
-  Future<DataState<Subject>> getSubject(String id) async {
+  Future<DataState<Subject>> getSubject(int id) async {
     try {
       final httpResponse = await _apiService.getSubject(
         id: id,

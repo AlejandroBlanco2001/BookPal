@@ -39,9 +39,13 @@ class RemoteUserBloc extends Bloc<RemoteUserEvent, RemoteUserState> {
         emit(RemoteUserLoaded(
             dataState.statusCode, dataState.data! as UserModel));
       } else if (dataState is DataFailed) {
+        logger.e('Data Failed ${dataState.error!.message} \n${dataState.error}');
         emit(RemoteUserError(dataState.error!, dataState.statusCode));
       }
-    } catch (e) {
+    } on Error catch (e) {
+      logger.e('$e. Stacktrace: ${e.stackTrace}');
+      emit(RemoteUserError.genericError(e));
+    } on Exception catch(e) {
       logger.e(e);
       emit(RemoteUserError.genericError(e));
     }
@@ -58,6 +62,7 @@ class RemoteUserBloc extends Bloc<RemoteUserEvent, RemoteUserState> {
         emit(RemoteUserUpdated(
             dataState.statusCode, dataState.data! as UserModel));
       } else if (dataState is DataFailed) {
+        logger.e(dataState.error);
         emit(RemoteUserError(dataState.error!, dataState.statusCode));
       }
     } catch (e) {
@@ -74,6 +79,7 @@ class RemoteUserBloc extends Bloc<RemoteUserEvent, RemoteUserState> {
         emit(RemoteUserRegistered(
             dataState.statusCode, dataState.data! as UserModel));
       } else if (dataState is DataFailed) {
+        logger.e(dataState.error);
         emit(RemoteUserError(dataState.error!, dataState.statusCode));
       }
     } catch (e) {

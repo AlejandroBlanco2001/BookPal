@@ -15,7 +15,7 @@ class CompanyRepositoryImplementation implements CompanyRepository {
   CompanyRepositoryImplementation(this._apiService);
 
   @override
-  Future<DataState<Company>> getCompany(String id) async {
+  Future<DataState<Company>> getCompany(int id) async {
     try {
       final httpResponse = await _apiService.getCompany(
         id: id,
@@ -31,7 +31,7 @@ class CompanyRepositoryImplementation implements CompanyRepository {
   }
 
   @override
-  Future<DataState<Company>> putCompany(String id, Company company) async {
+  Future<DataState<Company>> putCompany(int id, Company company) async {
     try {
       final httpResponse = await _apiService.putCompany(
         id: id,

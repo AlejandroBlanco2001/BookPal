@@ -9,10 +9,11 @@ class GetUserUsecase implements Usecase<DataState<User>> {
   GetUserUsecase(this._userRepository);
   @override
   Future<DataState<User>> call({Map<String, dynamic>? params}) {
-    String identifier = params!['id'] ?? params['email'];
-    if (identifier.contains('@')) {
-      return _userRepository.getUserByEmail(identifier);
+    String? email = params!['email'];
+    int? id = params['id'];
+    if (email != null) {
+      return _userRepository.getUserByEmail(email);
     }
-    return _userRepository.getUserById(identifier);
+    return _userRepository.getUserById(id!);
   }
 }

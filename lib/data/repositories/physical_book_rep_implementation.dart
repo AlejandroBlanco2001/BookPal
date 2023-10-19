@@ -14,7 +14,7 @@ class PhysicalBookRepositoryImplementation implements PhysicalBookRepository {
   PhysicalBookRepositoryImplementation(this._apiService);
 
   @override
-  Future<DataState<PhysicalBookModel>> getPhysicalBook(String id) async {
+  Future<DataState<PhysicalBookModel>> getPhysicalBook(int id) async {
     try {
       final httpResponse = await _apiService.getPhysicalBook(
         id: id,

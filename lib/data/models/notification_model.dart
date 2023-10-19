@@ -9,8 +9,8 @@ part 'notification_model.g.dart';
 @JsonSerializable()
 class NotificationModel extends Notification {
   NotificationModel({
-    required String id,
-    required String userId,
+    required int id,
+    required int userId,
     required String title,
     required String message,
     required DateTime nextScheduleDate,

@@ -14,7 +14,7 @@ class InventoryRepositoryImplementation implements InventoryRepository {
   InventoryRepositoryImplementation(this._apiService);
 
   @override
-  Future<DataState<InventoryModel>> getInventory(String id) async {
+  Future<DataState<InventoryModel>> getInventory(int id) async {
     try {
       final httpResponse = await _apiService.getInventory(
         id: id,

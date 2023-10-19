@@ -14,7 +14,7 @@ class SubjectBookRelationRepositoryImplementation implements SubjectBookRelation
   SubjectBookRelationRepositoryImplementation(this._apiService);
   
   @override
-  Future<DataState<SubjectBookRelationModel>> getRelation(String id) async {
+  Future<DataState<SubjectBookRelationModel>> getRelation(int id) async {
     try {
       final httpResponse = await _apiService.getRelation(
         id: id,
@@ -27,7 +27,7 @@ class SubjectBookRelationRepositoryImplementation implements SubjectBookRelation
   }
   
   @override
-  Future<DataState<List<String>>> getRelatedSubjects(String bookId) async {
+  Future<DataState<List<String>>> getRelatedSubjects(int bookId) async {
     try {
       final httpResponse = await _apiService.getRelatedSubjects(
         bookId: bookId,
@@ -40,7 +40,7 @@ class SubjectBookRelationRepositoryImplementation implements SubjectBookRelation
   }
 
   @override
-  Future<DataState<List<String>>> getRelatedBooks(String subjectId) async {
+  Future<DataState<List<String>>> getRelatedBooks(int subjectId) async {
     try {
       final httpResponse = await _apiService.getRelatedBooks(
         subjectId: subjectId,

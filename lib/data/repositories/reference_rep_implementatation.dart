@@ -14,7 +14,7 @@ class ReferenceRepositoryImplementation implements ReferenceRepository {
   ReferenceRepositoryImplementation(this._apiService);
 
   @override
-  Future<DataState<ReferenceModel>> getReference(String id) async {
+  Future<DataState<ReferenceModel>> getReference(int id) async {
     try {
       final httpResponse = await _apiService.getReference(
         id: id,

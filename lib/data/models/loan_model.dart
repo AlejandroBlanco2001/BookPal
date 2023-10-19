@@ -9,8 +9,8 @@ part 'loan_model.g.dart';
 @JsonSerializable()
 class LoanModel extends Loan {
   LoanModel({
-    required String id,
-    required String userId,
+    required int id,
+    required int userId,
     required String physicalBookBarcode,
     required DateTime startDate,
     required DateTime dueDate,

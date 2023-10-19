@@ -1,12 +1,15 @@
 
 
 import 'package:bookpal/data/enums/fine_status.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 abstract class Fine {
-  final String id;
-  final String loanId;
+  final int id;
+  @JsonKey(name: 'loan_id')
+  final int loanId;
   final double amount;
   FineStatus status;
+  @JsonKey(name: 'pay_date')
   final DateTime payDate;
   
   Fine({

@@ -1,10 +1,14 @@
 
 
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 abstract class Reference extends Equatable {
-  final String id;
-  final String numericalId;
+
+  final int id;
+  @JsonKey(name: 'numerical_id')
+  final int numericalId;
+  @JsonKey(name: 'reference_name')
   final String referenceName;
 
   const Reference({

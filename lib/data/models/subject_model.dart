@@ -8,7 +8,7 @@ part 'subject_model.g.dart';
 @JsonSerializable()
 class SubjectModel extends Subject {
   const SubjectModel({
-    required String id,
+    required int id,
     required String name
   }) : super(
           id: id,

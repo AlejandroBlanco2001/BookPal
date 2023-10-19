@@ -15,7 +15,7 @@ class LoanRepositoryImplementation implements LoanRepository {
   LoanRepositoryImplementation(this._apiService);
 
   @override
-  Future<DataState<LoanModel>> getLoan(String id) async {
+  Future<DataState<LoanModel>> getLoan(int id) async {
     try {
       final httpResponse = await _apiService.getLoan(
         id: id,
@@ -28,7 +28,7 @@ class LoanRepositoryImplementation implements LoanRepository {
   }
 
   @override
-  Future<DataState<List<LoanModel>>> getLoansByUser(String userId) async {
+  Future<DataState<List<LoanModel>>> getLoansByUser(int userId) async {
     try {
       final httpResponse = await _apiService.getLoansByUser(
         userId: userId,
@@ -54,7 +54,7 @@ class LoanRepositoryImplementation implements LoanRepository {
   }
 
   @override
-  Future<DataState<LoanModel>> makeReturn(String id) async {
+  Future<DataState<LoanModel>> makeReturn(int id) async {
     try {
       final httpResponse = await _apiService.makeReturn(
         id: id,

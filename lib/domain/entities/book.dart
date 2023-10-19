@@ -1,12 +1,16 @@
 
 
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 class Book extends Equatable {
-  final String id;
-  final String referenceId;
+  final int id;
+  @JsonKey(name: 'reference_id')
+  final int referenceId;
   final String author;
+  @JsonKey(name: 'original_title')
   final String? originalTitle;
+  @JsonKey(name: 'publish_date')
   final DateTime? publishDate;
 
   const Book({

@@ -1,11 +1,15 @@
 
 
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 abstract class SubjectBookRelation extends Equatable {
-  final String id;
-  final String subjectId;
-  final String bookId;
+
+  final int id;
+  @JsonKey(name: 'subject_id')
+  final int subjectId;
+  @JsonKey(name: 'book_id')
+  final int bookId;
 
   const SubjectBookRelation({
     required this.id,

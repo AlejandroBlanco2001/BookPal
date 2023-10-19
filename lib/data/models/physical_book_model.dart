@@ -9,9 +9,10 @@ part 'physical_book_model.g.dart';
 @JsonSerializable()
 class PhysicalBookModel extends PhysicalBook {
   PhysicalBookModel({
-    required String id,
+    required int id,
     required String barcode,
-    required String referenceId,
+    required int referenceId,
+    required int collectionId,
     required String title,
     String? edition,
     required String deweyCode,
@@ -28,6 +29,7 @@ class PhysicalBookModel extends PhysicalBook {
     id: id,
     barcode: barcode,
     referenceId: referenceId,
+    collectionId: collectionId,
     title: title,
     edition: edition,
     deweyCode: deweyCode,

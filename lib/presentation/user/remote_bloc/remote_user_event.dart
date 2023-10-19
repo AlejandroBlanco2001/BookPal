@@ -10,7 +10,7 @@ sealed class RemoteUserEvent extends Equatable {
 final class InitUser extends RemoteUserEvent {}
 
 final class GetUser extends RemoteUserEvent {
-  final String identifier;
+  final dynamic identifier;
 
   const GetUser(this.identifier);
 
@@ -19,7 +19,7 @@ final class GetUser extends RemoteUserEvent {
 }
 
 final class UpdateUser extends RemoteUserEvent {
-  final String identifier;
+  final int identifier;
   final UserModel user;
 
   const UpdateUser(this.identifier, this.user);

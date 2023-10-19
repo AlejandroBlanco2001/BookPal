@@ -7,8 +7,8 @@ part 'fine_model.g.dart';
 @JsonSerializable()
 class FineModel extends Fine {
   FineModel({
-    required String id,
-    required String loanId,
+    required int id,
+    required int loanId,
     double amount = 0,
     FineStatus status = FineStatus.unpaid,
     required DateTime payDate,

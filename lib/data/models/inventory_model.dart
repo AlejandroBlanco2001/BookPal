@@ -8,7 +8,7 @@ part 'inventory_model.g.dart';
 @JsonSerializable()
 class InventoryModel extends Inventory {
   InventoryModel({
-    required String id,
+    required int id,
     required String physicalBookBarcode,
     required DateTime creationDate,
     required DateTime lastUpdate,

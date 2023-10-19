@@ -6,8 +6,8 @@ part 'user_model.g.dart';
 @JsonSerializable()
 class UserModel extends User {
   const UserModel({
-    required String id,
-    required String companyId,
+    int? id,
+    required int companyId,
     required String firstName,
     String? secondName,
     required String lastName,

@@ -3,7 +3,7 @@
 import 'package:equatable/equatable.dart';
 
 abstract class Subject extends Equatable {
-  final String id;
+  final int id;
   final String name;
 
   const Subject({

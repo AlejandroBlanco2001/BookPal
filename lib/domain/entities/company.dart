@@ -2,13 +2,17 @@
 
 import 'package:bookpal/data/enums/book_scan_method.dart';
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 abstract class Company extends Equatable {
-  final String id;
+  final int id;
   final String name;
+  @JsonKey(name: 'book_scan_methods')
   final List<BookScanMethod> bookScanMethods;
   final String? logo;
+  @JsonKey(name: 'primary_color')
   final String? primaryColor;
+  @JsonKey(name: 'secondary_color')
   final String? secondaryColor;
 
   const Company({

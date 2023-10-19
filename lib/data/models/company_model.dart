@@ -9,7 +9,7 @@ part 'company_model.g.dart';
 @JsonSerializable()
 class CompanyModel extends Company {
   const CompanyModel({
-    required String id,
+    required int id,
     required String name,
     List<BookScanMethod> bookScanMethods = const [BookScanMethod.barcode],
     String? logo = '/default_logo.png',

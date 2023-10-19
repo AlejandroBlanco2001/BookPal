@@ -7,7 +7,7 @@ import 'package:retrofit/retrofit.dart';
 class ResponseVerifier<T> {
   DataState<T> validateResponse(HttpResponse<T> httpResponse) {
     if (httpResponse.response.statusCode == HttpStatus.ok) {
-      return DataSuccess(httpResponse.response.statusCode!, httpResponse.response.data);
+      return DataSuccess(httpResponse.response.statusCode!, httpResponse.data);
     } else {
       return DataFailed(
           httpResponse.response.statusCode!,

@@ -14,7 +14,7 @@ class UpdateCompanyUsecase implements Usecase<DataState<Company>> {
 
   @override
   Future<DataState<Company>> call({Map<String, dynamic>? params}) {
-    String id = params!['id'];
+    int id = params!['id'];
     CompanyModel company = params['company'];
     return _companyRepository.putCompany(id, company);
   }

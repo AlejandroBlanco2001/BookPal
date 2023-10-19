@@ -9,8 +9,8 @@ part 'reference_model.g.dart';
 class ReferenceModel extends Reference {
 
   const ReferenceModel({
-    required String id,
-    required String numericalId,
+    required int id,
+    required int numericalId,
     required String referenceName,
   }) : super(
     id: id,

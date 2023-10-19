@@ -7,9 +7,9 @@ part 'subject_book_relation_model.g.dart';
 class SubjectBookRelationModel extends SubjectBookRelation {
   
   const SubjectBookRelationModel({
-    required String id,
-    required String subjectId,
-    required String bookId
+    required int id,
+    required int subjectId,
+    required int bookId
   }) : super(
     id: id,
     subjectId: subjectId,
