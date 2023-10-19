@@ -2,9 +2,12 @@ import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/data/repositories/user_rep_implementation.dart';
 import 'package:bookpal/domain/repositories/user_repository.dart';
 import 'package:bookpal/domain/usecases/user/get_user_usecase.dart';
+import 'package:bookpal/domain/usecases/user/register_user_usecase.dart';
+import 'package:bookpal/domain/usecases/user/update_user_usecase.dart';
 import 'package:bookpal/presentation/user/remote_bloc/remote_user_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
 
@@ -22,5 +25,16 @@ Future<void> InitializeDependencies() async {
     GetUserUsecase(sl())
   );
 
+  sl.registerSingleton<UpdateUserUsecase>(
+    UpdateUserUsecase(sl())
+  );
+
+  sl.registerSingleton<RegisterUserUsecase>(
+    RegisterUserUsecase(sl())
+  );
+
   sl.registerFactory<RemoteUserBloc>(() => RemoteUserBloc(sl(), sl(), sl()));
+
+  sl.registerSingleton(SharedPreferences.getInstance());
+
 }
