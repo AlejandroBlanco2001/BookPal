@@ -1,4 +1,5 @@
 
+import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/data/helpers/response_verifier.dart';
 import 'package:bookpal/data/models/user_model.dart';
@@ -15,9 +16,14 @@ class UserRepositoryImplementation implements UserRepository {
   @override
   Future<DataState<UserModel>> getUserById(String id) async {
     try {
+
+      logger.i('getUserById: $id');
+
       final httpResponse = await _apiService.getUserById(
         id: id,
       );
+
+      logger.i('Usuario conseguido ${httpResponse.data.email}');
 
       final ResponseVerifier<UserModel> responseVerifier =
           ResponseVerifier<UserModel>();
@@ -25,6 +31,7 @@ class UserRepositoryImplementation implements UserRepository {
       return responseVerifier.validateResponse(httpResponse);
       
     } on DioException catch (e) {
+      logger.e(e);
       return DataFailed(500,e);
     }
   }

@@ -5,11 +5,16 @@ sealed class RemoteUserState extends Equatable {
   final UserModel? user;
   final DioException? error;
   final int statusCode;
+  final String? id;
 
-  const RemoteUserState({this.user, this.error, this.statusCode = 0});
+  const RemoteUserState({this.user, this.error, this.statusCode = 0, this.id});
   
   @override
   List<Object?> get props => [user, error, statusCode];
+}
+
+final class RemoteUserInitial extends RemoteUserState {
+  const RemoteUserInitial(String id) : super(id: id);
 }
 
 final class RemoteUserLoading extends RemoteUserState {}

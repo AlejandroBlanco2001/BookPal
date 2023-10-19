@@ -7,6 +7,8 @@ sealed class RemoteUserEvent extends Equatable {
   List<Object> get props => [];
 }
 
+final class InitUser extends RemoteUserEvent {}
+
 final class GetUser extends RemoteUserEvent {
   final String identifier;
 
