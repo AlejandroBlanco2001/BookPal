@@ -22,12 +22,13 @@ class BookPal extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        title: 'BookPal',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const BookPalHomePage(title: 'Flutter Demo Home Page'),
+        home: const BookPalHomePage(title: 'BookPal'),
       ),
     );
   }

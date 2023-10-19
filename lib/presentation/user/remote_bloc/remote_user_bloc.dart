@@ -25,22 +25,60 @@ class RemoteUserBloc extends Bloc<RemoteUserEvent, RemoteUserState> {
       emit(const RemoteUserInitial('5'));
     });
     on<GetUser>(onGetUser);
+    on<UpdateUser>(onUpdateUser);
+    on<RegisterUser>(onRegisterUser);
   }
 
   void onGetUser(GetUser event, Emitter<RemoteUserState> emit) async {
-    final dataState = await _getUser(params: {
-      Utilities.getIdentifierName(event.identifier): event.identifier
-    });
-    if (dataState is DataSuccess && dataState.data != null) {
-      try {
+    emit(RemoteUserLoading());
+    try {
+      final dataState = await _getUser(params: {
+        Utilities.getIdentifierName(event.identifier): event.identifier
+      });
+      if (dataState is DataSuccess && dataState.data != null) {
         emit(RemoteUserLoaded(
             dataState.statusCode, dataState.data! as UserModel));
-      } on Exception catch (e) {
-        logger.e(e);
-        emit(RemoteUserError(dataState.statusCode, dataState.error!));
+      } else if (dataState is DataFailed) {
+        emit(RemoteUserError(dataState.error!, dataState.statusCode));
       }
-    } else if (dataState is DataFailed) {
-      emit(RemoteUserError(dataState.statusCode, dataState.error!));
+    } catch (e) {
+      logger.e(e);
+      emit(RemoteUserError.genericError(e));
+    }
+  }
+
+  void onUpdateUser(UpdateUser event, Emitter<RemoteUserState> emit) async {
+    emit(RemoteUserLoading());
+    try {
+      final dataState = await _updateUser(params: {
+        Utilities.getIdentifierName(event.identifier): event.identifier,
+        'user': event.user
+      });
+      if (dataState is DataSuccess && dataState.data != null) {
+        emit(RemoteUserUpdated(
+            dataState.statusCode, dataState.data! as UserModel));
+      } else if (dataState is DataFailed) {
+        emit(RemoteUserError(dataState.error!, dataState.statusCode));
+      }
+    } catch (e) {
+      logger.e(e);
+      emit(RemoteUserError.genericError(e));
+    }
+  }
+
+  void onRegisterUser(RegisterUser event, Emitter<RemoteUserState> emit) async {
+    emit(RemoteUserLoading());
+    try {
+      final dataState = await _registerUser(params: {'user': event.user});
+      if (dataState is DataSuccess && dataState.data != null) {
+        emit(RemoteUserRegistered(
+            dataState.statusCode, dataState.data! as UserModel));
+      } else if (dataState is DataFailed) {
+        emit(RemoteUserError(dataState.error!, dataState.statusCode));
+      }
+    } catch (e) {
+      logger.e(e);
+      emit(RemoteUserError.genericError(e));
     }
   }
 }
