@@ -27,6 +27,7 @@ class BookPal extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
+          scaffoldBackgroundColor: const Color.fromARGB(255, 40, 42, 65),
         ),
         home: const MainNavigator(),
       ),
