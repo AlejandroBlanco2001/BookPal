@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bookpal/app/widgets/nfc_scanner.dart';
+import 'package:bookpal/app/widgets/barcode_scanner.dart';
 
 class Scanner extends StatelessWidget {
   const Scanner({super.key});
@@ -30,7 +31,14 @@ class Scanner extends StatelessWidget {
               color: const Color.fromARGB(150, 127, 98, 153),
             ),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const BarCodeScanner();
+                  },
+                );
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
