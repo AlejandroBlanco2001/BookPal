@@ -97,34 +97,82 @@ class _BookPalHomePageState extends State<BookPalHomePage> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(24.0, 32.0, 0, 0),
-              child: const BookItem(
-                imageUrl:
+              margin: const EdgeInsets.fromLTRB(24.0, 12.0, 0, 0),
+              height: 170,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: const [
+                  BookItem(
                     'https://images.cdn1.buscalibre.com/fit-in/360x360/69/5b/695b0830dd6fb907b7ae97a127d0bbc2.jpg',
-                title: 'Cancion de Hielo y Fuego',
-                author: 'George R. R. Martin',
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.fromLTRB(24.0, 12.0, 0, 0),
-              child: const BookItem(
-                imageUrl:
+                  ),
+                  BookItem(
                     'https://images.cdn3.buscalibre.com/fit-in/360x360/89/38/8938e3868a3a64298f347667f27eb5ad.jpg',
-                title: 'Maze Runner',
-                author: 'James Dashner',
+                  ),
+                  BookItem(
+                      'https://editorial.risei.org/public/presses/1/submission_4_5_coverImage_es_ES_t.jpg'),
+                  BookItem(
+                      'https://4.bp.blogspot.com/-9ncqKnRtndE/UDJWrHJxnbI/AAAAAAAABFk/cC3QEzxzM-U/s1600/schulz_and_peanuts.large.jpg'),
+                ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.fromLTRB(24.0, 48.0, 24.0, 0),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Popular Genres',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'See all',
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ),
             Container(
               margin: const EdgeInsets.fromLTRB(24.0, 12.0, 0, 0),
-              child: const BookItem(
-                imageUrl:
-                    'https://images.cdn2.buscalibre.com/fit-in/360x360/0f/3e/0f3e1b6b4b0b4b4b4b4b4b4b4b4b4b4b.jpg',
-                title: 'Harry Potter',
-                author: 'J. K. Rowling',
+              height: 100,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: const [
+                  GenreCard(
+                    title: 'Romance',
+                    icon: Icons.favorite,
+                    color: Color.fromARGB(255, 255, 45, 85),
+                  ),
+                  GenreCard(
+                    title: 'Horror',
+                    icon: Icons.bolt,
+                    color: Color.fromARGB(255, 255, 149, 0),
+                  ),
+                  GenreCard(
+                    title: 'Sci-Fi',
+                    icon: Icons.science,
+                    color: Color.fromARGB(255, 0, 122, 255),
+                  ),
+                  GenreCard(
+                    title: 'Fantasy',
+                    icon: Icons.book,
+                    color: Color.fromARGB(255, 88, 86, 214),
+                  ),
+                  GenreCard(
+                    title: 'Mystery',
+                    icon: Icons.search,
+                    color: Color.fromARGB(255, 255, 204, 0),
+                  ),
+                ],
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 0),
+              margin: const EdgeInsets.fromLTRB(24.0, 48.0, 24.0, 0),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -150,16 +198,16 @@ class _BookPalHomePageState extends State<BookPalHomePage> {
               height: 120,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: [
-                  const BookCard(
+                children: const [
+                  BookCard(
                       'https://editorial.unach.mx/documentos/productos/portadacalculoo.jpg'),
-                  const BookCard(
+                  BookCard(
                       'https://marketplace.canva.com/EAE8OIM9H7k/1/0/1003w/canva-verde-y-rosa-ciencia-ficci%C3%B3n-portada-de-libro-q9fLuVysMAw.jpg'),
-                  const BookCard(
+                  BookCard(
                       'https://marketplace.canva.com/EADzX5l_Aq4/1/0/1003w/canva-naranja-y-oscuro-p%C3%BArpura-triangular-moderno-arquitectura-libro-portada-plWZGVV8298.jpg'),
-                  const BookCard(
+                  BookCard(
                       'https://editorial.risei.org/public/presses/1/submission_4_5_coverImage_es_ES_t.jpg'),
-                  const BookCard(
+                  BookCard(
                       'https://4.bp.blogspot.com/-9ncqKnRtndE/UDJWrHJxnbI/AAAAAAAABFk/cC3QEzxzM-U/s1600/schulz_and_peanuts.large.jpg'),
                 ],
               ),
@@ -173,61 +221,24 @@ class _BookPalHomePageState extends State<BookPalHomePage> {
 
 class BookItem extends StatelessWidget {
   final String imageUrl;
-  final String title;
-  final String author;
 
-  const BookItem(
-      {Key? key,
-      required this.imageUrl,
-      required this.title,
-      required this.author})
-      : super(key: key);
+  const BookItem(this.imageUrl, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        CircleAvatar(
-          backgroundImage: NetworkImage(imageUrl),
-          radius: 35,
-        ),
-        const SizedBox(
-          width: 16,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              title,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
+    return Container(
+        width: 120,
+        margin: const EdgeInsets.only(right: 10),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10), // Image border
+          child: SizedBox.fromSize(
+            size: const Size.fromRadius(24), // Image radius
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.cover,
             ),
-            const SizedBox(
-              height: 4,
-            ),
-            Text(
-              author,
-              style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            const Text(
-              'Fiction',
-              style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold),
-            ),
-          ],
-        )
-      ],
-    );
+          ),
+        ));
   }
 }
 
@@ -248,6 +259,52 @@ class BookCard extends StatelessWidget {
             child: Image.network(
               imageUrl,
               fit: BoxFit.cover,
+            ),
+          ),
+        ));
+  }
+}
+
+class GenreCard extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+  final String title;
+
+  const GenreCard(
+      {Key? key, required this.icon, required this.color, required this.title})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: 100,
+        margin: const EdgeInsets.only(right: 10),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10), // Image border
+          child: SizedBox.fromSize(
+            size: const Size.fromRadius(24), // Image radius
+            child: Container(
+              color: color,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Icon(
+                    icon,
+                    color: Colors.white,
+                    size: 32,
+                  ),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
             ),
           ),
         ));
