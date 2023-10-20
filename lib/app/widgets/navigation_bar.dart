@@ -55,7 +55,7 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
           left: MediaQuery.of(context).size.width / 2 - 35,
           child: Material(
             borderRadius: const BorderRadius.all(Radius.circular(50)),
-            elevation: 10,
+            elevation: 20,
             child: Container(
               width: 70,
               height: 70,
