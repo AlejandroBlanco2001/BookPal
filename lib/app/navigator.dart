@@ -3,7 +3,8 @@ import 'package:bookpal/app/pages/home/home_page.dart';
 import 'package:bookpal/app/pages/borrowed/borrowed_page.dart';
 import 'package:bookpal/app/pages/favorites/favorites_page.dart';
 import 'package:bookpal/app/pages/book_description/book_description_page.dart';
-import 'package:bookpal/widgets/navigation_bar.dart';
+import 'package:bookpal/app/pages/scan/scan_page.dart';
+import 'package:bookpal/app/widgets/navigation_bar.dart';
 
 class MainNavigator extends StatefulWidget {
   const MainNavigator({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class _MainNavigatorState extends State<MainNavigator> {
   final List<Widget> _pages = const [
     BookPalHomePage(),
     Borrowed(),
+    Scanner(),
     Favorites(),
     BookDescription(),
   ];
