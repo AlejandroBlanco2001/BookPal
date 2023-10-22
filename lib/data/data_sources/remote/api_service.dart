@@ -85,6 +85,12 @@ abstract class ApiService {
     @Path() required int id
   });
 
+  @GET('/company')
+  Future<HttpResponse<List<CompanyModel>>> getCompanies({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('x-api-key') String apiKey = apiKey,
+  });
+
   @PUT('/company/{id}')
   Future<HttpResponse<CompanyModel>> putCompany({
     @Header('Content-Type') String contentType = contentType,
