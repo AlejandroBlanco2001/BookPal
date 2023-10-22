@@ -14,16 +14,11 @@ part 'remote_user_state.dart';
 
 class RemoteUserBloc extends Bloc<RemoteUserEvent, RemoteUserState> {
   final GetUserUsecase _getUser;
-  // ignore: unused_field
   final UpdateUserUsecase _updateUser;
-  // ignore: unused_field
   final RegisterUserUsecase _registerUser;
 
   RemoteUserBloc(this._getUser, this._updateUser, this._registerUser)
-      : super(RemoteUserLoading()) {
-    on<InitUser>((event, emit) async {
-      emit(RemoteUserInitial());
-    });
+      : super(RemoteUserInitial()) {
     on<GetUser>(onGetUser);
     on<UpdateUser>(onUpdateUser);
     on<RegisterUser>(onRegisterUser);
