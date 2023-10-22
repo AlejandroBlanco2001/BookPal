@@ -7,4 +7,11 @@ class Utilities {
     }
     return 'id';
   }
+
+  static getBookIdentifierName(dynamic identifier) {
+    if (identifier is String) {
+      return 'barcode';
+    }
+    return 'id';
+  }
 }
