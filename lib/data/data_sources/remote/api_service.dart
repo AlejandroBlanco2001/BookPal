@@ -152,7 +152,8 @@ abstract class ApiService {
   Future<HttpResponse<LoanModel>> postLoan({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
-    @Body() required LoanModel loan
+    @Body() required int userId,
+    @Body() required String bookBarcode
   });
 
   @GET('/notifications/{id}')
