@@ -6,17 +6,14 @@ sealed class RemoteUserState extends Equatable {
   final DioException? dioError;
   final dynamic genericError;
   final int? statusCode;
-  final String? message;
 
-  const RemoteUserState({this.user, this.dioError, this.genericError, this.statusCode = 200, this.message});
+  const RemoteUserState({this.user, this.dioError, this.genericError, this.statusCode = 200});
   
   @override
   List<Object?> get props => [user, dioError, statusCode];
 }
 
-final class RemoteUserInitial extends RemoteUserState {
-  const RemoteUserInitial(String message) : super(message: 'Aún no se ha cargado ningún usuario');
-}
+final class RemoteUserInitial extends RemoteUserState {}
 
 final class RemoteUserLoading extends RemoteUserState {}
 

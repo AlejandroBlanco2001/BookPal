@@ -51,7 +51,7 @@ class BookPalHomePage extends StatelessWidget {
         }
         if (state is RemoteUserInitial) {
           return Text(
-            state.message!,
+            'Aún no se ha cargado ningún usuario.',
             style: Theme.of(context).textTheme.headlineMedium,
           );
         }

@@ -22,7 +22,7 @@ class RemoteUserBloc extends Bloc<RemoteUserEvent, RemoteUserState> {
   RemoteUserBloc(this._getUser, this._updateUser, this._registerUser)
       : super(RemoteUserLoading()) {
     on<InitUser>((event, emit) async {
-      emit(const RemoteUserInitial('5'));
+      emit(RemoteUserInitial());
     });
     on<GetUser>(onGetUser);
     on<UpdateUser>(onUpdateUser);
