@@ -169,11 +169,24 @@ abstract class ApiService {
     @Path() required int userId
   });
 
-  @GET('/physical-books/{id}')
-  Future<HttpResponse<PhysicalBookModel>> getPhysicalBook({
+  @GET('/physical-book/id/{id}')
+  Future<HttpResponse<PhysicalBookModel>> getPhysicalBookById({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
     @Path() required int id
+  });
+
+  @GET('/physical-book/barcode/{barcode}')
+  Future<HttpResponse<PhysicalBookModel>> getPhysicalBookByBarcode({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('x-api-key') String apiKey = apiKey,
+    @Path() required String barcode
+  });
+
+  @GET('/physical-book')
+  Future<HttpResponse<List<PhysicalBookModel>>> getPhysicalBooks({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('x-api-key') String apiKey = apiKey,
   });
 
   @GET('/references/{id}')
