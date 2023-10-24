@@ -18,7 +18,7 @@ class BookPal extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<RemoteUserBloc>(
-          create: (context) => sl()..add(InitUser()),
+          create: (context) => sl(),
         ),
       ],
       child: MaterialApp(

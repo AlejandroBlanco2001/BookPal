@@ -31,6 +31,20 @@ class CompanyRepositoryImplementation implements CompanyRepository {
   }
 
   @override
+  Future<DataState<List<Company>>> getCompanies() async {
+    try {
+      final httpResponse = await _apiService.getCompanies();
+
+      final ResponseVerifier<List<Company>> responseVerifier = ResponseVerifier<List<Company>>();
+
+      return responseVerifier.validateResponse(httpResponse);
+      
+    } on DioException catch (e) {
+      return DataFailed(500,e);
+    }
+  }
+
+  @override
   Future<DataState<Company>> putCompany(int id, Company company) async {
     try {
       final httpResponse = await _apiService.putCompany(
