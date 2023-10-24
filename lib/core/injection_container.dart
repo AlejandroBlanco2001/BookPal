@@ -1,6 +1,11 @@
 import 'package:bookpal/data/data_sources/remote/api_service.dart';
+import 'package:bookpal/data/repositories/company_rep_implementation.dart';
 import 'package:bookpal/data/repositories/user_rep_implementation.dart';
+import 'package:bookpal/domain/repositories/company_repository.dart';
 import 'package:bookpal/domain/repositories/user_repository.dart';
+import 'package:bookpal/domain/usecases/company/get_companies_usecase.dart';
+import 'package:bookpal/domain/usecases/company/get_company_usecase.dart';
+import 'package:bookpal/domain/usecases/company/update_company_usecase.dart';
 import 'package:bookpal/domain/usecases/user/get_user_usecase.dart';
 import 'package:bookpal/domain/usecases/user/register_user_usecase.dart';
 import 'package:bookpal/domain/usecases/user/update_user_usecase.dart';
@@ -34,6 +39,22 @@ Future<void> InitializeDependencies() async {
   );
 
   sl.registerFactory<RemoteUserBloc>(() => RemoteUserBloc(sl(), sl(), sl()));
+
+  sl.registerSingleton<CompanyRepository>(
+    CompanyRepositoryImplementation(sl())
+  );
+
+  sl.registerSingleton<GetCompanyUsecase>(
+    GetCompanyUsecase(sl())
+  );
+
+  sl.registerSingleton<GetCompaniesUsecase>(
+    GetCompaniesUsecase(sl())
+  );
+
+  sl.registerSingleton<UpdateCompanyUsecase>(
+    UpdateCompanyUsecase(sl())
+  );
 
   sl.registerSingleton(SharedPreferences.getInstance());
 

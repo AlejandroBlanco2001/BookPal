@@ -14,12 +14,36 @@ class PhysicalBookRepositoryImplementation implements PhysicalBookRepository {
   PhysicalBookRepositoryImplementation(this._apiService);
 
   @override
-  Future<DataState<PhysicalBookModel>> getPhysicalBook(int id) async {
+  Future<DataState<PhysicalBookModel>> getPhysicalBookById(int id) async {
     try {
-      final httpResponse = await _apiService.getPhysicalBook(
+      final httpResponse = await _apiService.getPhysicalBookById(
         id: id,
       );
       final ResponseVerifier<PhysicalBookModel> responseVerifier = ResponseVerifier<PhysicalBookModel>();
+      return responseVerifier.validateResponse(httpResponse);
+    } on DioException catch (e) {
+      return DataFailed(500,e);
+    }
+  }
+
+  @override
+  Future<DataState<PhysicalBookModel>> getPhysicalBookByBarcode(String barcode) async {
+    try {
+      final httpResponse = await _apiService.getPhysicalBookByBarcode(
+        barcode: barcode,
+      );
+      final ResponseVerifier<PhysicalBookModel> responseVerifier = ResponseVerifier<PhysicalBookModel>();
+      return responseVerifier.validateResponse(httpResponse);
+    } on DioException catch (e) {
+      return DataFailed(500,e);
+    }
+  }
+
+  @override
+  Future<DataState<List<PhysicalBookModel>>> getPhysicalBooks() async {
+    try {
+      final httpResponse = await _apiService.getPhysicalBooks();
+      final ResponseVerifier<List<PhysicalBookModel>> responseVerifier = ResponseVerifier<List<PhysicalBookModel>>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
       return DataFailed(500,e);

@@ -85,6 +85,12 @@ abstract class ApiService {
     @Path() required int id
   });
 
+  @GET('/company')
+  Future<HttpResponse<List<CompanyModel>>> getCompanies({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('x-api-key') String apiKey = apiKey,
+  });
+
   @PUT('/company/{id}')
   Future<HttpResponse<CompanyModel>> putCompany({
     @Header('Content-Type') String contentType = contentType,
@@ -146,7 +152,8 @@ abstract class ApiService {
   Future<HttpResponse<LoanModel>> postLoan({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
-    @Body() required LoanModel loan
+    @Body() required int userId,
+    @Body() required String bookBarcode
   });
 
   @GET('/notifications/{id}')
@@ -163,11 +170,24 @@ abstract class ApiService {
     @Path() required int userId
   });
 
-  @GET('/physical-books/{id}')
-  Future<HttpResponse<PhysicalBookModel>> getPhysicalBook({
+  @GET('/physical-book/id/{id}')
+  Future<HttpResponse<PhysicalBookModel>> getPhysicalBookById({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
     @Path() required int id
+  });
+
+  @GET('/physical-book/barcode/{barcode}')
+  Future<HttpResponse<PhysicalBookModel>> getPhysicalBookByBarcode({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('x-api-key') String apiKey = apiKey,
+    @Path() required String barcode
+  });
+
+  @GET('/physical-book')
+  Future<HttpResponse<List<PhysicalBookModel>>> getPhysicalBooks({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('x-api-key') String apiKey = apiKey,
   });
 
   @GET('/references/{id}')
