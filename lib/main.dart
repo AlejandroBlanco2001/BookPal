@@ -1,5 +1,10 @@
 import 'package:bookpal/app/navigator.dart';
 import 'package:bookpal/core/injection_container.dart';
+import 'package:bookpal/presentation/barcode/bloc/barcode_bloc.dart';
+import 'package:bookpal/presentation/company/remote_bloc/remote_company_bloc.dart';
+import 'package:bookpal/presentation/loan/remote_bloc/remote_loan_bloc.dart';
+import 'package:bookpal/presentation/nfc/bloc/nfc_bloc.dart';
+import 'package:bookpal/presentation/physical_book/remote_bloc/remote_physical_book_bloc.dart';
 import 'package:bookpal/presentation/user/remote_bloc/remote_user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +25,21 @@ class BookPal extends StatelessWidget {
         BlocProvider<RemoteUserBloc>(
           create: (context) => sl(),
         ),
+        BlocProvider<RemotePhysicalBookBloc>(
+          create: (context) => sl(),
+        ),
+        BlocProvider<RemoteCompanyBloc>(
+          create: (context) => sl(),
+        ),
+        BlocProvider<RemoteLoanBloc>(
+          create: (context) => sl(),
+        ),
+        BlocProvider<BarcodeBloc>(
+          create: (context) => sl(),
+        ),
+        BlocProvider<NfcBloc>(
+          create: (context) => sl(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
