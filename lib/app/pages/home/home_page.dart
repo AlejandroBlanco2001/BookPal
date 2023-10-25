@@ -150,16 +150,16 @@ class _BookPalHomePageState extends State<BookPalHomePage> {
               height: 120,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: [
-                  const BookCard(
+                children: const [
+                  BookCard(
                       'https://editorial.unach.mx/documentos/productos/portadacalculoo.jpg'),
-                  const BookCard(
+                  BookCard(
                       'https://marketplace.canva.com/EAE8OIM9H7k/1/0/1003w/canva-verde-y-rosa-ciencia-ficci%C3%B3n-portada-de-libro-q9fLuVysMAw.jpg'),
-                  const BookCard(
+                  BookCard(
                       'https://marketplace.canva.com/EADzX5l_Aq4/1/0/1003w/canva-naranja-y-oscuro-p%C3%BArpura-triangular-moderno-arquitectura-libro-portada-plWZGVV8298.jpg'),
-                  const BookCard(
+                  BookCard(
                       'https://editorial.risei.org/public/presses/1/submission_4_5_coverImage_es_ES_t.jpg'),
-                  const BookCard(
+                  BookCard(
                       'https://4.bp.blogspot.com/-9ncqKnRtndE/UDJWrHJxnbI/AAAAAAAABFk/cC3QEzxzM-U/s1600/schulz_and_peanuts.large.jpg'),
                 ],
               ),
