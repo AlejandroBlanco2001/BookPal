@@ -1,4 +1,4 @@
-import 'package:bookpal/app/pages/main_page/main_page.dart';
+import 'package:bookpal/app/navigator.dart';
 import 'package:bookpal/core/injection_container.dart';
 import 'package:bookpal/presentation/user/remote_bloc/remote_user_bloc.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +28,7 @@ class BookPal extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const BookPalHomePage(title: 'BookPal'),
+        home: const MainNavigator(),
       ),
     );
   }
