@@ -2,6 +2,7 @@ import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/data/repositories/company_rep_implementation.dart';
 import 'package:bookpal/data/repositories/user_rep_implementation.dart';
 import 'package:bookpal/device/devices/barcode_scanner/barcode_scanner.dart';
+import 'package:bookpal/device/devices/nfc_adapter/nfc_adapter.dart';
 import 'package:bookpal/domain/repositories/company_repository.dart';
 import 'package:bookpal/domain/repositories/user_repository.dart';
 import 'package:bookpal/domain/usecases/company/get_companies_usecase.dart';
@@ -20,6 +21,8 @@ final sl = GetIt.instance;
 Future<void> initializeDependencies() async {
 
   sl.registerSingleton<BarcodeScanner>(BarcodeScanner());
+
+  sl.registerSingleton<NfcAdapter>(NfcAdapter());
 
   sl.registerSingleton<Dio>(Dio());
 

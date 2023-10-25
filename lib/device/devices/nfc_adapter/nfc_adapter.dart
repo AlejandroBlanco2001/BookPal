@@ -1,7 +1,7 @@
 import 'package:nfc_manager/nfc_manager.dart';
 
 class NfcAdapter {
-  Future<NdefMessage?> readNdef() async {
+  Future<NdefMessage?> readNdefMessage() async {
     await NfcManager.instance.isAvailable();
     NdefMessage? message;
 
