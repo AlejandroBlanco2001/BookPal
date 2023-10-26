@@ -20,9 +20,8 @@ class LoginUsecase implements Usecase<Map<String,dynamic>> {
     String password = params['password'];
     final loginData = await _authenticationRepository.login(email, password);
     if (loginData is DataSuccess) {
-      Map<String, dynamic> jsonResponse = jsonDecode(loginData.data);
-      _logger.i('Login successful. Response: $jsonResponse');
-      return jsonResponse['token'];
+      _logger.i('Login successful. Response: ${loginData.data}');
+      return loginData.data!;
     } else {
       _logger.e('Login failed');
       return jsonDecode(jsonEncode(loginData.error));
