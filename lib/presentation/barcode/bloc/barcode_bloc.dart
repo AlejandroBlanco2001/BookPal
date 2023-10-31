@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:bookpal/device/devices/barcode_scanner/barcode_scanner.dart';
+import 'package:bookpal/domain/usecases/scanning/scan_barcode_usecase.dart';
 import 'package:equatable/equatable.dart';
 
 part 'barcode_event.dart';
 part 'barcode_state.dart';
 
 class BarcodeBloc extends Bloc<BarcodeEvent, BarcodeState> {
-  final BarcodeScanner _barcodeScanner;
+  final ScanBarcodeUsecase _scanBarcode;
 
-  BarcodeBloc(this._barcodeScanner) : super(BarcodeInitial()) {
+  BarcodeBloc(this._scanBarcode) : super(BarcodeInitial()) {
     on<ScanBarcode>(onScanBarcode);
   }
 
@@ -18,7 +18,7 @@ class BarcodeBloc extends Bloc<BarcodeEvent, BarcodeState> {
       ScanBarcode event, Emitter<BarcodeState> emit) async {
     emit(ScanningBarcode());
     try {
-      final barcodeScanRes = await _barcodeScanner.scanBarcode();
+      final barcodeScanRes = await _scanBarcode();
       if (barcodeScanRes.isEmpty) {
         throw Exception('Empty response from barcode scanner');
       }
