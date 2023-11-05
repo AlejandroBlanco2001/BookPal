@@ -1,7 +1,7 @@
 
 
 import 'package:bookpal/data/data_sources/remote/api_service.dart';
-import 'package:bookpal/data/helpers/response_verifier.dart';
+import 'package:bookpal/data/util/response_verifier.dart';
 import 'package:bookpal/data/models/notification_model.dart';
 import 'package:bookpal/domain/repositories/notification_repository.dart';
 import 'package:bookpal/core/resources/data_state.dart';
@@ -22,7 +22,11 @@ class NotificationRepositoryImplementation implements NotificationRepository {
       final ResponseVerifier<NotificationModel> responseVerifier = ResponseVerifier<NotificationModel>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(500,e);
+      List<String>? messages = (e.response?.data['message'] is List)
+          ? List<String>.from(e.response?.data['message'].map((m) => m.toString()))
+          : [e.response?.data['message']];
+      return DataFailed(
+          e.response?.statusCode ?? 500, e, messages);
     }
   }
   @override
@@ -34,7 +38,7 @@ class NotificationRepositoryImplementation implements NotificationRepository {
       final ResponseVerifier<List<NotificationModel>> responseVerifier = ResponseVerifier<List<NotificationModel>>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(500,e);
+      return DataFailed(e.response?.statusCode ?? 500, e, e.response?.data['message'] ?? "No message");
     }
   }
 }

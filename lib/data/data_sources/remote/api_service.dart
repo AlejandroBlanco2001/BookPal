@@ -39,7 +39,7 @@ abstract class ApiService {
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
     @Path() required int id,
-    @Body() required UserModel user
+    @Body() required Map<String,dynamic> fields
   });
 
   @PUT('/user/email/{email}')
@@ -47,7 +47,7 @@ abstract class ApiService {
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
     @Path() required String email,
-    @Body() required UserModel user
+    @Body() required Map<String,dynamic> fields
   });
 
   @POST('/user')
@@ -57,12 +57,11 @@ abstract class ApiService {
     @Body() required UserModel user
   });
 
-  @POST('/login')
+  @POST('/auth/login')
   Future<HttpResponse> login({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
-    @Body() required String email,
-    @Body() required String password
+    @Body() required Map<String, String> credentials
   });
 
   @GET('/book/{barcode}')
@@ -96,7 +95,7 @@ abstract class ApiService {
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
     @Path() required int id,
-    @Body() required CompanyModel company
+    @Body() required Map<String, dynamic> fields
   });
 
   @GET('/fines/{id}')

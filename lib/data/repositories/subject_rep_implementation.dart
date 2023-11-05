@@ -1,7 +1,7 @@
 
 
 import 'package:bookpal/data/data_sources/remote/api_service.dart';
-import 'package:bookpal/data/helpers/response_verifier.dart';
+import 'package:bookpal/data/util/response_verifier.dart';
 import 'package:bookpal/data/models/subject_model.dart';
 import 'package:bookpal/domain/entities/subject.dart';
 import 'package:bookpal/domain/repositories/subject_repository.dart';
@@ -23,7 +23,7 @@ class SubjectRepositoryImplementation implements SubjectRepository {
       final ResponseVerifier<SubjectModel> responseVerifier = ResponseVerifier<SubjectModel>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(500,e);
+      return DataFailed(e.response?.statusCode ?? 500, e, e.response?.data['message'] ?? "No message");
     }
   }
 }

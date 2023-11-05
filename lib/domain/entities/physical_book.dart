@@ -2,6 +2,7 @@
 
 import 'package:bookpal/data/enums/book_status.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:bookpal/core/util/utilities.dart';
 
 abstract class PhysicalBook {
   final int id;
@@ -10,6 +11,7 @@ abstract class PhysicalBook {
   final int referenceId;
   @JsonKey(name: 'collection_id')
   final int collectionId;
+  final String author;
   final String title;
   final String? edition;
   @JsonKey(name: 'dewey_code')
@@ -19,7 +21,7 @@ abstract class PhysicalBook {
   final String? isbn;
   final String? isbn13;
   final String? publisher;
-  @JsonKey(name: 'publish_date')
+  @JsonKey(name: 'publish_date', fromJson: Utilities.fromISO8601String, toJson: Utilities.toISO8601String, includeIfNull: false )
   final DateTime? publishDate;
   final String? language;
   @JsonKey(name: 'book_cover')
@@ -27,9 +29,11 @@ abstract class PhysicalBook {
   BookStatus status;
   final String? bibliographicGps;
 
+
   PhysicalBook({
     required this.id,
     required this.barcode,
+    required this.author,
     required this.referenceId,
     required this.collectionId,
     required this.title,

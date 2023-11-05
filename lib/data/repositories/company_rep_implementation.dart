@@ -1,7 +1,7 @@
 
 
 import 'package:bookpal/data/data_sources/remote/api_service.dart';
-import 'package:bookpal/data/helpers/response_verifier.dart';
+import 'package:bookpal/data/util/response_verifier.dart';
 import 'package:bookpal/data/models/company_model.dart';
 import 'package:bookpal/domain/entities/company.dart';
 import 'package:bookpal/domain/repositories/company_repository.dart';
@@ -26,7 +26,7 @@ class CompanyRepositoryImplementation implements CompanyRepository {
       return responseVerifier.validateResponse(httpResponse);
       
     } on DioException catch (e) {
-      return DataFailed(500,e);
+      return DataFailed(e.response?.statusCode ?? 500, e, e.response?.data['message'] ?? "No message");
     }
   }
 
@@ -40,16 +40,16 @@ class CompanyRepositoryImplementation implements CompanyRepository {
       return responseVerifier.validateResponse(httpResponse);
       
     } on DioException catch (e) {
-      return DataFailed(500,e);
+      return DataFailed(e.response?.statusCode ?? 500, e, e.response?.data['message'] ?? "No message");
     }
   }
 
   @override
-  Future<DataState<Company>> putCompany(int id, Company company) async {
+  Future<DataState<Company>> putCompany(int id, Map<String, dynamic> fields) async {
     try {
       final httpResponse = await _apiService.putCompany(
         id: id,
-        company: company as CompanyModel,
+        fields: fields,
       );
       
       final ResponseVerifier<CompanyModel> responseVerifier = ResponseVerifier<CompanyModel>();
@@ -57,7 +57,11 @@ class CompanyRepositoryImplementation implements CompanyRepository {
       return responseVerifier.validateResponse(httpResponse);
       
     } on DioException catch (e) {
-      return DataFailed(500,e);
+      List<String>? messages = (e.response?.data['message'] is List)
+          ? List<String>.from(e.response?.data['message'].map((m) => m.toString()))
+          : [e.response?.data['message']];
+      return DataFailed(
+          e.response?.statusCode ?? 500, e, messages);
     }
   }
 }

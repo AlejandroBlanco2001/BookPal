@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/resources/data_state.dart';
 import 'package:bookpal/data/models/company_model.dart';
 import 'package:bookpal/domain/usecases/company/get_companies_usecase.dart';
@@ -32,10 +33,10 @@ class RemoteCompanyBloc extends Bloc<RemoteCompanyEvent, RemoteCompanyState> {
         emit(RemoteCompanyLoaded(
             dataState.statusCode, dataState.data! as CompanyModel));
       } else if (dataState is DataFailed) {
-        emit(RemoteCompanyError(dataState.error!, dataState.statusCode));
+        emit(RemoteCompanyError(dataState.error!, dataState.statusCode, dataState.message));
       }
     } on DioException catch (e) {
-      emit(RemoteCompanyError(e, e.response?.statusCode));
+      emit(RemoteCompanyError(e, e.response?.statusCode, e.response?.data['message']));
     } catch (e) {
       emit(RemoteCompanyError.genericError(e));
     }
@@ -64,16 +65,20 @@ class RemoteCompanyBloc extends Bloc<RemoteCompanyEvent, RemoteCompanyState> {
     emit(RemoteCompanyLoading());
     try {
       final dataState = await _updateCompany(
-          params: {'id': event.id, 'company': event.company});
+          params: {'id': event.id, 'fields': event.fields});
       if (dataState is DataSuccess && dataState.data != null) {
+        logger.i("Company updated");
         emit(RemoteCompanyUpdated(
             dataState.statusCode, dataState.data! as CompanyModel));
       } else if (dataState is DataFailed) {
-        emit(RemoteCompanyError(dataState.error!, dataState.statusCode));
+        logger.i("Update failed");
+        emit(RemoteCompanyError(dataState.error!, dataState.statusCode, dataState.message));
       }
     } on DioException catch (e) {
+      logger.e("DioException: $e");
       emit(RemoteCompanyError(e, e.response?.statusCode));
     } catch (e) {
+      logger.e("Error: $e");
       emit(RemoteCompanyError.genericError(e));
     }
   }

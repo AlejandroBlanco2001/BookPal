@@ -1,6 +1,7 @@
 import 'package:bookpal/data/enums/fine_status.dart';
 import 'package:bookpal/domain/entities/fine.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:bookpal/core/util/utilities.dart';
 
 part 'fine_model.g.dart';
 

@@ -12,10 +12,10 @@ class UpdateUserUsecase implements Usecase<DataState<User>> {
   Future<DataState<User>> call({Map<String, dynamic>? params}) {
     String? email = params!['email'];
     int? id = params['id'];
-    User user = params['user'];
+    Map<String,dynamic> fields = params['fields'];
     if (email != null) {
-      return _userRepository.putUserByEmail(email, user);
+      return _userRepository.putUserByEmail(email, fields);
     }
-    return _userRepository.putUserById(id!, user);
+    return _userRepository.putUserById(id!, fields);
   }
 }

@@ -1,4 +1,5 @@
 
+import 'package:bookpal/core/util/utilities.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -16,16 +17,18 @@ class User extends Equatable{
 	final String lastName;
   @JsonKey(name: 'second_last_name')
 	final String? secondLastName;
-  @JsonKey(name: 'date_of_birth')
-	final String dateOfBirth;
+  @JsonKey(name: 'date_of_birth', toJson: Utilities.toISO8601String, fromJson: Utilities.fromISO8601String)
+	final DateTime dateOfBirth;
 	final String email;
 	final String password;
   @JsonKey(name: 'academic_program')
 	final String? academicProgram;
   @JsonKey(name: 'is_admin')
 	final bool isAdmin;
-  @JsonKey(name: 'profile_picture')
-  final String profilePicture;
+  @JsonKey(name: 'profile_image')
+  final String profileImage;
+  @JsonKey(name: 'phone_token')
+  final String phoneToken;
 
 	const User({
 		this.id,
@@ -38,8 +41,9 @@ class User extends Equatable{
 		required this.email,
 		required this.password,
 		this.academicProgram,
-    this.profilePicture  = '/default_avatar.jpg',
+    this.profileImage  = '/default_avatar.jpg',
 		this.isAdmin = false,
+    required this.phoneToken,
 	});
 
 	@override

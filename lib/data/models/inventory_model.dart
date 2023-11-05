@@ -2,6 +2,7 @@
 
 import 'package:bookpal/domain/entities/inventory.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:bookpal/core/util/utilities.dart';
 
 part 'inventory_model.g.dart';
 

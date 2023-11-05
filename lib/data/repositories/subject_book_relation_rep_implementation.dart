@@ -1,7 +1,7 @@
 
 
 import 'package:bookpal/data/data_sources/remote/api_service.dart';
-import 'package:bookpal/data/helpers/response_verifier.dart';
+import 'package:bookpal/data/util/response_verifier.dart';
 import 'package:bookpal/data/models/subject_book_relation_model.dart';
 import 'package:bookpal/domain/repositories/subject_book_relation_repository.dart';
 import 'package:bookpal/core/resources/data_state.dart';
@@ -22,7 +22,7 @@ class SubjectBookRelationRepositoryImplementation implements SubjectBookRelation
       final ResponseVerifier<SubjectBookRelationModel> responseVerifier = ResponseVerifier<SubjectBookRelationModel>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(500,e);
+      return DataFailed(e.response?.statusCode ?? 500, e, e.response?.data['message'] ?? "No message");
     }
   }
   
@@ -35,7 +35,7 @@ class SubjectBookRelationRepositoryImplementation implements SubjectBookRelation
       final ResponseVerifier<List<String>> responseVerifier = ResponseVerifier<List<String>>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(500,e);
+      return DataFailed(e.response?.statusCode ?? 500, e, e.response?.data['message'] ?? "No message");
     }
   }
 
@@ -48,7 +48,7 @@ class SubjectBookRelationRepositoryImplementation implements SubjectBookRelation
       final ResponseVerifier<List<String>> responseVerifier = ResponseVerifier<List<String>>();
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
-      return DataFailed(500,e);
+      return DataFailed(e.response?.statusCode ?? 500, e, e.response?.data['message'] ?? "No message");
     }
   }
 }

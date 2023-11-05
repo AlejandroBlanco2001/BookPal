@@ -22,10 +22,10 @@ final class GetCompanies extends RemoteCompanyEvent {}
 
 final class UpdateCompany extends RemoteCompanyEvent {
   final int id;
-  final CompanyModel company;
+  final Map<String, dynamic> fields;
 
-  const UpdateCompany(this.id, this.company);
+  const UpdateCompany(this.id, this.fields);
 
   @override
-  List<Object> get props => [id, company];
+  List<Object> get props => [id, fields];
 }

@@ -3,6 +3,7 @@
 import 'package:bookpal/data/enums/loan_status.dart';
 import 'package:bookpal/domain/entities/loan.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:bookpal/core/util/utilities.dart';
 
 part 'loan_model.g.dart';
 

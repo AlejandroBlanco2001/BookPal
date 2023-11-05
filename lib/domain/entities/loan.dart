@@ -2,6 +2,7 @@
 
 import 'package:bookpal/data/enums/loan_status.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:bookpal/core/util/utilities.dart';
 
 abstract class Loan {
   final int id;
@@ -9,11 +10,11 @@ abstract class Loan {
   final int userId;
   @JsonKey(name: 'physical_book_barcode')
   final String physicalBookBarcode;
-  @JsonKey(name: 'start_date')
+  @JsonKey(name: 'start_date', fromJson: Utilities.fromISO8601String, toJson: Utilities.toISO8601String)
   final DateTime startDate;
-  @JsonKey(name: 'due_date')
+  @JsonKey(name: 'due_date', fromJson: Utilities.fromISO8601String, toJson: Utilities.toISO8601String)
   final DateTime dueDate;
-  @JsonKey(name: 'return_date')
+  @JsonKey(name: 'return_date', fromJson: Utilities.fromISO8601String, toJson: Utilities.toISO8601String)
   DateTime? returnDate;
   LoanStatus status;
 

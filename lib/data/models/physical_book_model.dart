@@ -3,6 +3,7 @@
 import 'package:bookpal/data/enums/book_status.dart';
 import 'package:bookpal/domain/entities/physical_book.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:bookpal/core/util/utilities.dart';
 
 part 'physical_book_model.g.dart';
 
@@ -11,6 +12,7 @@ class PhysicalBookModel extends PhysicalBook {
   PhysicalBookModel({
     required int id,
     required String barcode,
+    required author,
     required int referenceId,
     required int collectionId,
     required String title,
@@ -28,6 +30,7 @@ class PhysicalBookModel extends PhysicalBook {
   }) : super(
     id: id,
     barcode: barcode,
+    author: author,
     referenceId: referenceId,
     collectionId: collectionId,
     title: title,

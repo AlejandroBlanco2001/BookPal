@@ -34,13 +34,15 @@ class RemoteUserBloc extends Bloc<RemoteUserEvent, RemoteUserState> {
         emit(RemoteUserLoaded(
             dataState.statusCode, dataState.data! as UserModel));
       } else if (dataState is DataFailed) {
-        logger.e('Data Failed ${dataState.error!.message} \n${dataState.error}');
-        emit(RemoteUserError(dataState.error!, dataState.statusCode));
+        logger
+            .e('Data Failed ${dataState.error!.message} \n${dataState.error}');
+        emit(RemoteUserError(
+            dataState.error!, dataState.statusCode, dataState.message));
       }
     } on Error catch (e) {
       logger.e('$e. Stacktrace: ${e.stackTrace}');
       emit(RemoteUserError.genericError(e));
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       logger.e(e);
       emit(RemoteUserError.genericError(e));
     }
@@ -51,14 +53,15 @@ class RemoteUserBloc extends Bloc<RemoteUserEvent, RemoteUserState> {
     try {
       final dataState = await _updateUser(params: {
         Utilities.getIdentifierName(event.identifier): event.identifier,
-        'user': event.user
+        'fields': event.fields
       });
       if (dataState is DataSuccess && dataState.data != null) {
         emit(RemoteUserUpdated(
             dataState.statusCode, dataState.data! as UserModel));
       } else if (dataState is DataFailed) {
         logger.e(dataState.error);
-        emit(RemoteUserError(dataState.error!, dataState.statusCode));
+        emit(RemoteUserError(
+            dataState.error!, dataState.statusCode, dataState.message));
       }
     } catch (e) {
       logger.e(e);
@@ -68,17 +71,20 @@ class RemoteUserBloc extends Bloc<RemoteUserEvent, RemoteUserState> {
 
   void onRegisterUser(RegisterUser event, Emitter<RemoteUserState> emit) async {
     emit(RemoteUserLoading());
+    logger.i('Registering user: ${event.user.toJson()}');
     try {
       final dataState = await _registerUser(params: {'user': event.user});
+      //logger.i('User registered: $dataState');
       if (dataState is DataSuccess && dataState.data != null) {
         emit(RemoteUserRegistered(
             dataState.statusCode, dataState.data! as UserModel));
       } else if (dataState is DataFailed) {
-        logger.e(dataState.error);
-        emit(RemoteUserError(dataState.error!, dataState.statusCode));
+        logger.d(dataState.message, error: dataState.error, stackTrace: dataState.error!.stackTrace);
+        emit(RemoteUserError(
+            dataState.error!, dataState.statusCode, dataState.message));
       }
-    } catch (e) {
-      logger.e(e);
+    } on Exception catch (e) {
+      logger.d(e.toString());
       emit(RemoteUserError.genericError(e));
     }
   }

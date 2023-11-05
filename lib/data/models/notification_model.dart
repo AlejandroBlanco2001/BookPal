@@ -3,6 +3,7 @@
 import 'package:bookpal/data/enums/notification_status.dart';
 import 'package:bookpal/domain/entities/notification.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:bookpal/core/util/utilities.dart';
 
 part 'notification_model.g.dart';
 

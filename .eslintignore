@@ -1,0 +1,2 @@
+#.eslintignore
+**/**.g.dart

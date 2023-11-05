@@ -1,5 +1,6 @@
 import '../../domain/entities/user.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:bookpal/core/util/utilities.dart';
 
 part 'user_model.g.dart';
 
@@ -12,12 +13,13 @@ class UserModel extends User {
     String? secondName,
     required String lastName,
     String? secondLastName,
-    required String dateOfBirth,
+    required DateTime dateOfBirth,
     required String email,
     required String password,
     String? academicProgram,
-    String profilePicture = '/default_avatar.jpg',
+    String profileImage = '/default_avatar.jpg',
     bool isAdmin = false,
+    required String phoneToken
   }) : super(
           id: id,
           companyId: companyId,
@@ -29,8 +31,9 @@ class UserModel extends User {
           email: email,
           password: password,
           academicProgram: academicProgram,
-          profilePicture: profilePicture,
+          profileImage: profileImage,
           isAdmin: isAdmin,
+          phoneToken: phoneToken,
         );
   
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);

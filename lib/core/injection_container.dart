@@ -1,14 +1,17 @@
 import 'package:bookpal/data/data_sources/remote/api_service.dart';
+import 'package:bookpal/data/repositories/authentication_rep_implementation.dart';
 import 'package:bookpal/data/repositories/company_rep_implementation.dart';
 import 'package:bookpal/data/repositories/loan_rep_implementation.dart';
 import 'package:bookpal/data/repositories/physical_book_rep_implementation.dart';
 import 'package:bookpal/data/repositories/user_rep_implementation.dart';
 import 'package:bookpal/device/devices/barcode_scanner/barcode_scanner.dart';
 import 'package:bookpal/device/devices/nfc_adapter/nfc_adapter.dart';
+import 'package:bookpal/domain/repositories/authentication_repository.dart';
 import 'package:bookpal/domain/repositories/company_repository.dart';
 import 'package:bookpal/domain/repositories/loan_repository.dart';
 import 'package:bookpal/domain/repositories/physical_book_repository.dart';
 import 'package:bookpal/domain/repositories/user_repository.dart';
+import 'package:bookpal/domain/usecases/authentication/login_usecase.dart';
 import 'package:bookpal/domain/usecases/company/get_companies_usecase.dart';
 import 'package:bookpal/domain/usecases/company/get_company_usecase.dart';
 import 'package:bookpal/domain/usecases/company/update_company_usecase.dart';
@@ -21,17 +24,21 @@ import 'package:bookpal/domain/usecases/physical_book/get_physical_book_usecase.
 import 'package:bookpal/domain/usecases/user/get_user_usecase.dart';
 import 'package:bookpal/domain/usecases/user/register_user_usecase.dart';
 import 'package:bookpal/domain/usecases/user/update_user_usecase.dart';
+import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
 import 'package:bookpal/presentation/company/remote_bloc/remote_company_bloc.dart';
 import 'package:bookpal/presentation/loan/remote_bloc/remote_loan_bloc.dart';
 import 'package:bookpal/presentation/physical_book/remote_bloc/remote_physical_book_bloc.dart';
 import 'package:bookpal/presentation/user/remote_bloc/remote_user_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
 
 Future<void> initializeDependencies() async {
+
+  sl.registerSingleton<Logger>(Logger());
 
   sl.registerSingleton<Dio>(Dio());
 
@@ -114,5 +121,15 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<NfcAdapter>(NfcAdapter());
 
   sl.registerSingleton(SharedPreferences.getInstance());
+
+  sl.registerSingleton<AuthenticationRepository>(
+    AuthenticationRepositoryImplementation(sl())
+  );
+
+  sl.registerSingleton<LoginUsecase>(
+    LoginUsecase(sl())
+  );
+  
+  sl.registerFactory<LoginBloc>(() => LoginBloc(sl()));
 
 }

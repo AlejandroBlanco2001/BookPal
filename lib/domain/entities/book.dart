@@ -2,6 +2,8 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:bookpal/core/util/utilities.dart';
+
 
 class Book extends Equatable {
   final int id;
@@ -10,7 +12,7 @@ class Book extends Equatable {
   final String author;
   @JsonKey(name: 'original_title')
   final String? originalTitle;
-  @JsonKey(name: 'publish_date')
+  @JsonKey(name: 'publish_date', fromJson: Utilities.fromISO8601String, toJson: Utilities.toISO8601String)
   final DateTime? publishDate;
 
   const Book({

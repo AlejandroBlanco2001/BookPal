@@ -20,12 +20,12 @@ final class GetUser extends RemoteUserEvent {
 
 final class UpdateUser extends RemoteUserEvent {
   final int identifier;
-  final UserModel user;
+  final Map<String,dynamic> fields;
 
-  const UpdateUser(this.identifier, this.user);
+  const UpdateUser(this.identifier, this.fields);
 
   @override
-  List<Object> get props => [identifier, user];
+  List<Object> get props => [identifier, fields];
 }
 
 final class RegisterUser extends RemoteUserEvent {

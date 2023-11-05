@@ -1,5 +1,6 @@
 import 'package:bookpal/app/navigator.dart';
 import 'package:bookpal/core/injection_container.dart';
+import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
 import 'package:bookpal/presentation/barcode/bloc/barcode_bloc.dart';
 import 'package:bookpal/presentation/company/remote_bloc/remote_company_bloc.dart';
 import 'package:bookpal/presentation/loan/remote_bloc/remote_loan_bloc.dart';
@@ -39,7 +40,10 @@ class BookPal extends StatelessWidget {
         ),
         BlocProvider<NfcBloc>(
           create: (context) => sl(),
-        )
+        ),
+        BlocProvider<LoginBloc>(
+          create: (context) => sl(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
