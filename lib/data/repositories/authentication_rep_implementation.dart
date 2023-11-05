@@ -15,7 +15,8 @@ class AuthenticationRepositoryImplementation
   AuthenticationRepositoryImplementation(this._apiService);
 
   @override
-  Future<DataState<Map<String, dynamic>>> login(Map<String, String> credentials) async {
+  Future<DataState<Map<String, dynamic>>> login(
+      Map<String, String> credentials) async {
     try {
       final httpResponse = await _apiService.login(credentials: credentials);
       if (httpResponse.response.statusCode != HttpStatus.ok) {
@@ -29,8 +30,10 @@ class AuthenticationRepositoryImplementation
             ),
             httpResponse.response.data['message'] ?? "No message");
       }
-      return DataSuccess(httpResponse.response.statusCode!,
-          JwtDecoder.decode(httpResponse.data['access_token']));
+      return DataSuccess(httpResponse.response.statusCode!, {
+        'raw_jwt': httpResponse.data['access_token'],
+        'decoded_jwt': JwtDecoder.decode(httpResponse.data['access_token'])
+      });
     } on DioException catch (e) {
       logger.d(e.response?.data);
       List<String>? messages = (e.response?.data['message'] is List)

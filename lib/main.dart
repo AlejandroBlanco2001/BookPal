@@ -24,25 +24,25 @@ class BookPal extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<RemoteUserBloc>(
-          create: (context) => sl(),
+          create: (context) => getIt(),
         ),
         BlocProvider<RemotePhysicalBookBloc>(
-          create: (context) => sl(),
+          create: (context) => getIt(),
         ),
         BlocProvider<RemoteCompanyBloc>(
-          create: (context) => sl(),
+          create: (context) => getIt(),
         ),
         BlocProvider<RemoteLoanBloc>(
-          create: (context) => sl(),
+          create: (context) => getIt(),
         ),
         BlocProvider<BarcodeBloc>(
-          create: (context) => sl(),
+          create: (context) => getIt(),
         ),
         BlocProvider<NfcBloc>(
-          create: (context) => sl(),
+          create: (context) => getIt(),
         ),
         BlocProvider<LoginBloc>(
-          create: (context) => sl(),
+          create: (context) => getIt(),
         ),
       ],
       child: MaterialApp(

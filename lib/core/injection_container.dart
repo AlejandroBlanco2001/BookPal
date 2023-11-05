@@ -30,106 +30,88 @@ import 'package:bookpal/presentation/loan/remote_bloc/remote_loan_bloc.dart';
 import 'package:bookpal/presentation/physical_book/remote_bloc/remote_physical_book_bloc.dart';
 import 'package:bookpal/presentation/user/remote_bloc/remote_user_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-final sl = GetIt.instance;
+final getIt = GetIt.instance;
 
 Future<void> initializeDependencies() async {
+  getIt.registerSingleton<Logger>(Logger());
 
-  sl.registerSingleton<Logger>(Logger());
+  getIt.registerSingleton<Dio>(Dio());
 
-  sl.registerSingleton<Dio>(Dio());
+  getIt.registerSingleton<ApiService>(ApiService(getIt()));
 
-  sl.registerSingleton<ApiService>(ApiService(sl()));
+  getIt
+      .registerSingleton<UserRepository>(UserRepositoryImplementation(getIt()));
 
-  sl.registerSingleton<UserRepository>(
-    UserRepositoryImplementation(sl())
-  );
+  getIt.registerSingleton<GetUserUsecase>(GetUserUsecase(getIt()));
 
-  sl.registerSingleton<GetUserUsecase>(
-    GetUserUsecase(sl())
-  );
+  getIt.registerSingleton<UpdateUserUsecase>(UpdateUserUsecase(getIt()));
 
-  sl.registerSingleton<UpdateUserUsecase>(
-    UpdateUserUsecase(sl())
-  );
+  getIt.registerSingleton<RegisterUserUsecase>(RegisterUserUsecase(getIt()));
 
-  sl.registerSingleton<RegisterUserUsecase>(
-    RegisterUserUsecase(sl())
-  );
+  getIt.registerFactory<RemoteUserBloc>(
+      () => RemoteUserBloc(getIt(), getIt(), getIt()));
 
-  sl.registerFactory<RemoteUserBloc>(() => RemoteUserBloc(sl(), sl(), sl()));
+  getIt.registerSingleton<CompanyRepository>(
+      CompanyRepositoryImplementation(getIt()));
 
-  sl.registerSingleton<CompanyRepository>(
-    CompanyRepositoryImplementation(sl())
-  );
+  getIt.registerSingleton<GetCompanyUsecase>(GetCompanyUsecase(getIt()));
 
-  sl.registerSingleton<GetCompanyUsecase>(
-    GetCompanyUsecase(sl())
-  );
+  getIt.registerSingleton<GetCompaniesUsecase>(GetCompaniesUsecase(getIt()));
 
-  sl.registerSingleton<GetCompaniesUsecase>(
-    GetCompaniesUsecase(sl())
-  );
+  getIt.registerSingleton<UpdateCompanyUsecase>(UpdateCompanyUsecase(getIt()));
 
-  sl.registerSingleton<UpdateCompanyUsecase>(
-    UpdateCompanyUsecase(sl())
-  );
+  getIt.registerFactory<RemoteCompanyBloc>(
+      () => RemoteCompanyBloc(getIt(), getIt(), getIt()));
 
-  sl.registerFactory<RemoteCompanyBloc>(() => RemoteCompanyBloc(sl(), sl(), sl()));
+  getIt
+      .registerSingleton<LoanRepository>(LoanRepositoryImplementation(getIt()));
 
-  sl.registerSingleton<LoanRepository>(
-    LoanRepositoryImplementation(sl())
-  );
+  getIt.registerSingleton<CreateLoanUsecase>(CreateLoanUsecase(getIt()));
 
-  sl.registerSingleton<CreateLoanUsecase>(
-    CreateLoanUsecase(sl())
-  );
-  
-  sl.registerSingleton<GetLoanUsecase>(
-    GetLoanUsecase(sl())
-  );
-  
-  sl.registerSingleton<GetLoansByUserUsecase>(
-    GetLoansByUserUsecase(sl())
-  );
-  
-  sl.registerSingleton<MakeLoanReturnUsecase>(
-    MakeLoanReturnUsecase(sl())
-  );
-  
-  sl.registerFactory<RemoteLoanBloc>(() => RemoteLoanBloc(sl(), sl(), sl(), sl()));
+  getIt.registerSingleton<GetLoanUsecase>(GetLoanUsecase(getIt()));
 
-  sl.registerSingleton<PhysicalBookRepository>(
-    PhysicalBookRepositoryImplementation(sl())
-  );
+  getIt
+      .registerSingleton<GetLoansByUserUsecase>(GetLoansByUserUsecase(getIt()));
 
-  sl.registerSingleton<GetPhysicalBookUsecase>(
-    GetPhysicalBookUsecase(sl())
-  );
+  getIt
+      .registerSingleton<MakeLoanReturnUsecase>(MakeLoanReturnUsecase(getIt()));
 
-  sl.registerSingleton<GetAllPhysicalBooksUsecase>(
-    GetAllPhysicalBooksUsecase(sl())
-  );
+  getIt.registerFactory<RemoteLoanBloc>(
+      () => RemoteLoanBloc(getIt(), getIt(), getIt(), getIt()));
 
-  sl.registerFactory<RemotePhysicalBookBloc>(() => RemotePhysicalBookBloc(sl(), sl()));
-  
-  sl.registerSingleton<BarcodeScanner>(BarcodeScanner());
+  getIt.registerSingleton<PhysicalBookRepository>(
+      PhysicalBookRepositoryImplementation(getIt()));
 
-  sl.registerSingleton<NfcAdapter>(NfcAdapter());
+  getIt.registerSingleton<GetPhysicalBookUsecase>(
+      GetPhysicalBookUsecase(getIt()));
 
-  sl.registerSingleton(SharedPreferences.getInstance());
+  getIt.registerSingleton<GetAllPhysicalBooksUsecase>(
+      GetAllPhysicalBooksUsecase(getIt()));
 
-  sl.registerSingleton<AuthenticationRepository>(
-    AuthenticationRepositoryImplementation(sl())
-  );
+  getIt.registerFactory<RemotePhysicalBookBloc>(
+      () => RemotePhysicalBookBloc(getIt(), getIt()));
 
-  sl.registerSingleton<LoginUsecase>(
-    LoginUsecase(sl())
-  );
-  
-  sl.registerFactory<LoginBloc>(() => LoginBloc(sl()));
+  getIt.registerSingleton<BarcodeScanner>(BarcodeScanner());
 
+  getIt.registerSingleton<NfcAdapter>(NfcAdapter());
+
+  getIt.registerSingleton<AuthenticationRepository>(
+      AuthenticationRepositoryImplementation(getIt()));
+
+  getIt.registerSingleton<LoginUsecase>(LoginUsecase(getIt()));
+
+  getIt.registerFactory<LoginBloc>(() => LoginBloc(getIt()));
+
+  getIt.registerSingleton<SessionManager>(SessionManager());
+
+  getIt.registerSingleton<AndroidOptions>(
+      const AndroidOptions(encryptedSharedPreferences: true));
+
+  getIt.registerSingleton<FlutterSecureStorage>(
+      FlutterSecureStorage(aOptions: getIt()));
 }
