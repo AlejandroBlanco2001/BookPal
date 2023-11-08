@@ -30,7 +30,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (dataState is DataSuccess && dataState.data != null) {
         emit(LoginSuccess(dataState.statusCode, dataState.data!));
         await getIt.get<SessionManager>().set("jwt", dataState.data!['raw_jwt']);
-        await getIt.get<SessionManager>().set("decoded_jwt", dataState.data!['decoded_jwt']);
         await getIt.get<FlutterSecureStorage>().write(key: "jwt", value: dataState.data!['raw_jwt']);
       } else if (dataState is DataFailed) {
         logger.e(dataState.error);
@@ -40,7 +39,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       logger.d(e.response);
       emit(LoginError(e, e.response?.statusCode ?? 500, e.response?.data['message'] ?? "No message"));
     } catch (e) {
-      logger.e(e.toString());
+      logger.d(e.toString());
       emit(LoginError.genericError(e));
     }
   }

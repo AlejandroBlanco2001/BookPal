@@ -8,6 +8,9 @@ class BookDescription extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
+          const SizedBox(
+            height: 30,
+          ),
           const Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
@@ -15,7 +18,7 @@ class BookDescription extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(6.0, 12.0, 12.0, 0),
                 child: Icon(
                   Icons.arrow_back_ios_new_rounded,
-                  color: Colors.white,
+                  color: Colors.grey,
                   size: 24,
                 ),
               )
@@ -50,7 +53,7 @@ class BookDescription extends StatelessWidget {
                         const Text(
                           'The Midnight Library',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.grey,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
