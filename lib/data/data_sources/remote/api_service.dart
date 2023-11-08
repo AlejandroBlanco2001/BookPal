@@ -187,6 +187,7 @@ abstract class ApiService {
   Future<HttpResponse<List<PhysicalBookModel>>> getPhysicalBooks({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Query('take') String take = '1'
   });
 
   @GET('/references/{id}')
