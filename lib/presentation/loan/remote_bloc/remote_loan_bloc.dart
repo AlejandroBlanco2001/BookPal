@@ -70,7 +70,7 @@ class RemoteLoanBloc extends Bloc<RemoteLoanEvent, RemoteLoanState> {
     emit(RemoteLoanLoading());
     try {
       final dataState = await _createLoan(
-          params: {'userId': event.userId, 'bookId': event.bookId});
+          params: {'physical_book_barcode': event.bookBarcode});
       if (dataState is DataSuccess && dataState.data != null) {
         emit(RemoteLoanCreated(
             dataState.statusCode, dataState.data! as LoanModel));

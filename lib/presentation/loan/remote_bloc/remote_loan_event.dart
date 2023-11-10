@@ -27,12 +27,12 @@ final class GetLoansByUser extends RemoteLoanEvent {
 
 final class CreateLoan extends RemoteLoanEvent {
   final int userId;
-  final int bookId;
+  final String bookBarcode;
 
-  const CreateLoan(this.userId, this.bookId);
+  const CreateLoan(this.userId, this.bookBarcode);
 
   @override
-  List<Object> get props => [userId, bookId];
+  List<Object> get props => [userId, bookBarcode];
 }
 
 final class MakeLoanReturn extends RemoteLoanEvent {
