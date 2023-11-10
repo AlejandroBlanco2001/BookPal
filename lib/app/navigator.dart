@@ -19,11 +19,12 @@ class MainNavigator extends StatefulWidget {
 class _MainNavigatorState extends State<MainNavigator> {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = const [
-    BookPalHomePage(),
-    Borrowed(),
-    Favorites(),
-    LoginPage(),
+  // ignore: prefer_final_fields
+  List<Widget> _pages = [
+    const BookPalHomePage(),
+    const Borrowed(),
+    const Favorites(),
+    const LoginPage(),
   ];
 
   void _onTabTapped(int index) {
@@ -38,7 +39,9 @@ class _MainNavigatorState extends State<MainNavigator> {
       builder: (context, state) {
         if (state is LoginSuccess) {
           _pages[3] = const ProfilePage();
-        }
+        } else if (state is LoginInitial) {
+          _pages[3] = const LoginPage();
+        } 
         return Scaffold(
           body: IndexedStack(
             index: _currentIndex,
