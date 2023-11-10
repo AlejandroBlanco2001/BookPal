@@ -14,7 +14,7 @@ abstract class Loan {
   final DateTime startDate;
   @JsonKey(name: 'due_date', fromJson: Utilities.fromISO8601String, toJson: Utilities.toISO8601String)
   final DateTime dueDate;
-  @JsonKey(name: 'return_date', fromJson: Utilities.fromISO8601String, toJson: Utilities.toISO8601String)
+  @JsonKey(name: 'return_date', fromJson: Utilities.fromISO8601StringNullable, toJson: Utilities.toISO8601String)
   DateTime? returnDate;
   LoanStatus status;
 

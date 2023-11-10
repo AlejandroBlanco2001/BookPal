@@ -28,6 +28,8 @@ final class LoginInitial extends LoginState {}
 
 final class LoginLoading extends LoginState {}
 
+final class LoggingOut extends LoginState {}
+
 final class LoginSuccess extends LoginState {
   const LoginSuccess(
     int statusCode,

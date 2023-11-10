@@ -1,9 +1,12 @@
+import 'package:bookpal/app/pages/authentication/login_page.dart';
+import 'package:bookpal/app/pages/user_profile/user_profile.dart';
+import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:bookpal/app/pages/home/home_page.dart';
 import 'package:bookpal/app/pages/borrowed/borrowed_page.dart';
 import 'package:bookpal/app/pages/favorites/favorites_page.dart';
-import 'package:bookpal/app/pages/book_description/book_description_page.dart';
 import 'package:bookpal/app/widgets/navigation_bar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainNavigator extends StatefulWidget {
   const MainNavigator({Key? key}) : super(key: key);
@@ -20,7 +23,7 @@ class _MainNavigatorState extends State<MainNavigator> {
     BookPalHomePage(),
     Borrowed(),
     Favorites(),
-    BookDescription(),
+    LoginPage(),
   ];
 
   void _onTabTapped(int index) {
@@ -31,15 +34,22 @@ class _MainNavigatorState extends State<MainNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
-      ),
-      bottomNavigationBar: MainNavigationBar(
-        currentIndex: _currentIndex,
-        onTabSelected: _onTabTapped,
-      ),
+    return BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+        if (state is LoginSuccess) {
+          _pages[3] = const ProfilePage();
+        }
+        return Scaffold(
+          body: IndexedStack(
+            index: _currentIndex,
+            children: _pages,
+          ),
+          bottomNavigationBar: MainNavigationBar(
+            currentIndex: _currentIndex,
+            onTabSelected: _onTabTapped,
+          ),
+        );
+      },
     );
   }
 }

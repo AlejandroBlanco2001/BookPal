@@ -9,7 +9,7 @@ class GetAllPhysicalBooksUsecase extends Usecase<DataState<List<PhysicalBook>>> 
   GetAllPhysicalBooksUsecase(this._physicalBookRepository);
 
   @override
-  Future<DataState<List<PhysicalBook>>> call({void params}) {
-    return _physicalBookRepository.getPhysicalBooks();
+  Future<DataState<List<PhysicalBook>>> call({Map<String,dynamic>? params}) {
+    return _physicalBookRepository.getPhysicalBooks(params!['pageSize']);
   }
 }

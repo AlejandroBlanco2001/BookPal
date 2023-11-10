@@ -1,5 +1,6 @@
 import 'package:bookpal/app/widgets/home_page/book_cards.dart';
 import 'package:bookpal/app/widgets/home_page/book_row.dart';
+import 'package:bookpal/app/widgets/scanning/select_scan_method_button.dart';
 import 'package:flutter/material.dart';
 
 class BookPalHomePage extends StatelessWidget {
@@ -37,6 +38,7 @@ class BookPalHomePage extends StatelessWidget {
     ];
 
     return Scaffold(
+      floatingActionButton: const SelectScanMethodButton(),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -50,18 +52,19 @@ class BookPalHomePage extends StatelessWidget {
                 Column(
                   children: [
                     Container(
-                        padding: const EdgeInsets.fromLTRB(24.0, 0, 24.0, 0),
-                        margin: const EdgeInsets.fromLTRB(0, 16.0, 0, 0),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                    'https://www.cu.edu.ph/wp-content/uploads/2020/10/girl-avatar.png'),
-                                radius: 35,
-                                backgroundColor: Colors.white)
-                          ],
-                        )),
+                      padding: const EdgeInsets.fromLTRB(24.0, 0, 24.0, 0),
+                      margin: const EdgeInsets.fromLTRB(0, 16.0, 0, 0),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  'https://www.cu.edu.ph/wp-content/uploads/2020/10/girl-avatar.png'),
+                              radius: 35,
+                              backgroundColor: Colors.white)
+                        ],
+                      ),
+                    ),
                     Container(
                         padding: const EdgeInsets.fromLTRB(24.0, 0, 24.0, 0),
                         margin: const EdgeInsets.fromLTRB(0, 16.0, 0, 0),
@@ -110,23 +113,26 @@ class BookPalHomePage extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 0),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
+                  const Text(
                     'Popular',
                     style: TextStyle(
                         color: Colors.grey,
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    'See all',
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: const Text(
+                      'See all',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )
                 ],
               ),
             ),

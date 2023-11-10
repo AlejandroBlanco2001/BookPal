@@ -12,7 +12,7 @@ class Book extends Equatable {
   final String author;
   @JsonKey(name: 'original_title')
   final String? originalTitle;
-  @JsonKey(name: 'publish_date', fromJson: Utilities.fromISO8601String, toJson: Utilities.toISO8601String)
+  @JsonKey(name: 'publish_date', fromJson: Utilities.fromISO8601StringNullable, toJson: Utilities.toISO8601String)
   final DateTime? publishDate;
 
   const Book({

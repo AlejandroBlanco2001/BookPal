@@ -24,6 +24,7 @@ abstract class ApiService {
   Future<HttpResponse<UserModel>> getUserById({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int id
   });
 
@@ -31,6 +32,7 @@ abstract class ApiService {
   Future<HttpResponse<UserModel>> getUserByEmail({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required String email
   });
 
@@ -38,6 +40,7 @@ abstract class ApiService {
   Future<HttpResponse<UserModel>> putUserById({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int id,
     @Body() required Map<String,dynamic> fields
   });
@@ -46,6 +49,7 @@ abstract class ApiService {
   Future<HttpResponse<UserModel>> putUserByEmail({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required String email,
     @Body() required Map<String,dynamic> fields
   });
@@ -54,6 +58,7 @@ abstract class ApiService {
   Future<HttpResponse<UserModel>> postUser({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Body() required UserModel user
   });
 
@@ -61,6 +66,7 @@ abstract class ApiService {
   Future<HttpResponse> login({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Body() required Map<String, String> credentials
   });
 
@@ -68,6 +74,7 @@ abstract class ApiService {
   Future<HttpResponse<BookModel>> getBook({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required String barcode
   });
 
@@ -75,12 +82,14 @@ abstract class ApiService {
   Future<HttpResponse<List<BookModel>>> getBooks({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
   });
 
   @GET('/company/{id}')
   Future<HttpResponse<CompanyModel>> getCompany({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int id
   });
 
@@ -88,12 +97,14 @@ abstract class ApiService {
   Future<HttpResponse<List<CompanyModel>>> getCompanies({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
   });
 
   @PUT('/company/{id}')
   Future<HttpResponse<CompanyModel>> putCompany({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int id,
     @Body() required Map<String, dynamic> fields
   });
@@ -102,6 +113,7 @@ abstract class ApiService {
   Future<HttpResponse<FineModel>> getFine({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int id
   });
 
@@ -109,6 +121,7 @@ abstract class ApiService {
   Future<HttpResponse<List<FineModel>>> getFinesByUser({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int userId
   });
 
@@ -116,6 +129,7 @@ abstract class ApiService {
   Future<HttpResponse<InventoryModel>> getInventory({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int id
   });
 
@@ -123,6 +137,7 @@ abstract class ApiService {
   Future<HttpResponse<InventoryModel>> getInventoryForItem({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required String itemId
   });
 
@@ -130,13 +145,15 @@ abstract class ApiService {
   Future<HttpResponse<LoanModel>> getLoan({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int id
   });
 
-  @GET('/loans-by-user/{userId}')
+  @GET('/loan/user/{userId}')
   Future<HttpResponse<List<LoanModel>>> getLoansByUser({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int userId
   });
 
@@ -144,6 +161,7 @@ abstract class ApiService {
   Future<HttpResponse<LoanModel>> makeReturn({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int id
   });
 
@@ -151,14 +169,15 @@ abstract class ApiService {
   Future<HttpResponse<LoanModel>> postLoan({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
-    @Body() required int userId,
-    @Body() required String bookBarcode
+    @Header('Authorization') String? authorization,
+    @Body() required Map<String, dynamic> fields
   });
 
   @GET('/notifications/{id}')
   Future<HttpResponse<NotificationModel>> getNotification({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int id
   });
 
@@ -166,6 +185,7 @@ abstract class ApiService {
   Future<HttpResponse<List<NotificationModel>>> getUserNotifications({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int userId
   });
 
@@ -173,6 +193,7 @@ abstract class ApiService {
   Future<HttpResponse<PhysicalBookModel>> getPhysicalBookById({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int id
   });
 
@@ -180,6 +201,7 @@ abstract class ApiService {
   Future<HttpResponse<PhysicalBookModel>> getPhysicalBookByBarcode({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required String barcode
   });
 
@@ -187,13 +209,15 @@ abstract class ApiService {
   Future<HttpResponse<List<PhysicalBookModel>>> getPhysicalBooks({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
-    @Query('take') String take = '1'
+    @Header('Authorization') String? authorization,
+    @Query('take') int? take = 10
   });
 
   @GET('/references/{id}')
   Future<HttpResponse<ReferenceModel>> getReference({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int id
   });
 
@@ -201,6 +225,7 @@ abstract class ApiService {
   Future<HttpResponse<SubjectBookRelationModel>> getRelation({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int id
   });
 
@@ -208,6 +233,7 @@ abstract class ApiService {
   Future<HttpResponse<List<String>>> getRelatedSubjects({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int bookId
   });
 
@@ -215,6 +241,7 @@ abstract class ApiService {
   Future<HttpResponse<List<String>>> getRelatedBooks({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int subjectId
   });
 
@@ -222,6 +249,7 @@ abstract class ApiService {
   Future<HttpResponse<SubjectModel>> getSubject({
     @Header('Content-Type') String contentType = contentType,
     @Header('x-api-key') String apiKey = apiKey,
+    @Header('Authorization') String? authorization,
     @Path() required int id
   });
 }

@@ -23,4 +23,9 @@ class Utilities {
   static DateTime fromISO8601String(String dateTime) {
     return DateTime.parse(dateTime);
   }
+
+  static DateTime? fromISO8601StringNullable(String? dateTime) {
+    if (dateTime == null) return null;
+    return DateTime.parse(dateTime);
+  }
 }

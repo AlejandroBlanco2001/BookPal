@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/resources/data_state.dart';
 import 'package:bookpal/data/models/loan_model.dart';
 import 'package:bookpal/domain/usecases/loan/create_loan_usecase.dart';
@@ -58,7 +59,8 @@ class RemoteLoanBloc extends Bloc<RemoteLoanEvent, RemoteLoanState> {
       }
     } on DioException catch (e) {
       emit(RemoteLoanError(e, e.response?.statusCode));
-    } catch (e) {
+    } on Error catch (e) {
+      logger.d("Message: $e\nStacktrace: ${e.stackTrace.toString()}");
       emit(RemoteLoanError.genericError(e));
     }
   }

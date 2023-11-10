@@ -18,4 +18,11 @@ final class GetPhysicalBook extends RemotePhysicalBookEvent {
   List<Object> get props => [identifier];
 }
 
-final class GetAllPhysicalBooks extends RemotePhysicalBookEvent {}
+final class GetAllPhysicalBooks extends RemotePhysicalBookEvent {
+  final int pageSize;
+
+  const GetAllPhysicalBooks({this.pageSize = 10});
+
+  @override
+  List<Object> get props => [pageSize];
+}

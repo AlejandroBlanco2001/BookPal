@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/injection_container.dart';
@@ -18,6 +20,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   LoginBloc(this._login) : super(LoginInitial()) {
     on<Login>(onLogin);
+    on<Logout>(onLogout);
   }
 
   void onLogin(Login event, Emitter<LoginState> emit) async {
@@ -42,5 +45,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       logger.d(e.toString());
       emit(LoginError.genericError(e));
     }
+  }
+
+  FutureOr<void> onLogout(Logout event, Emitter<LoginState> emit) async {
+    emit(LoggingOut());
+    await getIt.get<SessionManager>().destroy();
+    await getIt.get<FlutterSecureStorage>().delete(key: "jwt");
+    emit(LoginInitial());
   }
 }

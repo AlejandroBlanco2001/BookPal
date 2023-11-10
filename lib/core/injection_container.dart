@@ -21,12 +21,16 @@ import 'package:bookpal/domain/usecases/loan/get_loans_by_user_usecase.dart';
 import 'package:bookpal/domain/usecases/loan/make_loan_return_usecase.dart';
 import 'package:bookpal/domain/usecases/physical_book/get_all_physical_books_usecase.dart';
 import 'package:bookpal/domain/usecases/physical_book/get_physical_book_usecase.dart';
+import 'package:bookpal/domain/usecases/scanning/read_nfc_usecase.dart';
+import 'package:bookpal/domain/usecases/scanning/scan_barcode_usecase.dart';
 import 'package:bookpal/domain/usecases/user/get_user_usecase.dart';
 import 'package:bookpal/domain/usecases/user/register_user_usecase.dart';
 import 'package:bookpal/domain/usecases/user/update_user_usecase.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
+import 'package:bookpal/presentation/barcode/bloc/barcode_bloc.dart';
 import 'package:bookpal/presentation/company/remote_bloc/remote_company_bloc.dart';
 import 'package:bookpal/presentation/loan/remote_bloc/remote_loan_bloc.dart';
+import 'package:bookpal/presentation/nfc/bloc/nfc_bloc.dart';
 import 'package:bookpal/presentation/physical_book/remote_bloc/remote_physical_book_bloc.dart';
 import 'package:bookpal/presentation/user/remote_bloc/remote_user_bloc.dart';
 import 'package:dio/dio.dart';
@@ -98,7 +102,15 @@ Future<void> initializeDependencies() async {
 
   getIt.registerSingleton<BarcodeScanner>(BarcodeScanner());
 
+  getIt.registerSingleton<ScanBarcodeUsecase>(ScanBarcodeUsecase());
+
+  getIt.registerFactory<BarcodeBloc>(() => BarcodeBloc(getIt()));
+
   getIt.registerSingleton<NfcAdapter>(NfcAdapter());
+
+  getIt.registerSingleton<ReadNfcUsecase>(ReadNfcUsecase());
+
+  getIt.registerFactory<NfcBloc>(() => NfcBloc(getIt()));
 
   getIt.registerSingleton<AuthenticationRepository>(
       AuthenticationRepositoryImplementation(getIt()));

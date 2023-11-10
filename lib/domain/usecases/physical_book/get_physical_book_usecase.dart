@@ -12,7 +12,7 @@ class GetPhysicalBookUsecase extends Usecase<DataState<PhysicalBook>> {
 
   @override
   Future<DataState<PhysicalBook>> call({Map<String, dynamic>? params}) {
-    String? barcode = params!['email'];
+    String? barcode = params!['barcode'];
     int? id = params['id'];
     if (barcode != null) {
       return _physicalBookRepository.getPhysicalBookByBarcode(barcode);

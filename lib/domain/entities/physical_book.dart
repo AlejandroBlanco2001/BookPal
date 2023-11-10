@@ -21,7 +21,7 @@ abstract class PhysicalBook {
   final String? isbn;
   final String? isbn13;
   final String? publisher;
-  @JsonKey(name: 'publish_date', fromJson: Utilities.fromISO8601String, toJson: Utilities.toISO8601String, includeIfNull: false )
+  @JsonKey(name: 'publish_date', fromJson: Utilities.fromISO8601StringNullable, toJson: Utilities.toISO8601String)
   final DateTime? publishDate;
   final String? language;
   @JsonKey(name: 'book_cover')
