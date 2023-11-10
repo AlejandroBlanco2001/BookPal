@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:bookpal/core/constants/constants.dart';
+import 'package:bookpal/core/injection_container.dart';
 import 'package:bookpal/core/resources/data_state.dart';
 import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/domain/repositories/authentication_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AuthenticationRepositoryImplementation
@@ -48,14 +50,9 @@ class AuthenticationRepositoryImplementation
   }
 
   @override
-  Future<DataState<void>> logout() {
-    // _apiService.logout();
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<DataState<bool>> isLoggedIn() {
-    // Check JWT
-    throw UnimplementedError();
+  Future<bool> isLoggedIn() async {
+    String? jwt = await getIt.get<SessionManager>().get("jwt");
+    if (jwt == null || jwt.isEmpty) return false;
+    return !JwtDecoder.isExpired(jwt);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:bookpal/core/constants/constants.dart';
+import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/data/util/response_verifier.dart';
 import 'package:bookpal/data/models/user_model.dart';
@@ -15,10 +16,11 @@ class UserRepositoryImplementation implements UserRepository {
   @override
   Future<DataState<UserModel>> getUserById(int id) async {
     try {
-      logger.i('getUserById: $id');
+      String authorization = await Utilities.getAuthorization();
 
       final httpResponse = await _apiService.getUserById(
         id: id,
+        authorization: authorization,
       );
 
       final ResponseVerifier<UserModel> responseVerifier =
@@ -35,8 +37,10 @@ class UserRepositoryImplementation implements UserRepository {
   @override
   Future<DataState<UserModel>> getUserByEmail(String email) async {
     try {
+      String authorization = await Utilities.getAuthorization();
       final httpResponse = await _apiService.getUserByEmail(
         email: email,
+        authorization: authorization,
       );
 
       final ResponseVerifier<UserModel> responseVerifier =
@@ -53,8 +57,12 @@ class UserRepositoryImplementation implements UserRepository {
   Future<DataState<UserModel>> putUserById(
       int id, Map<String, dynamic> fields) async {
     try {
-      final httpResponse =
-          await _apiService.putUserById(id: id, fields: fields);
+      String authorization = await Utilities.getAuthorization();
+      final httpResponse = await _apiService.putUserById(
+        id: id,
+        fields: fields,
+        authorization: authorization,
+      );
 
       final ResponseVerifier<UserModel> responseVerifier =
           ResponseVerifier<UserModel>();
@@ -70,8 +78,12 @@ class UserRepositoryImplementation implements UserRepository {
   Future<DataState<UserModel>> putUserByEmail(
       String email, Map<String, dynamic> fields) async {
     try {
-      final httpResponse =
-          await _apiService.putUserByEmail(email: email, fields: fields);
+      String authorization = await Utilities.getAuthorization();
+      final httpResponse = await _apiService.putUserByEmail(
+        email: email,
+        fields: fields,
+        authorization: authorization,
+      );
 
       final ResponseVerifier<UserModel> responseVerifier =
           ResponseVerifier<UserModel>();
@@ -86,7 +98,11 @@ class UserRepositoryImplementation implements UserRepository {
   @override
   Future<DataState<UserModel>> postUser(User user) async {
     try {
-      final httpResponse = await _apiService.postUser(user: user as UserModel);
+      String authorization = await Utilities.getAuthorization();
+      final httpResponse = await _apiService.postUser(
+        user: user as UserModel,
+        authorization: authorization,
+      );
 
       final ResponseVerifier<UserModel> responseVerifier =
           ResponseVerifier<UserModel>();
@@ -94,10 +110,10 @@ class UserRepositoryImplementation implements UserRepository {
       return responseVerifier.validateResponse(httpResponse);
     } on DioException catch (e) {
       List<String>? messages = (e.response?.data['message'] is List)
-          ? List<String>.from(e.response?.data['message'].map((m) => m.toString()))
+          ? List<String>.from(
+              e.response?.data['message'].map((m) => m.toString()))
           : [e.response?.data['message']];
-      return DataFailed(
-          e.response?.statusCode ?? 500, e, messages);
+      return DataFailed(e.response?.statusCode ?? 500, e, messages);
     }
   }
 }

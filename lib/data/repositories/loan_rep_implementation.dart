@@ -1,3 +1,4 @@
+import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/data/util/response_verifier.dart';
 import 'package:bookpal/data/models/loan_model.dart';
@@ -13,8 +14,10 @@ class LoanRepositoryImplementation implements LoanRepository {
   @override
   Future<DataState<LoanModel>> getLoan(int id) async {
     try {
+      String authorization = await Utilities.getAuthorization();
       final httpResponse = await _apiService.getLoan(
         id: id,
+        authorization: authorization,
       );
       final ResponseVerifier<LoanModel> responseVerifier =
           ResponseVerifier<LoanModel>();
@@ -31,8 +34,10 @@ class LoanRepositoryImplementation implements LoanRepository {
   @override
   Future<DataState<List<LoanModel>>> getLoansByUser(int userId) async {
     try {
+      String authorization = await Utilities.getAuthorization();
       final httpResponse = await _apiService.getLoansByUser(
         userId: userId,
+        authorization: authorization,
       );
       final ResponseVerifier<List<LoanModel>> responseVerifier =
           ResponseVerifier<List<LoanModel>>();
@@ -49,10 +54,14 @@ class LoanRepositoryImplementation implements LoanRepository {
   @override
   Future<DataState<LoanModel>> postLoan(int userId, String bookBarcode) async {
     try {
-      final httpResponse = await _apiService.postLoan(fields: {
-        'userId': userId,
-        'bookBarcode': bookBarcode,
-      });
+      String authorization = await Utilities.getAuthorization();
+      final httpResponse = await _apiService.postLoan(
+        authorization: authorization,
+        fields: {
+          'userId': userId,
+          'bookBarcode': bookBarcode,
+        },
+      );
       final ResponseVerifier<LoanModel> responseVerifier =
           ResponseVerifier<LoanModel>();
       return responseVerifier.validateResponse(httpResponse);
@@ -68,8 +77,10 @@ class LoanRepositoryImplementation implements LoanRepository {
   @override
   Future<DataState<LoanModel>> makeReturn(int id) async {
     try {
+      String authorization = await Utilities.getAuthorization();
       final httpResponse = await _apiService.makeReturn(
         id: id,
+        authorization: authorization,
       );
       final ResponseVerifier<LoanModel> responseVerifier =
           ResponseVerifier<LoanModel>();

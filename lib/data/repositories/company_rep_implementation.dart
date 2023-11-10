@@ -1,5 +1,6 @@
 
 
+import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/data/util/response_verifier.dart';
 import 'package:bookpal/data/models/company_model.dart';
@@ -17,8 +18,10 @@ class CompanyRepositoryImplementation implements CompanyRepository {
   @override
   Future<DataState<Company>> getCompany(int id) async {
     try {
+      String authorization = await Utilities.getAuthorization();
       final httpResponse = await _apiService.getCompany(
         id: id,
+        authorization: authorization,
       );
 
       final ResponseVerifier<Company> responseVerifier = ResponseVerifier<Company>();
@@ -33,7 +36,8 @@ class CompanyRepositoryImplementation implements CompanyRepository {
   @override
   Future<DataState<List<Company>>> getCompanies() async {
     try {
-      final httpResponse = await _apiService.getCompanies();
+      String authorization = await Utilities.getAuthorization();
+      final httpResponse = await _apiService.getCompanies(authorization: authorization);
 
       final ResponseVerifier<List<Company>> responseVerifier = ResponseVerifier<List<Company>>();
 
@@ -47,9 +51,11 @@ class CompanyRepositoryImplementation implements CompanyRepository {
   @override
   Future<DataState<Company>> putCompany(int id, Map<String, dynamic> fields) async {
     try {
+      String authorization = await Utilities.getAuthorization();
       final httpResponse = await _apiService.putCompany(
         id: id,
         fields: fields,
+        authorization: authorization,
       );
       
       final ResponseVerifier<CompanyModel> responseVerifier = ResponseVerifier<CompanyModel>();

@@ -1,5 +1,8 @@
 
 
+import 'package:bookpal/core/injection_container.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
+
 class Utilities {
   static String getIdentifierName(dynamic identifier) {
     if (identifier is String) {
@@ -27,5 +30,9 @@ class Utilities {
   static DateTime? fromISO8601StringNullable(String? dateTime) {
     if (dateTime == null) return null;
     return DateTime.parse(dateTime);
+  }
+
+  static Future<String> getAuthorization() async {
+    return "Bearer ${await getIt.get<SessionManager>().get("jwt")}";
   }
 }
