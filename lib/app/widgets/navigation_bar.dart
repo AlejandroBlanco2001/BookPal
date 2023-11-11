@@ -22,7 +22,7 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
   @override
   void initState() {
     super.initState();
-    context.read<RemoteLoanBloc>().add(const GetLoansByUser(53));
+    context.read<LoginBloc>().add(const Login("florix@gmail.com", "B00rgir_9116"));
   }
 
   @override
@@ -31,8 +31,8 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
       builder: (context, state) {
         if (state is RemoteLoanLoading) {
           logger.i("Loading...");
-        } else if (state is RemoteUserLoansLoaded) {
-          logger.i("Loans by user ${53}: ${state.loans}");
+        } else if (state is RemoteLoanCreated) {
+          logger.i("Loans by user ${53}: ${state.loan}");
         } else if (state is RemoteLoanError) {
           logger.e(
               "Error code: ${state.statusCode}, error message: ${state.message}");

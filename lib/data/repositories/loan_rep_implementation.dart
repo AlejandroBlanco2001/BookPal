@@ -52,14 +52,14 @@ class LoanRepositoryImplementation implements LoanRepository {
   }
 
   @override
-  Future<DataState<LoanModel>> postLoan(int userId, String bookBarcode) async {
+  Future<DataState<LoanModel>> postLoan(String phoneToken, String bookBarcode) async {
     try {
       String authorization = await Utilities.getAuthorization();
       final httpResponse = await _apiService.postLoan(
         authorization: authorization,
         fields: {
-          'userId': userId,
-          'bookBarcode': bookBarcode,
+          'phone_token': phoneToken,
+          'physical_book_barcode': bookBarcode,
         },
       );
       final ResponseVerifier<LoanModel> responseVerifier =

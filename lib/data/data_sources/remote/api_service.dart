@@ -168,7 +168,6 @@ abstract class ApiService {
   @POST('/loan')
   Future<HttpResponse<LoanModel>> postLoan({
     @Header('Content-Type') String contentType = contentType,
-    @Header('x-api-key') String apiKey = apiKey,
     @Header('Authorization') String? authorization,
     @Body() required Map<String, dynamic> fields
   });
