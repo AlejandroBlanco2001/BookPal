@@ -42,7 +42,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       logger.d(e.response);
       emit(LoginError(e, e.response?.statusCode ?? 500, e.response?.data['message'] ?? "No message"));
     } catch (e) {
-      logger.d(e.toString());
+      logger.d("Message: ${e.toString()}.\nStacktrace: ${(e is Error) ? e.stackTrace : e}");
       emit(LoginError.genericError(e));
     }
   }

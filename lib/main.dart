@@ -1,3 +1,4 @@
+import 'package:bookpal/presentation/storage_bucket/bloc/bucket_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -14,11 +15,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await initializeDependencies();
-  WidgetsFlutterBinding.ensureInitialized();
   runApp(const BookPal());
 }
 
@@ -50,6 +51,9 @@ class BookPal extends StatelessWidget {
         BlocProvider<LoginBloc>(
           create: (context) =>
               getIt()..add(const Login("florix@gmail.com", "B00rgir_9116")),
+        ),
+        BlocProvider<BucketBloc>(
+          create: (context) => getIt(),
         ),
       ],
       child: MaterialApp(

@@ -39,7 +39,7 @@ class _MainNavigatorState extends State<MainNavigator> {
       builder: (context, state) {
         if (state is LoginSuccess) {
           _pages[3] = const ProfilePage();
-        } else if (state is LoginInitial) {
+        } else if (state is LoginInitial || state is LoggingOut) {
           _pages[3] = const LoginPage();
         } 
         return Scaffold(
