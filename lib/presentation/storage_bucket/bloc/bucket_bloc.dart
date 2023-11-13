@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bookpal/core/injection_container.dart';
+import 'package:bookpal/core/util/utilities.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -17,7 +18,18 @@ class BucketBloc extends Bloc<BucketEvent, BucketState> {
     emit(DownloadUrlLoading());
     try {
       final downloadUrl = await getIt.get<Reference>().child(event.path).getDownloadURL();
-      emit(DownloadedUrl(downloadUrl));
+      switch (Utilities.getFolder(event.path)) {
+        case "companies":
+          emit(GotCompanyDownloadUrl(downloadUrl));
+          break;
+        case "users":
+          emit(GotUserDownloadUrl(downloadUrl));
+          break;
+        case "books":
+          emit(GotBookDownloadUrl(downloadUrl));
+          break;
+        default:
+      }
     } catch (e) {
       emit(DownloadUrlError(e));
     }

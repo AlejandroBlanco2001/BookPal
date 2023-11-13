@@ -33,11 +33,14 @@ class RemoteCompanyBloc extends Bloc<RemoteCompanyEvent, RemoteCompanyState> {
         emit(RemoteCompanyLoaded(
             dataState.statusCode, dataState.data! as CompanyModel));
       } else if (dataState is DataFailed) {
+        logger.d("DataFailed: ${dataState.error}");
         emit(RemoteCompanyError(dataState.error!, dataState.statusCode, dataState.message));
       }
     } on DioException catch (e) {
+      logger.d("DioException: $e");
       emit(RemoteCompanyError(e, e.response?.statusCode, e.response?.data['message']));
     } catch (e) {
+      logger.d("Error Message: ${e.toString()}.\n StackTrace: ${(e as Error).stackTrace}");
       emit(RemoteCompanyError.genericError(e));
     }
   }

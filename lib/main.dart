@@ -1,3 +1,4 @@
+import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
 import 'package:bookpal/presentation/storage_bucket/bloc/bucket_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -37,7 +38,7 @@ class BookPal extends StatelessWidget {
           create: (context) => getIt(),
         ),
         BlocProvider<RemoteCompanyBloc>(
-          create: (context) => getIt(),
+          create: (context) => getIt()..add(const GetCompany(1)),
         ),
         BlocProvider<RemoteLoanBloc>(
           create: (context) => getIt(),
@@ -50,10 +51,13 @@ class BookPal extends StatelessWidget {
         ),
         BlocProvider<LoginBloc>(
           create: (context) =>
-              getIt()..add(const Login("florix@gmail.com", "B00rgir_9116")),
+              getIt()..add(InitLogin()),
         ),
         BlocProvider<BucketBloc>(
           create: (context) => getIt(),
+        ),
+        BlocProvider<NavigationBloc>(
+          create: (context) => getIt()..add(ToHomePage()),
         ),
       ],
       child: MaterialApp(

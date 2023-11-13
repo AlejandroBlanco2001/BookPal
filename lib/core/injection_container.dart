@@ -27,6 +27,7 @@ import 'package:bookpal/domain/usecases/user/get_user_usecase.dart';
 import 'package:bookpal/domain/usecases/user/register_user_usecase.dart';
 import 'package:bookpal/domain/usecases/user/update_user_usecase.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
+import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
 import 'package:bookpal/presentation/barcode/bloc/barcode_bloc.dart';
 import 'package:bookpal/presentation/company/remote_bloc/remote_company_bloc.dart';
 import 'package:bookpal/presentation/loan/remote_bloc/remote_loan_bloc.dart';
@@ -126,6 +127,8 @@ Future<void> initializeDependencies() async {
   getIt.registerFactory<LoginBloc>(() => LoginBloc(getIt()));
 
   getIt.registerFactory<BucketBloc>(() => BucketBloc());
+
+  getIt.registerFactory<NavigationBloc>(() => NavigationBloc());
 
   getIt.registerSingleton<SessionManager>(SessionManager());
 

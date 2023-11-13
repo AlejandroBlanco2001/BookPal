@@ -35,4 +35,19 @@ class Utilities {
   static Future<String> getAuthorization() async {
     return "Bearer ${await getIt.get<SessionManager>().get("jwt")}";
   }
+
+  static String getFolder(String path) {
+    return path.split("/")[1];
+  }
+
+  static bool validateEmail(String email) {
+    return RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+  }
+
+  static Map<String, dynamic> unifyNames(Map<String, dynamic> decodedJwt) {
+    decodedJwt['name'] = '${decodedJwt['first_name']} ${decodedJwt['last_name']}';
+    decodedJwt.remove('first_name');
+    decodedJwt.remove('last_name');
+    return decodedJwt;
+  }
 }

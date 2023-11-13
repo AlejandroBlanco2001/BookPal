@@ -10,6 +10,7 @@ class SelectScanMethodButton extends StatelessWidget {
     return FloatingActionButton(
         onPressed: () => showPopover(
           context: context, 
+          direction: PopoverDirection.top,
           height: 100,
           backgroundColor: Colors.blue,
           bodyBuilder: (context) => const ScanMethodsMenu(),

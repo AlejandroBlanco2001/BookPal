@@ -91,26 +91,31 @@ class BookCard2 extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(right: 10),
                   child: (!isFavorite)
-                      ? TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'Renew',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 241, 92, 81),
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                      ? Padding(
+                        padding: const EdgeInsets.only(right: 10.0),
+                        child: TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              'Renew',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 241, 92, 81),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        )
-                      : IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.favorite,
-                            color: Colors.red,
+                      )
+                      : Padding(
+                        padding: const EdgeInsets.only(right: 10.0),
+                        child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.favorite,
+                              color: Colors.red,
+                            ),
                           ),
-                        ),
+                      ),
                 )
               ],
             ),

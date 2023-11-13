@@ -49,25 +49,25 @@ class ProfilePage extends StatelessWidget {
                           height: 100,
                           color: Colors.grey,
                           child: BlocBuilder<LoginBloc, LoginState>(
-                            builder: (context, state) {
-                              if (state is LoginSuccess) {
+                            builder: (context, loginState) {
+                              if (loginState is LoginSuccess) {
                                 context.read<BucketBloc>().add(GetDownloadUrl(
-                                    '$usersAvatarsPath${state.jwt!['decoded_jwt']['profile_image']}'));
+                                    '$usersAvatarsPath${loginState.jwt!['decoded_jwt']['profile_image']}'));
                               }
                               return BlocBuilder<BucketBloc, BucketState>(
-                                builder: (context, state) {
-                                  if (state is DownloadedUrl) {
+                                builder: (context, bucketState) {
+                                  if (bucketState is GotUserDownloadUrl) {
                                     return Image(
                                         image:
-                                            NetworkImage(state.downloadUrl!));
-                                  } else if (state is DownloadUrlError) {
+                                            NetworkImage(bucketState.downloadUrl!));
+                                  } else if (bucketState is DownloadUrlError) {
                                     logger.d(
-                                        "Error getting download Url. Message: ${state.error}\nStackTrace: ${state.error.stackTrace()}");
+                                        "Error getting download Url. Message: ${bucketState.error}\nStackTrace: ${bucketState.error.stackTrace()}");
                                     return const Icon(
                                       Icons.error,
                                       color: Colors.red,
                                     );
-                                  } else if (state is DownloadUrlLoading || state is BucketInitial) {
+                                  } else if (bucketState is DownloadUrlLoading || bucketState is BucketInitial) {
                                     switch (defaultTargetPlatform) {
                                       case TargetPlatform.android:
                                         return const Padding(

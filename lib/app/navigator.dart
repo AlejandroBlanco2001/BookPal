@@ -1,6 +1,7 @@
 import 'package:bookpal/app/pages/authentication/login_page.dart';
 import 'package:bookpal/app/pages/user_profile/user_profile.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
+import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:bookpal/app/pages/home/home_page.dart';
 import 'package:bookpal/app/pages/borrowed/borrowed_page.dart';
@@ -17,8 +18,6 @@ class MainNavigator extends StatefulWidget {
 }
 
 class _MainNavigatorState extends State<MainNavigator> {
-  int _currentIndex = 0;
-
   // ignore: prefer_final_fields
   List<Widget> _pages = [
     const BookPalHomePage(),
@@ -27,32 +26,32 @@ class _MainNavigatorState extends State<MainNavigator> {
     const LoginPage(),
   ];
 
-  void _onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(
-      builder: (context, state) {
-        if (state is LoginSuccess) {
-          _pages[3] = const ProfilePage();
-        } else if (state is LoginInitial || state is LoggingOut) {
-          _pages[3] = const LoginPage();
-        } 
-        return Scaffold(
-          body: IndexedStack(
-            index: _currentIndex,
-            children: _pages,
-          ),
-          bottomNavigationBar: MainNavigationBar(
-            currentIndex: _currentIndex,
-            onTabSelected: _onTabTapped,
-          ),
+    return BlocBuilder<NavigationBloc, NavigationState>(
+      builder: (context, navState) {
+        return BlocBuilder<LoginBloc, LoginState>(
+          builder: (context, loginState) {
+            if (loginState is LoginSuccess) {
+              _pages[3] = const ProfilePage();
+            } else if (loginState is LoginInitial || loginState is LoggingOut) {
+              _pages[3] = const LoginPage();
+            }
+            return Scaffold(
+              body: IndexedStack(
+                index: navState.index,
+                children: _pages,
+              ),
+              bottomNavigationBar: MainNavigationBar(
+                currentIndex: navState.index,
+                onTabSelected: _swapPage,
+              ),
+            );
+          },
         );
       },
     );
   }
+
+  _swapPage(int index) => context.read<NavigationBloc>().add(SwapPage(index));
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/injection_container.dart';
 import 'package:bookpal/core/resources/data_state.dart';
+import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/domain/repositories/authentication_repository.dart';
 import 'package:dio/dio.dart';
@@ -33,9 +34,7 @@ class AuthenticationRepositoryImplementation
             httpResponse.response.data['message'] ?? "No message");
       }
       var decodedJwt = JwtDecoder.decode(httpResponse.data['access_token']);
-      decodedJwt['name'] = '${decodedJwt['first_name']} ${decodedJwt['last_name']}';
-      decodedJwt.remove('first_name');
-      decodedJwt.remove('last_name');
+      decodedJwt = Utilities.unifyNames(decodedJwt);
       return DataSuccess(httpResponse.response.statusCode!, {
         'raw_jwt': httpResponse.data['access_token'],
         'decoded_jwt': decodedJwt
