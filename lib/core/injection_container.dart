@@ -32,6 +32,7 @@ import 'package:bookpal/presentation/company/remote_bloc/remote_company_bloc.dar
 import 'package:bookpal/presentation/loan/remote_bloc/remote_loan_bloc.dart';
 import 'package:bookpal/presentation/nfc/bloc/nfc_bloc.dart';
 import 'package:bookpal/presentation/physical_book/remote_bloc/remote_physical_book_bloc.dart';
+import 'package:bookpal/presentation/storage_bucket/bloc/bucket_bloc.dart';
 import 'package:bookpal/presentation/user/remote_bloc/remote_user_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -123,6 +124,8 @@ Future<void> initializeDependencies() async {
   getIt.registerSingleton<LoginUsecase>(LoginUsecase(getIt()));
 
   getIt.registerFactory<LoginBloc>(() => LoginBloc(getIt()));
+
+  getIt.registerFactory<BucketBloc>(() => BucketBloc());
 
   getIt.registerSingleton<SessionManager>(SessionManager());
 
