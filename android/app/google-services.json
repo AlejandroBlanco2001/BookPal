@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1034941619297",
+    "project_id": "bookpal-4f333",
+    "storage_bucket": "bookpal-4f333.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034941619297:android:a2e51ca055c2ae2f1ade20",
+        "android_client_info": {
+          "package_name": "com.example.bookpal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAL9vkuEQfLTzRxIkY4dfL3OASGT2vInz0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -32,9 +32,13 @@ class AuthenticationRepositoryImplementation
             ),
             httpResponse.response.data['message'] ?? "No message");
       }
+      var decodedJwt = JwtDecoder.decode(httpResponse.data['access_token']);
+      decodedJwt['name'] = '${decodedJwt['first_name']} ${decodedJwt['last_name']}';
+      decodedJwt.remove('first_name');
+      decodedJwt.remove('last_name');
       return DataSuccess(httpResponse.response.statusCode!, {
         'raw_jwt': httpResponse.data['access_token'],
-        'decoded_jwt': JwtDecoder.decode(httpResponse.data['access_token'])
+        'decoded_jwt': decodedJwt
       });
     } on DioException catch (e) {
       logger.d(e.response?.data);

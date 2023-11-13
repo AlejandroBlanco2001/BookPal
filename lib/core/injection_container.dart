@@ -34,6 +34,7 @@ import 'package:bookpal/presentation/nfc/bloc/nfc_bloc.dart';
 import 'package:bookpal/presentation/physical_book/remote_bloc/remote_physical_book_bloc.dart';
 import 'package:bookpal/presentation/user/remote_bloc/remote_user_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:get_it/get_it.dart';
@@ -43,6 +44,10 @@ final getIt = GetIt.instance;
 
 Future<void> initializeDependencies() async {
   getIt.registerSingleton<Logger>(Logger());
+
+  getIt.registerSingleton<FirebaseStorage>(FirebaseStorage.instance);
+
+  getIt.registerFactory<Reference>(() => getIt<FirebaseStorage>().ref());
 
   getIt.registerSingleton<Dio>(Dio());
 

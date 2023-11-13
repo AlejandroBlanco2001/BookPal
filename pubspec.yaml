@@ -58,6 +58,8 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   flutter_barcode_scanner: ^2.0.0
   nfc_manager: ^3.3.0
+  firebase_core: ^2.22.0
+  firebase_storage: ^11.5.0
 
 dev_dependencies:
   flutter_test:
