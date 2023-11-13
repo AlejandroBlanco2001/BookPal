@@ -1,34 +1,34 @@
 
 
-import 'package:bookpal/domain/entities/inventory.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:bookpal/core/util/utilities.dart';
+// import 'package:bookpal/domain/entities/inventory.dart';
+// import 'package:json_annotation/json_annotation.dart';
+// import 'package:bookpal/core/util/utilities.dart';
 
-part 'inventory_model.g.dart';
+// part 'inventory_model.g.dart';
 
-@JsonSerializable()
-class InventoryModel extends Inventory {
-  InventoryModel({
-    required int id,
-    required String physicalBookBarcode,
-    required DateTime creationDate,
-    required DateTime lastUpdate,
-    required int quantity,
-    int minimunQuantity = 0,
-    required int maximumQUantity,
-    int? reorderQuantity
-  }) : super(
-    id: id,
-    physicalBookBarcode: physicalBookBarcode,
-    creationDate: creationDate,
-    quantity: quantity,
-    minimunQuantity: minimunQuantity,
-    maximumQUantity: maximumQUantity,
-    reorderQuantity: reorderQuantity
-  );
+// @JsonSerializable()
+// class InventoryModel extends Inventory {
+//   InventoryModel({
+//     required int id,
+//     required String physicalBookBarcode,
+//     required DateTime creationDate,
+//     required DateTime lastUpdate,
+//     required int quantity,
+//     int minimunQuantity = 0,
+//     required int maximumQUantity,
+//     int? reorderQuantity
+//   }) : super(
+//     id: id,
+//     physicalBookBarcode: physicalBookBarcode,
+//     creationDate: creationDate,
+//     quantity: quantity,
+//     minimunQuantity: minimunQuantity,
+//     maximumQUantity: maximumQUantity,
+//     reorderQuantity: reorderQuantity
+//   );
 
-  factory InventoryModel.fromJson(Map<String, dynamic> json) => _$InventoryModelFromJson(json);
+//   factory InventoryModel.fromJson(Map<String, dynamic> json) => _$InventoryModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$InventoryModelToJson(this);
+//   Map<String, dynamic> toJson() => _$InventoryModelToJson(this);
   
-}
+// }
