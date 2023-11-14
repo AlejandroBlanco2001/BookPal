@@ -1,4 +1,4 @@
-import 'package:bookpal/app/widgets/home_page/book_cards.dart';
+import 'package:bookpal/app/widgets/items/book_cards.dart';
 import 'package:flutter/material.dart';
 
 class Favorites extends StatelessWidget {

@@ -1,25 +1,25 @@
 
 
-import 'package:bookpal/domain/entities/reference.dart';
-import 'package:json_annotation/json_annotation.dart';
+// import 'package:bookpal/domain/entities/reference.dart';
+// import 'package:json_annotation/json_annotation.dart';
 
-part 'reference_model.g.dart';
+// part 'reference_model.g.dart';
 
-@JsonSerializable()
-class ReferenceModel extends Reference {
+// @JsonSerializable()
+// class ReferenceModel extends Reference {
 
-  const ReferenceModel({
-    required int id,
-    required int numericalId,
-    required String referenceName,
-  }) : super(
-    id: id,
-    numericalId: numericalId,
-    referenceName: referenceName,
-  );
+//   const ReferenceModel({
+//     required int id,
+//     required int numericalId,
+//     required String referenceName,
+//   }) : super(
+//     id: id,
+//     numericalId: numericalId,
+//     referenceName: referenceName,
+//   );
 
-  factory ReferenceModel.fromJson(Map<String, dynamic> json) => _$ReferenceModelFromJson(json);
+//   factory ReferenceModel.fromJson(Map<String, dynamic> json) => _$ReferenceModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ReferenceModelToJson(this);
+//   Map<String, dynamic> toJson() => _$ReferenceModelToJson(this);
 
-}
+// }

@@ -1,9 +1,7 @@
-import 'package:bookpal/app/widgets/home_page/book_cards.dart';
 import 'package:bookpal/app/widgets/home_page/book_row.dart';
+import 'package:bookpal/app/widgets/items/book_cards.dart';
 import 'package:bookpal/app/widgets/scanning/select_scan_method_button.dart';
-import 'package:bookpal/presentation/loan/remote_bloc/remote_loan_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BookPalHomePage extends StatelessWidget {
   const BookPalHomePage({Key? key}) : super(key: key);
@@ -174,13 +172,13 @@ class BookPalHomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            IconButton(
-                onPressed: () {
-                  context
-                      .read<RemoteLoanBloc>()
-                      .add(CreateLoan("phone_token", "000000200000003"));
-                },
-                icon: Icon(Icons.add))
+            // IconButton(
+            //     onPressed: () {
+            //       context
+            //           .read<RemoteLoanBloc>()
+            //           .add(const CreateLoan("phone_token", "000000200000003"));
+            //     },
+            //     icon: const Icon(Icons.add))
           ],
         ),
       ),

@@ -1,3 +1,8 @@
+import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
+import 'package:bookpal/presentation/storage_bucket/bloc/bucket_bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 import 'package:bookpal/app/navigator.dart';
 import 'package:bookpal/core/injection_container.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
@@ -11,8 +16,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 Future<void> main() async {
-  await initializeDependencies();
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await initializeDependencies();
   runApp(const BookPal());
 }
 
@@ -30,7 +38,7 @@ class BookPal extends StatelessWidget {
           create: (context) => getIt(),
         ),
         BlocProvider<RemoteCompanyBloc>(
-          create: (context) => getIt(),
+          create: (context) => getIt()..add(const GetCompany(1)),
         ),
         BlocProvider<RemoteLoanBloc>(
           create: (context) => getIt(),
@@ -42,7 +50,14 @@ class BookPal extends StatelessWidget {
           create: (context) => getIt(),
         ),
         BlocProvider<LoginBloc>(
+          create: (context) =>
+              getIt()..add(InitLogin()),
+        ),
+        BlocProvider<BucketBloc>(
           create: (context) => getIt(),
+        ),
+        BlocProvider<NavigationBloc>(
+          create: (context) => getIt()..add(ToHomePage()),
         ),
       ],
       child: MaterialApp(

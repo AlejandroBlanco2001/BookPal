@@ -62,7 +62,9 @@ class BookCard2 extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: (!isFavorite)
+                          ? MainAxisAlignment.spaceAround
+                          : MainAxisAlignment.start,
                       children: [
                         Text(
                           title,
@@ -79,36 +81,43 @@ class BookCard2 extends StatelessWidget {
                             fontSize: 14,
                           ),
                         ),
-                        (!isFavorite) ? Text(
-                          timeLeft!,
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 14,
-                          ),
-                        ) : Container(),
+                        (!isFavorite)
+                            ? Text(
+                                timeLeft!,
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 14,
+                                ),
+                              )
+                            : Container(),
                       ],
                     ),
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(right: 10),
                   child: (!isFavorite)
-                      ? TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'Renew',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 241, 92, 81),
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                      ? Padding(
+                          padding: const EdgeInsets.only(right: 10.0),
+                          child: TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              'Renew',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 241, 92, 81),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         )
-                      : IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.favorite,
-                            color: Colors.red,
+                      : Padding(
+                          padding: const EdgeInsets.only(right: 10.0),
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.favorite,
+                              color: Colors.red,
+                            ),
                           ),
                         ),
                 )

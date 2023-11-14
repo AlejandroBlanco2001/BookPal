@@ -29,7 +29,11 @@ class CompanyRepositoryImplementation implements CompanyRepository {
       return responseVerifier.validateResponse(httpResponse);
       
     } on DioException catch (e) {
-      return DataFailed(e.response?.statusCode ?? 500, e, e.response?.data['message'] ?? "No message");
+      List<String>? messages = (e.response?.data['message'] is List)
+          ? List<String>.from(e.response?.data['message'].map((m) => m.toString()))
+          : [e.response?.data['message']];
+      return DataFailed(
+          e.response?.statusCode ?? 500, e, messages);
     }
   }
 
@@ -44,7 +48,11 @@ class CompanyRepositoryImplementation implements CompanyRepository {
       return responseVerifier.validateResponse(httpResponse);
       
     } on DioException catch (e) {
-      return DataFailed(e.response?.statusCode ?? 500, e, e.response?.data['message'] ?? "No message");
+      List<String>? messages = (e.response?.data['message'] is List)
+          ? List<String>.from(e.response?.data['message'].map((m) => m.toString()))
+          : [e.response?.data['message']];
+      return DataFailed(
+          e.response?.statusCode ?? 500, e, messages);
     }
   }
 

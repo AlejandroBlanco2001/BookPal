@@ -22,7 +22,7 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
   @override
   void initState() {
     super.initState();
-    context.read<LoginBloc>().add(const Login("florix@gmail.com", "B00rgir_9116"));
+    // context.read<LoginBloc>().add(const Login("florix@gmail.com", "B00rgir_9116"));
   }
 
   @override
