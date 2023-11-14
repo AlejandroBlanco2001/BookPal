@@ -16,13 +16,15 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
-        leading: const Icon(Icons.chevron_left, size: 32),
-        title: const Text(
-          'Your profile',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 36,
-            fontWeight: FontWeight.bold,
+        title: const Padding(
+          padding: EdgeInsets.only(left: 10.0),
+          child: Text(
+            'Your profile',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 36,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

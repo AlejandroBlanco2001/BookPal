@@ -25,7 +25,7 @@ abstract class PhysicalBook {
   final DateTime? publishDate;
   final String? language;
   @JsonKey(name: 'book_cover')
-  String? bookCover;
+  String bookCover;
   BookStatus status;
   final String? bibliographicGps;
 

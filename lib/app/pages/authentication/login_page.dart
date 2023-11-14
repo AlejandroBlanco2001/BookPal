@@ -91,6 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.name,
                     decoration: InputDecoration(
                       labelText: "Email",
+                      errorText: (state is LoginError) ? "Incorrect email or password" : null,
                       prefixIcon: const Icon(Icons.email_outlined),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -100,11 +101,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     onEditingComplete: () => _focusNodePassword.requestFocus(),
-                    validator: (String? value) {
-                      if (state.statusCode != null && state.statusCode == 401) {
-                        return "Incorrect email or password";
-                      }
-                      if (value == null || value.isEmpty) {
+                    validator: (value) {
+                      if (value == null || value.isEmpty) { 
                         return "Please introduce your email";
                       } else if (!Utilities.validateEmail(value)) {
                         return "Invalid email";
@@ -117,6 +115,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 10),
               BlocBuilder<LoginBloc, LoginState>(
                 builder: (context, state) {
+                  logger.d("State: $state");
                   return TextFormField(
                     controller: _controllerPassword,
                     focusNode: _focusNodePassword,
@@ -124,6 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
                       labelText: "Password",
+                      errorText: (state is LoginError) ? "Incorrect email or password" : null,
                       prefixIcon: const Icon(Icons.password_outlined),
                       suffixIcon: IconButton(
                           onPressed: () {
@@ -141,12 +141,6 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    validator: (String? value) {
-                      if (state.statusCode != null && state.statusCode == 401) {
-                        return "Incorrect email or password";
-                      }
-                      return null;
-                    },
                   );
                 },
               ),
@@ -162,17 +156,25 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        onPressed: () {
-                          if (_formKey.currentState?.validate() ?? false) {
-                            context.read<LoginBloc>().add(
-                                  Login(
-                                    _controllerEmail.text,
-                                    _controllerPassword.text,
-                                  ),
-                                );
-                            if (state is LoginSuccess) context.read<NavigationBloc>().add(ToHomePage());
-                          }
-                        },
+                        onPressed:
+                            (state is LoginInitial || state is LoginError)
+                                ? () {
+                                    if (_formKey.currentState?.validate() ??
+                                        false) {
+                                      context.read<LoginBloc>().add(
+                                            Login(
+                                              _controllerEmail.text,
+                                              _controllerPassword.text,
+                                            ),
+                                          );
+                                      if (state is LoginSuccess) {
+                                        context
+                                            .read<NavigationBloc>()
+                                            .add(ToHomePage());
+                                      }
+                                    }
+                                  }
+                                : null,
                         child: (state is LoginInitial || state is LoginError)
                             ? const Text("Log In")
                             : (state is LoginLoading)
