@@ -14,14 +14,16 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         toolbarHeight: 80,
-        title: const Padding(
-          padding: EdgeInsets.only(left: 10.0),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 10.0),
           child: Text(
             'Your profile',
             style: TextStyle(
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
               fontSize: 36,
               fontWeight: FontWeight.bold,
             ),
@@ -33,9 +35,12 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                border: Border(bottom: BorderSide(color: Colors.grey)),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                border: Border(
+                    bottom: BorderSide(
+                        color:
+                            Theme.of(context).colorScheme.onPrimaryContainer)),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
@@ -46,10 +51,9 @@ class ProfilePage extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius:
                             const BorderRadius.all(Radius.circular(15)),
-                        child: Container(
+                        child: SizedBox(
                           width: 100,
                           height: 100,
-                          color: Colors.grey,
                           child: BlocBuilder<LoginBloc, LoginState>(
                             builder: (context, loginState) {
                               return FutureBuilder(
@@ -103,17 +107,22 @@ class ProfilePage extends StatelessWidget {
                             children: [
                               Text(
                                 state.jwt!['decoded_jwt']['name'],
-                                style: const TextStyle(
-                                  color: Colors.black,
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                               Text(
                                 state.jwt!['decoded_jwt']['email'],
-                                style: const TextStyle(
-                                  color: Color.fromARGB(255, 73, 39, 176),
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .inversePrimary,
                                   fontSize: 16,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ],

@@ -52,7 +52,6 @@ class RemotePhysicalBookBloc
       final dataState =
           await _getPhysicalBooks(params: {'pageSize': event.pageSize});
       if (dataState is DataSuccess && dataState.data != null) {
-        logger.d('DataSuccess: $dataState');
         emit(RemotePhysicalBooksLoaded(
             dataState.statusCode, dataState.data! as List<PhysicalBookModel>));
       } else if (dataState is DataFailed) {

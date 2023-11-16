@@ -1,21 +1,32 @@
+import 'package:bookpal/core/constants/constants.dart';
+import 'package:bookpal/core/util/utilities.dart';
+import 'package:bookpal/data/models/physical_book_model.dart';
 import 'package:flutter/material.dart';
 
 class BookDescription extends StatelessWidget {
-  const BookDescription({super.key});
+  const BookDescription({super.key, required this.book});
+
+  final PhysicalBookModel book;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
         toolbarHeight: 80,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.chevron_left, size: 32),
+          icon: Icon(
+            Icons.chevron_left,
+            size: 32,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
         ),
         title: Text(
           'Book description',
           style: TextStyle(
-            color: Theme.of(context).colorScheme.onSecondaryContainer,
+            color: Theme.of(context).colorScheme.onPrimary,
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
@@ -29,18 +40,37 @@ class BookDescription extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Container(
-                    width: 140,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18),
-                      image: const DecorationImage(
-                        image: NetworkImage(
-                            'https://images-na.ssl-images-amazon.com/images/I/81eB+7+CkUL.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                  FutureBuilder(
+                      future: Utilities.getDownloadUrl(
+                          '$booksCoversPath${book.bookCover}'),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center();
+                        } else if (snapshot.hasError) {
+                          return Container(
+                              width: 140,
+                              height: 200,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(18),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer),
+                              child: const Icon(Icons.error_outline));
+                        }
+                        return Container(
+                          width: 140,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(18),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  snapshot.data!),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      }),
                   Expanded(
                     child: Container(
                       width: 200,

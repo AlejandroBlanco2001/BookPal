@@ -9,7 +9,7 @@ class SettingsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: const Color(0xffF5F5F5),
+      color: Colors.transparent,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 10),
         child: InkWell(
@@ -19,12 +19,12 @@ class SettingsCard extends StatelessWidget {
           ),
           splashColor: const Color.fromARGB(163, 158, 158, 158),
           child: Ink(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondary,
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
               boxShadow: [
                 BoxShadow(
-                    color: Colors.grey, blurRadius: 3.0, offset: Offset(2, 4)),
+                    color: Theme.of(context).colorScheme.inverseSurface.withOpacity(.3), blurRadius: 3.0, offset: Offset(2, 4)),
               ],
             ),
             child: Padding(

@@ -1,25 +1,75 @@
+import 'package:bookpal/app/pages/book_description/book_description_page.dart';
+import 'package:bookpal/core/constants/constants.dart';
+import 'package:bookpal/core/util/utilities.dart';
+import 'package:bookpal/data/models/physical_book_model.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class BookCard1 extends StatelessWidget {
-  final String imageUrl;
+  final PhysicalBookModel book;
 
-  const BookCard1(this.imageUrl, {Key? key}) : super(key: key);
+  const BookCard1(this.book, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: 80,
-        margin: const EdgeInsets.only(right: 10),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10), // Image border
-          child: SizedBox.fromSize(
-            size: const Size.fromRadius(24), // Image radius
-            child: Image.network(
-              imageUrl,
-              fit: BoxFit.cover,
+    return Padding(
+      padding: const EdgeInsets.only(right: 10.0),
+      child: Material(
+        borderRadius: BorderRadius.circular(10),
+        child: InkWell(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return BookDescription(book: book);
+            }));
+          },
+          splashFactory: InkSparkle.constantTurbulenceSeedSplashFactory,
+          child: Ink(
+            width: 80,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10), // Image border
+              child: SizedBox.fromSize(
+                size: const Size.fromRadius(24), // Image radius
+                child: FutureBuilder(
+                  future: Utilities.getDownloadUrl(
+                      '$booksCoversPath${book.bookCover}'),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Shimmer.fromColors(
+                        baseColor: Theme.of(context).colorScheme.primaryContainer,
+                        highlightColor: Colors.grey[100]!,
+                        child: Container(
+                          color: Colors.transparent,
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return const Center(
+                        child: Icon(Icons.error),
+                      );
+                    }
+                    return Image.network(
+                      snapshot.data!,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return Shimmer.fromColors(
+                          baseColor: Theme.of(context).colorScheme.primaryContainer,
+                          highlightColor: Colors.grey[100]!,
+                          child: Container(
+                            color: Colors.transparent,
+                          ),
+                        );
+                      },
+                      fit: BoxFit.cover,
+                    );
+                  },
+                ),
+              ),
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
 

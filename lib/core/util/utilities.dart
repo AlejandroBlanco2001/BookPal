@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/injection_container.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -62,7 +64,12 @@ class Utilities {
   }
 
   static Future<String> getDownloadUrl(String path) async {
+    try {
     return await getIt.get<Reference>().child(path).getDownloadURL();
+    } catch (e) {
+      logger.d("Resource not found in bucket: $path.\nError: ${e.toString()}");
+      return await getIt.get<Reference>().child("books/no_cover.jpg").getDownloadURL();
+    }
   }
 
   static Future<String> getProfileImageDownloadUrl() async {

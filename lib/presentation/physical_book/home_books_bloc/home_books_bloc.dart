@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/resources/data_state.dart';
 import 'package:bookpal/data/models/physical_book_model.dart';
-import 'package:bookpal/domain/usecases/physical_book/get_physical_book_usecase.dart';
+import 'package:bookpal/domain/usecases/physical_book/get_all_physical_books_usecase.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
@@ -13,7 +13,7 @@ part 'home_books_state.dart';
 
 class HomeBooksBloc extends Bloc<HomeBooksEvent, HomeBooksState> {
 
-  final GetPhysicalBookUsecase _getPhysicalBooks;
+  final GetAllPhysicalBooksUsecase _getPhysicalBooks;
 
   HomeBooksBloc(this._getPhysicalBooks) : super(HomeBooksInitial()) {
     on<FetchHomeBooks>(onFetchHomeBooks);
@@ -23,9 +23,8 @@ class HomeBooksBloc extends Bloc<HomeBooksEvent, HomeBooksState> {
     emit(HomeBooksLoading());
     try {
       final dataState =
-          await _getPhysicalBooks(params: {'pageSize': 10});
+          await _getPhysicalBooks(params: {'pageSize': 10, 'recents': true});
       if (dataState is DataSuccess && dataState.data != null) {
-        logger.d('DataSuccess: $dataState');
         emit(HomeBooksLoaded(
             dataState.statusCode, dataState.data! as List<PhysicalBookModel>));
       } else if (dataState is DataFailed) {
@@ -36,7 +35,7 @@ class HomeBooksBloc extends Bloc<HomeBooksEvent, HomeBooksState> {
       logger.d('DioE: ${e.toString()}');
       emit(HomeBooksError(e, e.response?.statusCode));
     } catch (e) {
-      logger.d('Generic: ${e.toString()}');
+      logger.d('Generic: ${e.toString()}. StackTrace: ${(e as Error).stackTrace.toString()}');
       emit(HomeBooksError.genericError(e));
     }
   }

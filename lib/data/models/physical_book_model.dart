@@ -42,7 +42,7 @@ class PhysicalBookModel extends PhysicalBook {
     publisher: publisher,
     publishDate: publishDate,
     language: language,
-    bookCover: '',
+    bookCover: bookCover,
     status: status,
     bibliographicGps: bibliographicGps,
   );

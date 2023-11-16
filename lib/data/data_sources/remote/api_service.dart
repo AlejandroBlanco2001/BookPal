@@ -195,6 +195,13 @@ abstract class ApiService {
     @Query('take') int? take = 10
   });
 
+  @GET("/physical-book/recent")
+  Future<HttpResponse<List<PhysicalBookModel>>> getRecents({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('Authorization') String? authorization,
+    @Query('take') int? take = 10
+  });
+
   // @GET('/references/{id}')
   // Future<HttpResponse<ReferenceModel>> getReference({
   //   @Header('Content-Type') String contentType = contentType,

@@ -1,6 +1,3 @@
-
-
-import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/data/util/response_verifier.dart';
@@ -40,7 +37,6 @@ class CompanyRepositoryImplementation implements CompanyRepository {
 
   @override
   Future<DataState<Company>> getCompanyStyle(int id) async {
-    logger.d("Entro a getCompanyStyle");
     try {
       final httpResponse = await _apiService.getCompanyStyle(
         id: id,
