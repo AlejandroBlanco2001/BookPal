@@ -106,7 +106,7 @@ class ProfilePage extends StatelessWidget {
                                 style: TextStyle(
                                   color: Theme.of(context)
                                       .colorScheme
-                                      .inversePrimary,
+                                      .onPrimaryContainer,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
                                 ),

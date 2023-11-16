@@ -29,6 +29,7 @@ class _MainNavigatorState extends State<MainNavigator> {
             return BlocBuilder<NavigationPagesBloc, NavigationPagesState>(
               builder: (context, navPagesState) {
                 return Scaffold(
+                  resizeToAvoidBottomInset: false,
                   floatingActionButton: const SelectScanMethodButton(),
                   floatingActionButtonLocation:
                       FloatingActionButtonLocation.centerDocked,
@@ -36,9 +37,12 @@ class _MainNavigatorState extends State<MainNavigator> {
                     index: navState.index,
                     children: navPagesState.pages,
                   ),
-                  bottomNavigationBar: MainNavigationBar(
-                    currentIndex: navState.index,
-                    onTabSelected: _swapPage,
+                  bottomNavigationBar: Visibility(
+                    visible: MediaQuery.of(context).viewInsets.bottom == 0,
+                    child: MainNavigationBar(
+                      currentIndex: navState.index,
+                      onTabSelected: _swapPage,
+                    ),
                   ),
                 );
               },

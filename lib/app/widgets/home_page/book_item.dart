@@ -1,5 +1,6 @@
 
 import 'package:bookpal/app/widgets/loading/basic_shimmer.dart';
+import 'package:bookpal/core/util/utilities.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -7,12 +8,14 @@ class BookItem extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String author;
+  final String status;
 
   const BookItem(
       {Key? key,
       required this.imageUrl,
       required this.title,
-      required this.author})
+      required this.author,
+      required this.status})
       : super(key: key);
 
   @override
@@ -62,9 +65,9 @@ class BookItem extends StatelessWidget {
                 height: 4,
               ),
               Text(
-                'Fiction',
+                Utilities.capitalize(status),
                 style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: (status == 'available') ? Colors.green : Colors.red,
                     fontSize: 12,
                     fontWeight: FontWeight.normal),
               ),

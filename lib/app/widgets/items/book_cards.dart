@@ -61,19 +61,12 @@ class BookCard1 extends StatelessWidget {
 }
 
 class BookCard2 extends StatelessWidget {
-  final String imageUrl;
-  final String title;
-  final String author;
+  final PhysicalBookModel book;
   final String? timeLeft;
-  final bool isFavorite;
+  final bool isBorrowed;
 
   const BookCard2(
-      {Key? key,
-      required this.imageUrl,
-      required this.title,
-      required this.author,
-      this.timeLeft,
-      required this.isFavorite})
+      {Key? key, required this.book, this.timeLeft, required this.isBorrowed})
       : super(key: key);
 
   @override
@@ -92,71 +85,77 @@ class BookCard2 extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  height: 110,
-                  padding: const EdgeInsets.only(left: 100),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: (!isFavorite)
-                          ? MainAxisAlignment.spaceAround
-                          : MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          title,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                Expanded(
+                  flex: 10,
+                  child: Container(
+                    height: 110,
+                    padding: const EdgeInsets.only(left: 100),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: (isBorrowed)
+                            ? MainAxisAlignment.spaceAround
+                            : MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            book.title,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Text(
-                          author,
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 14,
+                          Text(
+                            book.author,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                            ),
                           ),
-                        ),
-                        (!isFavorite)
-                            ? Text(
-                                timeLeft!,
-                                style: const TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14,
-                                ),
-                              )
-                            : Container(),
-                      ],
+                          (isBorrowed)
+                              ? Text(
+                                  timeLeft ?? '3 days',
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 14,
+                                  ),
+                                )
+                              : Container(),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-                Container(
-                  child: (!isFavorite)
-                      ? Padding(
-                          padding: const EdgeInsets.only(right: 10.0),
-                          child: TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Renew',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 241, 92, 81),
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    child: (isBorrowed)
+                        ? Padding(
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: TextButton(
+                              onPressed: () {},
+                              child: const Text(
+                                'Renew',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 241, 92, 81),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.favorite,
+                                color: Colors.red,
                               ),
                             ),
                           ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(right: 10.0),
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                            ),
-                          ),
-                        ),
+                  ),
                 )
               ],
             ),
@@ -171,7 +170,28 @@ class BookCard2 extends StatelessWidget {
                 borderRadius: BorderRadius.circular(18), // Image border
                 child: SizedBox.fromSize(
                   size: const Size.fromRadius(24), // Image radius
-                  child: ShimmerImage(url: imageUrl),
+                  child: FutureBuilder(
+                    future: Utilities.getDownloadUrl(
+                        '$booksCoversPath${book.bookCover}'),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return const Center(
+                          child: Icon(Icons.error),
+                        );
+                      } else if (snapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return Shimmer.fromColors(
+                          baseColor:
+                              Theme.of(context).colorScheme.primaryContainer,
+                          highlightColor: Colors.grey[100]!,
+                          child: Container(
+                            color: Colors.white,
+                          ),
+                        );
+                      }
+                      return ShimmerImage(url: snapshot.data!);
+                    },
+                  ),
                 ),
               ),
             ),

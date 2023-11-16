@@ -40,6 +40,7 @@ class BookRow extends StatelessWidget {
                   imageUrl: snapshot.data!,
                   title: book.title,
                   author: book.author,
+                  status: book.status.name,
                 );
               },
             ),

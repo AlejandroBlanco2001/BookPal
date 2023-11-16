@@ -6,6 +6,11 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class Utilities {
+
+  static String capitalize(String s) {
+    return s[0].toUpperCase() + s.substring(1);
+  }
+
   static String getIdentifierName(dynamic identifier) {
     if (identifier is String) {
       return 'email';

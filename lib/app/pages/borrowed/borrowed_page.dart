@@ -1,35 +1,16 @@
+import 'package:bookpal/app/widgets/home_page/retry_fecth.dart';
 import 'package:bookpal/app/widgets/items/book_cards.dart';
+import 'package:bookpal/app/widgets/loading/loading_popular.dart';
+import 'package:bookpal/data/models/physical_book_model.dart';
+import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Borrowed extends StatelessWidget {
   const Borrowed({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const borrowedBooks = [
-      {
-        'imageUrl':
-            'https://editorial.unach.mx/documentos/productos/portadacalculoo.jpg',
-        'title': 'Calculus 1',
-        'author': 'By Nirat Bhatnagar',
-        'timeLeft': '3 days left'
-      },
-      {
-        'imageUrl':
-            'https://marketplace.canva.com/EAE8OIM9H7k/1/0/1003w/canva-verde-y-rosa-ciencia-ficci%C3%B3n-portada-de-libro-q9fLuVysMAw.jpg',
-        'title': 'Thinking about',
-        'author': 'By Nirat Bhatnagar',
-        'timeLeft': '8 days left'
-      },
-      {
-        'imageUrl':
-            'https://4.bp.blogspot.com/-9ncqKnRtndE/UDJWrHJxnbI/AAAAAAAABFk/cC3QEzxzM-U/s1600/schulz_and_peanuts.large.jpg',
-        'title': 'Calculus 1',
-        'author': 'By Nirat Bhatnagar',
-        'timeLeft': '3 days left'
-      }
-    ];
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       body: SingleChildScrollView(
@@ -49,11 +30,23 @@ class Borrowed extends StatelessWidget {
                 ),
               ),
             ),
-            ListView(
-              shrinkWrap: true,
-              physics: const ScrollPhysics(),
-              children:
-                  _buildRecentlyBorrowedBooks(borrowedBooks).take(3).toList(),
+            BlocBuilder<HomeBooksBloc, HomeBooksState>(
+              builder: (context, state) {
+                if (state is HomeBooksLoading || state is HomeBooksInitial) {
+                  return const PopularBooksShimmer();
+                } else if (state is HomeBooksError) {
+                  return RetryFetch(
+                      fetchMethod: () =>
+                          context.read<HomeBooksBloc>().add(FetchHomeBooks()));
+                }
+                return ListView(
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
+                  children: _buildRecentlyBorrowedBooks(state.allBooks)
+                      .take(3)
+                      .toList(),
+                );
+              },
             ),
           ],
         ),
@@ -62,15 +55,12 @@ class Borrowed extends StatelessWidget {
   }
 }
 
-List<Widget> _buildRecentlyBorrowedBooks(List<Map<String, String>> books) {
+List<Widget> _buildRecentlyBorrowedBooks(List<PhysicalBookModel> books) {
   List<Widget> booksList = [];
   for (var book in books) {
     booksList.add(BookCard2(
-      imageUrl: book['imageUrl']!,
-      title: book['title']!,
-      author: book['author']!,
-      timeLeft: book['timeLeft']!,
-      isFavorite: false,
+      book: book,
+      isBorrowed: true,
     ));
   }
   return booksList;
