@@ -1,6 +1,7 @@
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
+import 'package:bookpal/presentation/navigation/bloc/navigation_pages_bloc.dart';
 import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
 import 'package:bookpal/presentation/theme/bloc/theme_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -43,8 +44,8 @@ class BookPal extends StatelessWidget {
         BlocProvider<RemotePhysicalBookBloc>(
           create: (context) => getIt(),
         ),
-        BlocProvider<HomeBooksBloc>(create: 
-          (context) => getIt()..add(FetchHomeBooks()),
+        BlocProvider<HomeBooksBloc>(
+          create: (context) => getIt()..add(FetchHomeBooks()),
         ),
         BlocProvider<RemoteCompanyBloc>(
           create: (context) => getIt()..add(InitCompany()),
@@ -65,6 +66,9 @@ class BookPal extends StatelessWidget {
           create: (context) => getIt()..add(ToHomePage()),
         ),
         BlocProvider<ThemeBloc>(
+          create: (context) => getIt(),
+        ),
+        BlocProvider<NavigationPagesBloc>(
           create: (context) => getIt(),
         ),
       ],

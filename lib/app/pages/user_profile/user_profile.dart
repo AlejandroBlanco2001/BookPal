@@ -1,10 +1,10 @@
+import 'package:bookpal/app/widgets/loading/basic_shimmer.dart';
 import 'package:bookpal/app/widgets/profile_page/logout_button.dart';
 import 'package:bookpal/app/widgets/profile_page/settings_card.dart';
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -62,34 +62,20 @@ class ProfilePage extends StatelessWidget {
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState ==
                                       ConnectionState.waiting) {
-                                    switch (defaultTargetPlatform) {
-                                      case TargetPlatform.android:
-                                        return const Padding(
-                                          padding: EdgeInsets.all(20.0),
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      case TargetPlatform.iOS:
-                                        return const Padding(
-                                          padding: EdgeInsets.all(20.0),
-                                          child: CupertinoActivityIndicator(),
-                                        );
-                                      default:
-                                        return const Padding(
-                                          padding: EdgeInsets.all(20.0),
-                                          child: CircularProgressIndicator(),
-                                        );
-                                    }
+                                    return const ThemeShimmer();
                                   } else if (snapshot.hasError) {
                                     logger.d(
                                         "Error getting download Url. Message: ${snapshot.error}\nStackTrace: ${snapshot.stackTrace}");
-                                    return Icon(
-                                      Icons.error,
-                                      color:
-                                          Theme.of(context).colorScheme.error,
+                                    return Center(
+                                      child: Icon(
+                                        Icons.error,
+                                        color:
+                                            Theme.of(context).colorScheme.error,
+                                      ),
                                     );
                                   } else {
-                                    return Image(
-                                        image: NetworkImage(snapshot.data!));
+                                    return CachedNetworkImage(
+                                        imageUrl: snapshot.data!);
                                   }
                                 },
                               );

@@ -1,6 +1,5 @@
-import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
-import 'package:bookpal/presentation/loan/remote_bloc/remote_loan_bloc.dart';
+import 'package:bookpal/presentation/navigation/bloc/navigation_pages_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,50 +26,43 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RemoteLoanBloc, RemoteLoanState>(
+    return BlocBuilder<NavigationPagesBloc, NavigationPagesState>(
       builder: (context, state) {
-        if (state is RemoteLoanLoading) {
-          logger.i("Loading...");
-        } else if (state is RemoteLoanCreated) {
-          logger.i("Loans by user ${53}: ${state.loan}");
-        } else if (state is RemoteLoanError) {
-          logger.e(
-              "Error code: ${state.statusCode}, error message: ${state.message}");
-        }
         return NavigationBar(
           selectedIndex: widget.currentIndex,
           onDestinationSelected: widget.onTabSelected,
-          destinations: [
-            const NavigationDestination(
-              icon: Icon(Icons.home_outlined),
-              label: 'Home',
-            ),
-            const NavigationDestination(
-              icon: Icon(Icons.book_outlined),
-              label: 'Borrowed',
-            ),
-            const NavigationDestination(
-              icon: Icon(Icons.favorite_border_outlined),
-              label: 'Favorites',
-            ),
-            BlocBuilder<LoginBloc, LoginState>(
-              builder: (context, state) {
-                if (state is LoginSuccess) {
-                  return const NavigationDestination(
-                    icon: Icon(Icons.person_outlined),
-                    label: 'Profile',
-                  );
-                } else {
-                  return const NavigationDestination(
-                    icon: Icon(Icons.login_outlined),
-                    label: 'Login',
-                  );
-                }
-              }, 
-            ),
-          ],
+          destinations: state.navBar,
         );
       },
     );
+  }
+
+  _createDestinationsList(LoginState state) {
+    List<NavigationDestination> destinations = [
+      const NavigationDestination(
+        icon: Icon(Icons.home_outlined),
+        label: 'Home',
+      )
+    ];
+    if (state is LoginSuccess) {
+      destinations.add(const NavigationDestination(
+        icon: Icon(Icons.book_outlined),
+        label: 'Borrowed',
+      ));
+      destinations.add(const NavigationDestination(
+        icon: Icon(Icons.favorite_border_outlined),
+        label: 'Favorites',
+      ));
+      destinations.add(const NavigationDestination(
+        icon: Icon(Icons.person_outlined),
+        label: 'Profile',
+      ));
+    } else {
+      destinations.add(const NavigationDestination(
+        icon: Icon(Icons.login_outlined),
+        label: 'Login',
+      ));
+    }
+    return destinations;
   }
 }

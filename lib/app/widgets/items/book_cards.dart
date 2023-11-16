@@ -1,4 +1,5 @@
 import 'package:bookpal/app/pages/book_description/book_description_page.dart';
+import 'package:bookpal/app/widgets/loading/shimmer_image.dart';
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/data/models/physical_book_model.dart';
@@ -35,10 +36,11 @@ class BookCard1 extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Shimmer.fromColors(
-                        baseColor: Theme.of(context).colorScheme.primaryContainer,
+                        baseColor:
+                            Theme.of(context).colorScheme.primaryContainer,
                         highlightColor: Colors.grey[100]!,
                         child: Container(
-                          color: Colors.transparent,
+                          color: Colors.white,
                         ),
                       );
                     } else if (snapshot.hasError) {
@@ -46,22 +48,7 @@ class BookCard1 extends StatelessWidget {
                         child: Icon(Icons.error),
                       );
                     }
-                    return Image.network(
-                      snapshot.data!,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        }
-                        return Shimmer.fromColors(
-                          baseColor: Theme.of(context).colorScheme.primaryContainer,
-                          highlightColor: Colors.grey[100]!,
-                          child: Container(
-                            color: Colors.transparent,
-                          ),
-                        );
-                      },
-                      fit: BoxFit.cover,
-                    );
+                    return ShimmerImage(url: snapshot.data!);
                   },
                 ),
               ),
@@ -178,18 +165,16 @@ class BookCard2 extends StatelessWidget {
             top: -15,
             left: 15,
             child: SizedBox(
-                height: 110,
-                width: 70,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(18), // Image border
-                  child: SizedBox.fromSize(
-                    size: const Size.fromRadius(24), // Image radius
-                    child: Image.network(
-                      imageUrl,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                )),
+              height: 110,
+              width: 70,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(18), // Image border
+                child: SizedBox.fromSize(
+                  size: const Size.fromRadius(24), // Image radius
+                  child: ShimmerImage(url: imageUrl),
+                ),
+              ),
+            ),
           ),
         ],
       ),

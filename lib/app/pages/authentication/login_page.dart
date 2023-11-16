@@ -4,6 +4,8 @@ import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
 import 'package:bookpal/presentation/company/remote_bloc/remote_company_bloc.dart';
 import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
+import 'package:bookpal/presentation/navigation/bloc/navigation_pages_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -45,9 +47,11 @@ class _LoginPageState extends State<LoginPage> {
                   child: BlocBuilder<RemoteCompanyBloc, RemoteCompanyState>(
                     builder: (context, companyState) {
                       return FutureBuilder(
-                        future: Utilities.getDownloadUrl('$companiesLogosPath${companyState.company!.logo}'),
+                        future: Utilities.getDownloadUrl(
+                            '$companiesLogosPath${companyState.company!.logo}'),
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
                             switch (defaultTargetPlatform) {
                               case TargetPlatform.android:
                                 return const CircularProgressIndicator();
@@ -59,9 +63,20 @@ class _LoginPageState extends State<LoginPage> {
                           } else if (snapshot.hasError) {
                             return const Icon(Icons.error_outline);
                           } else {
-                            return Image.network(
-                              snapshot.data!,
+                            return CachedNetworkImage(
+                              imageUrl: snapshot.data!,
                               fit: BoxFit.fitHeight,
+                              progressIndicatorBuilder: (context, url, progress) {
+                                return Center(
+                                  child: SizedBox(
+                                    height: 50,
+                                    width: 50,
+                                    child: CircularProgressIndicator(
+                                      value: progress.progress,
+                                    ),
+                                  ),
+                                );
+                              },
                             );
                           }
                         },
@@ -87,7 +102,9 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.name,
                     decoration: InputDecoration(
                       labelText: "Email",
-                      errorText: (state is LoginError) ? "Incorrect email or password" : null,
+                      errorText: (state is LoginError)
+                          ? "Incorrect email or password"
+                          : null,
                       prefixIcon: const Icon(Icons.email_outlined),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -98,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onEditingComplete: () => _focusNodePassword.requestFocus(),
                     validator: (value) {
-                      if (value == null || value.isEmpty) { 
+                      if (value == null || value.isEmpty) {
                         return "Please introduce your email";
                       } else if (!Utilities.validateEmail(value)) {
                         return "Invalid email";
@@ -118,7 +135,9 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
                       labelText: "Password",
-                      errorText: (state is LoginError) ? "Incorrect email or password" : null,
+                      errorText: (state is LoginError)
+                          ? "Incorrect email or password"
+                          : null,
                       prefixIcon: const Icon(Icons.password_outlined),
                       suffixIcon: IconButton(
                           onPressed: () {
@@ -166,6 +185,8 @@ class _LoginPageState extends State<LoginPage> {
                                         context
                                             .read<NavigationBloc>()
                                             .add(ToHomePage());
+                                          context.read<NavigationPagesBloc>().add(const LoggedIn());
+
                                       }
                                     }
                                   }

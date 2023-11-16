@@ -32,6 +32,7 @@ import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
 import 'package:bookpal/presentation/barcode/bloc/barcode_bloc.dart';
 import 'package:bookpal/presentation/company/remote_bloc/remote_company_bloc.dart';
 import 'package:bookpal/presentation/loan/remote_bloc/remote_loan_bloc.dart';
+import 'package:bookpal/presentation/navigation/bloc/navigation_pages_bloc.dart';
 import 'package:bookpal/presentation/nfc/bloc/nfc_bloc.dart';
 import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
 import 'package:bookpal/presentation/physical_book/remote_bloc/remote_physical_book_bloc.dart';
@@ -135,6 +136,8 @@ Future<void> initializeDependencies() async {
   getIt.registerFactory<NavigationBloc>(() => NavigationBloc());
 
   getIt.registerFactory<ThemeBloc>(() => ThemeBloc());
+
+  getIt.registerFactory<NavigationPagesBloc>(() => NavigationPagesBloc());
 
   getIt.registerSingleton<SessionManager>(SessionManager());
 

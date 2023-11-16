@@ -1,4 +1,6 @@
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
+import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
+import 'package:bookpal/presentation/navigation/bloc/navigation_pages_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,7 +12,11 @@ class LogoutButton extends StatelessWidget {
     return Material(
       color: const Color(0xffF5F5F5),
       child: InkWell(
-        onTap: () => context.read<LoginBloc>().add(Logout()),
+        onTap: () {
+          context.read<NavigationBloc>().add(ToHomePage());
+          context.read<LoginBloc>().add(Logout());
+          context.read<NavigationPagesBloc>().add(const NotLoggedIn());
+        },
         child: FittedBox(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),

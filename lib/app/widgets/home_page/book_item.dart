@@ -1,4 +1,6 @@
 
+import 'package:bookpal/app/widgets/loading/basic_shimmer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class BookItem extends StatelessWidget {
@@ -17,9 +19,19 @@ class BookItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        CircleAvatar(
-          backgroundImage: NetworkImage(imageUrl),
-          radius: 37,
+        CachedNetworkImage(
+          imageUrl: imageUrl,
+          placeholder: (context, url) => const ClipOval(
+            child: SizedBox(
+              width: 74,
+              height: 74,
+              child: ThemeShimmer(),
+            ),
+          ),
+          imageBuilder: (context, imageProvider) => CircleAvatar(
+            backgroundImage: imageProvider,
+            radius: 37,
+          ),
         ),
         const SizedBox(
           width: 16,

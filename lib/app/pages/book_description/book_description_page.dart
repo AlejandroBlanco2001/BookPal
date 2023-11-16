@@ -1,3 +1,5 @@
+import 'package:bookpal/app/widgets/loading/basic_shimmer.dart';
+import 'package:bookpal/app/widgets/loading/shimmer_image.dart';
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/data/models/physical_book_model.dart';
@@ -41,36 +43,17 @@ class BookDescription extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   FutureBuilder(
-                      future: Utilities.getDownloadUrl(
-                          '$booksCoversPath${book.bookCover}'),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center();
-                        } else if (snapshot.hasError) {
-                          return Container(
-                              width: 140,
-                              height: 200,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(18),
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer),
-                              child: const Icon(Icons.error_outline));
-                        }
-                        return Container(
-                          width: 140,
-                          height: 200,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(18),
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  snapshot.data!),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        );
-                      }),
+                    future: Utilities.getDownloadUrl(
+                        '$booksCoversPath${book.bookCover}'),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return _buildBookCover(const ThemeShimmer());
+                      } else if (snapshot.hasError) {
+                        return _buildBookCover(const Icon(Icons.error_outline));
+                      }
+                      return _buildBookCover(ShimmerImage(url: snapshot.data!));
+                    },
+                  ),
                   Expanded(
                     child: Container(
                       width: 200,
@@ -184,6 +167,17 @@ class BookDescription extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  _buildBookCover(Widget child) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(18),
+      child: SizedBox(
+        width: 140,
+        height: 200,
+        child: child,
       ),
     );
   }
