@@ -5,7 +5,7 @@ import 'package:nfc_manager/nfc_manager.dart';
 class ReadNfcUsecase extends Usecase<NdefMessage> {
   @override
   Future<NdefMessage> call({void params}) async {
-    NdefMessage message = await NfcAdapter().readNdefMessage() ?? const NdefMessage([]);
-    return message;
+    NdefMessage? message = await NfcAdapter().readNdefMessage();
+    return message  ?? const NdefMessage([]);
   }
 }

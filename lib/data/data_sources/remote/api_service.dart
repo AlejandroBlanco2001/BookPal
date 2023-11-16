@@ -71,6 +71,13 @@ abstract class ApiService {
   //   @Header('Authorization') String? authorization,
   // });
 
+  @GET('/company/style/{id}')
+  Future<HttpResponse<CompanyModel>> getCompanyStyle({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('Authorization') String? authorization,
+    @Path() required int id
+  });
+
   @GET('/company/{id}')
   Future<HttpResponse<CompanyModel>> getCompany({
     @Header('Content-Type') String contentType = contentType,

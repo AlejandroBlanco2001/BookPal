@@ -1,8 +1,8 @@
 import 'package:bookpal/app/widgets/profile_page/logout_button.dart';
 import 'package:bookpal/app/widgets/profile_page/settings_card.dart';
 import 'package:bookpal/core/constants/constants.dart';
+import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
-import 'package:bookpal/presentation/storage_bucket/bloc/bucket_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -52,24 +52,12 @@ class ProfilePage extends StatelessWidget {
                           color: Colors.grey,
                           child: BlocBuilder<LoginBloc, LoginState>(
                             builder: (context, loginState) {
-                              if (loginState is LoginSuccess) {
-                                context.read<BucketBloc>().add(GetDownloadUrl(
-                                    '$usersAvatarsPath${loginState.jwt!['decoded_jwt']['profile_image']}'));
-                              }
-                              return BlocBuilder<BucketBloc, BucketState>(
-                                builder: (context, bucketState) {
-                                  if (bucketState is GotUserDownloadUrl) {
-                                    return Image(
-                                        image:
-                                            NetworkImage(bucketState.downloadUrl!));
-                                  } else if (bucketState is DownloadUrlError) {
-                                    logger.d(
-                                        "Error getting download Url. Message: ${bucketState.error}\nStackTrace: ${bucketState.error.stackTrace()}");
-                                    return const Icon(
-                                      Icons.error,
-                                      color: Colors.red,
-                                    );
-                                  } else if (bucketState is DownloadUrlLoading || bucketState is BucketInitial) {
+                              return FutureBuilder(
+                                future: Utilities.getDownloadUrl(
+                                    '$usersAvatarsPath${loginState.jwt!['decoded_jwt']['profile_image']}'),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
                                     switch (defaultTargetPlatform) {
                                       case TargetPlatform.android:
                                         return const Padding(
@@ -87,11 +75,17 @@ class ProfilePage extends StatelessWidget {
                                           child: CircularProgressIndicator(),
                                         );
                                     }
-                                  } else {
-                                    return const Icon(
+                                  } else if (snapshot.hasError) {
+                                    logger.d(
+                                        "Error getting download Url. Message: ${snapshot.error}\nStackTrace: ${snapshot.stackTrace}");
+                                    return Icon(
                                       Icons.error,
-                                      color: Colors.red,
+                                      color:
+                                          Theme.of(context).colorScheme.error,
                                     );
+                                  } else {
+                                    return Image(
+                                        image: NetworkImage(snapshot.data!));
                                   }
                                 },
                               );

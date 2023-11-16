@@ -17,6 +17,7 @@ class BookRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Theme.of(context).colorScheme.primary,
       child: InkWell(
         onTap: () {
           Navigator.push(

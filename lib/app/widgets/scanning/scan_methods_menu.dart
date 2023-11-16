@@ -1,3 +1,4 @@
+import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/presentation/barcode/bloc/barcode_bloc.dart';
 import 'package:bookpal/presentation/nfc/bloc/nfc_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,6 +45,7 @@ class ScanMethodsMenu extends StatelessWidget {
             color: Colors.blueAccent,
             child: TextButton(
               onPressed: () {
+                logger.d("Scan nfc tag");
                 // Navigator.pop(context);
                 context.read<NfcBloc>().add(ScanNfc());
               },

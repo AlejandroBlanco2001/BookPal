@@ -5,8 +5,8 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 abstract class Company extends Equatable {
-  final int id;
-  final String name;
+  final int? id;
+  final String? name;
   @JsonKey(name: 'book_scan_methods')
   final List<BookScanMethod> bookScanMethods;
   final String? logo;

@@ -4,7 +4,6 @@ import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
 import 'package:bookpal/presentation/company/remote_bloc/remote_company_bloc.dart';
 import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
-import 'package:bookpal/presentation/storage_bucket/bloc/bucket_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -45,18 +44,10 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: BlocBuilder<RemoteCompanyBloc, RemoteCompanyState>(
                     builder: (context, companyState) {
-                      if (companyState is RemoteCompanyLoaded) {
-                        context.read<BucketBloc>().add(GetDownloadUrl(
-                            '$companiesLogosPath${companyState.company!.logo}'));
-                      }
-                      return BlocBuilder<BucketBloc, BucketState>(
-                        builder: (context, bucketState) {
-                          if (bucketState is GotCompanyDownloadUrl) {
-                            return Image.network(
-                              bucketState.downloadUrl!,
-                              fit: BoxFit.fitHeight,
-                            );
-                          } else if (bucketState is DownloadUrlLoading) {
+                      return FutureBuilder(
+                        future: Utilities.getDownloadUrl('$companiesLogosPath${companyState.company!.logo}'),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
                             switch (defaultTargetPlatform) {
                               case TargetPlatform.android:
                                 return const CircularProgressIndicator();
@@ -65,8 +56,13 @@ class _LoginPageState extends State<LoginPage> {
                               default:
                                 return const CircularProgressIndicator();
                             }
-                          } else {
+                          } else if (snapshot.hasError) {
                             return const Icon(Icons.error_outline);
+                          } else {
+                            return Image.network(
+                              snapshot.data!,
+                              fit: BoxFit.fitHeight,
+                            );
                           }
                         },
                       );
@@ -115,7 +111,6 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 10),
               BlocBuilder<LoginBloc, LoginState>(
                 builder: (context, state) {
-                  logger.d("State: $state");
                   return TextFormField(
                     controller: _controllerPassword,
                     focusNode: _focusNodePassword,

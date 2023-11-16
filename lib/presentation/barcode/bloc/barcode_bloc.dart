@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/domain/usecases/scanning/scan_barcode_usecase.dart';
 import 'package:equatable/equatable.dart';
 
@@ -19,6 +20,7 @@ class BarcodeBloc extends Bloc<BarcodeEvent, BarcodeState> {
     emit(ScanningBarcode());
     try {
       final barcodeScanRes = await _scanBarcode();
+      logger.d("Barcode scan result: $barcodeScanRes");
       if (barcodeScanRes.isEmpty) {
         throw Exception('Empty response from barcode scanner');
       }

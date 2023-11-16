@@ -19,18 +19,19 @@ class BookItem extends StatelessWidget {
       children: <Widget>[
         CircleAvatar(
           backgroundImage: NetworkImage(imageUrl),
-          radius: 35,
+          radius: 37,
         ),
         const SizedBox(
           width: 16,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
               title,
-              style: const TextStyle(
-                  color: Colors.grey,
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
                   fontSize: 16,
                   fontWeight: FontWeight.bold),
             ),
@@ -39,20 +40,20 @@ class BookItem extends StatelessWidget {
             ),
             Text(
               author,
-              style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.normal),
             ),
             const SizedBox(
               height: 4,
             ),
-            const Text(
+            Text(
               'Fiction',
               style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold),
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.normal),
             ),
           ],
         )

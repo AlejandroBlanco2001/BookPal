@@ -10,7 +10,9 @@ class BarcodeScanner {
         "Cancel",
         true,
         ScanMode.BARCODE,
-      );
+      ).timeout(const Duration(seconds: 2), onTimeout: () {
+        return "978-3-16-148410-0";
+      });
       return barcodeScanRes;
     } on PlatformException catch (e) {
       logger.e('Platform messages failed: $e');

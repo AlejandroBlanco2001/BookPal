@@ -12,10 +12,10 @@ class BookDescription extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.chevron_left, size: 32),
         ),
-        title: const Text(
+        title: Text(
           'Book description',
           style: TextStyle(
-            color: Colors.black,
+            color: Theme.of(context).colorScheme.onSecondaryContainer,
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),

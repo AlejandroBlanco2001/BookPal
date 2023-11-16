@@ -1,6 +1,11 @@
+import 'package:bookpal/core/constants/constants.dart';
+import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
-import 'package:bookpal/presentation/storage_bucket/bloc/bucket_bloc.dart';
+import 'package:bookpal/presentation/theme/bloc/theme_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'firebase_options.dart';
 
 import 'package:bookpal/app/navigator.dart';
@@ -38,7 +43,7 @@ class BookPal extends StatelessWidget {
           create: (context) => getIt(),
         ),
         BlocProvider<RemoteCompanyBloc>(
-          create: (context) => getIt()..add(const GetCompany(1)),
+          create: (context) => getIt()..add(InitCompany()),
         ),
         BlocProvider<RemoteLoanBloc>(
           create: (context) => getIt(),
@@ -50,24 +55,62 @@ class BookPal extends StatelessWidget {
           create: (context) => getIt(),
         ),
         BlocProvider<LoginBloc>(
-          create: (context) =>
-              getIt()..add(InitLogin()),
-        ),
-        BlocProvider<BucketBloc>(
-          create: (context) => getIt(),
+          create: (context) => getIt()..add(InitLogin()),
         ),
         BlocProvider<NavigationBloc>(
           create: (context) => getIt()..add(ToHomePage()),
         ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'BookPal',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+        BlocProvider<ThemeBloc>(
+          create: (context) => getIt(),
         ),
-        home: const MainNavigator(),
+      ],
+      child: BlocBuilder<RemoteCompanyBloc, RemoteCompanyState>(
+        builder: (context, state) {
+          if (state is RemoteCompanyLoading ||
+              state is RemoteCompanyError ||
+              state is RemoteCompanyInitial) {
+            if (state is RemoteCompanyError) {
+              logger.d("Retrying init company");
+              context.read<RemoteCompanyBloc>().add(InitCompany());
+            }
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: Scaffold(
+                body: Center(
+                  child: (defaultTargetPlatform == TargetPlatform.iOS)
+                      ? const CupertinoActivityIndicator()
+                      : const CircularProgressIndicator(),
+                ),
+              ),
+            );
+          }
+          logger.d(
+              "Colors: ${state.company!.primaryColor}, ${state.company!.secondaryColor}");
+          return FutureBuilder(
+            future: Utilities.getDownloadUrl(
+                '$companiesLogosPath${state.company!.logo}'),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                context
+                    .read<ThemeBloc>()
+                    .add(CreateThemeFromLogo(snapshot.data!));
+              }
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'BookPal',
+                theme: ThemeData(
+                  colorScheme: ColorScheme.fromSeed(
+                    seedColor: HexColor(state.company!.primaryColor!),
+                    primary: HexColor(state.company!.primaryColor!),
+                    secondary: HexColor(state.company!.secondaryColor!),
+                  ),
+                  useMaterial3: true,
+                ),
+                home: const MainNavigator(),
+              );
+            },
+          );
+        },
       ),
     );
   }

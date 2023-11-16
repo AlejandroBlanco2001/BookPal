@@ -14,6 +14,7 @@ import 'package:bookpal/domain/repositories/user_repository.dart';
 import 'package:bookpal/domain/usecases/authentication/login_usecase.dart';
 import 'package:bookpal/domain/usecases/company/get_companies_usecase.dart';
 import 'package:bookpal/domain/usecases/company/get_company_usecase.dart';
+import 'package:bookpal/domain/usecases/company/init_company_usecase.dart';
 import 'package:bookpal/domain/usecases/company/update_company_usecase.dart';
 import 'package:bookpal/domain/usecases/loan/create_loan_usecase.dart';
 import 'package:bookpal/domain/usecases/loan/get_loan_usecase.dart';
@@ -33,7 +34,7 @@ import 'package:bookpal/presentation/company/remote_bloc/remote_company_bloc.dar
 import 'package:bookpal/presentation/loan/remote_bloc/remote_loan_bloc.dart';
 import 'package:bookpal/presentation/nfc/bloc/nfc_bloc.dart';
 import 'package:bookpal/presentation/physical_book/remote_bloc/remote_physical_book_bloc.dart';
-import 'package:bookpal/presentation/storage_bucket/bloc/bucket_bloc.dart';
+import 'package:bookpal/presentation/theme/bloc/theme_bloc.dart';
 import 'package:bookpal/presentation/user/remote_bloc/remote_user_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -72,12 +73,14 @@ Future<void> initializeDependencies() async {
 
   getIt.registerSingleton<GetCompanyUsecase>(GetCompanyUsecase(getIt()));
 
+  getIt.registerSingleton<InitCompanyUsecase>(InitCompanyUsecase(getIt()));
+
   getIt.registerSingleton<GetCompaniesUsecase>(GetCompaniesUsecase(getIt()));
 
   getIt.registerSingleton<UpdateCompanyUsecase>(UpdateCompanyUsecase(getIt()));
 
   getIt.registerFactory<RemoteCompanyBloc>(
-      () => RemoteCompanyBloc(getIt(), getIt(), getIt()));
+      () => RemoteCompanyBloc(getIt(), getIt(), getIt(), getIt()));
 
   getIt
       .registerSingleton<LoanRepository>(LoanRepositoryImplementation(getIt()));
@@ -126,9 +129,9 @@ Future<void> initializeDependencies() async {
 
   getIt.registerFactory<LoginBloc>(() => LoginBloc(getIt()));
 
-  getIt.registerFactory<BucketBloc>(() => BucketBloc());
-
   getIt.registerFactory<NavigationBloc>(() => NavigationBloc());
+
+  getIt.registerFactory<ThemeBloc>(() => ThemeBloc());
 
   getIt.registerSingleton<SessionManager>(SessionManager());
 

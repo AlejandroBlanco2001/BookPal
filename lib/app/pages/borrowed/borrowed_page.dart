@@ -30,30 +30,33 @@ class Borrowed extends StatelessWidget {
       }
     ];
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 48,
-          ),
-          Container(
-            margin: const EdgeInsets.only(bottom: 16),
-            child: const Text(
-              'Your Books',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 48,
+            ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              child: Text(
+                'Your Books',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          ListView(
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            children:
-                _buildRecentlyBorrowedBooks(borrowedBooks).take(3).toList(),
-          ),
-        ],
+            ListView(
+              shrinkWrap: true,
+              physics: const ScrollPhysics(),
+              children:
+                  _buildRecentlyBorrowedBooks(borrowedBooks).take(3).toList(),
+            ),
+          ],
+        ),
       ),
     );
   }

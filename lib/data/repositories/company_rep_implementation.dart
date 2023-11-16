@@ -1,5 +1,6 @@
 
 
+import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/data/util/response_verifier.dart';
@@ -22,6 +23,27 @@ class CompanyRepositoryImplementation implements CompanyRepository {
       final httpResponse = await _apiService.getCompany(
         id: id,
         authorization: authorization,
+      );
+
+      final ResponseVerifier<Company> responseVerifier = ResponseVerifier<Company>();
+
+      return responseVerifier.validateResponse(httpResponse);
+      
+    } on DioException catch (e) {
+      List<String>? messages = (e.response?.data['message'] is List)
+          ? List<String>.from(e.response?.data['message'].map((m) => m.toString()))
+          : [e.response?.data['message']];
+      return DataFailed(
+          e.response?.statusCode ?? 500, e, messages);
+    }
+  }
+
+  @override
+  Future<DataState<Company>> getCompanyStyle(int id) async {
+    logger.d("Entro a getCompanyStyle");
+    try {
+      final httpResponse = await _apiService.getCompanyStyle(
+        id: id,
       );
 
       final ResponseVerifier<Company> responseVerifier = ResponseVerifier<Company>();
