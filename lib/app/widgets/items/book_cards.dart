@@ -2,6 +2,7 @@ import 'package:bookpal/app/pages/book_description/book_description_page.dart';
 import 'package:bookpal/app/widgets/loading/shimmer_image.dart';
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/util/utilities.dart';
+import 'package:bookpal/data/models/loan_model.dart';
 import 'package:bookpal/data/models/physical_book_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
@@ -61,16 +62,50 @@ class BookCard1 extends StatelessWidget {
 }
 
 class BookCard2 extends StatelessWidget {
-  final PhysicalBookModel book;
-  final String? timeLeft;
-  final bool isBorrowed;
+  final PhysicalBookModel? book;
+  final LoanModel? loan;
 
-  const BookCard2(
-      {Key? key, required this.book, this.timeLeft, required this.isBorrowed})
+  const BookCard2({Key? key, required this.book, this.loan}) : super(key: key);
+  const BookCard2.fromLoan({Key? key, required this.loan, this.book})
       : super(key: key);
+
+  String _setTimeLeft() {
+    if (loan != null) {
+      if (loan!.status.name == 'active') {
+        var difference = loan!.dueDate.difference(loan!.startDate);
+        if (difference.inDays < 1) {
+          if (difference.inHours < 1) {
+            return '${difference.inMinutes} minutes left';
+          } else {
+            return '${difference.inHours} hours left';
+          }
+        } else {
+          return '${difference.inDays} days left';
+        }
+      } else if (loan!.status.name == 'Overdue') {
+        var difference = DateTime.now().difference(loan!.dueDate);
+        if (difference.inDays < 1) {
+          if (difference.inHours < 1) {
+            return '${difference.inMinutes} minutes overdue. Return now!';
+          } else {
+            return '${difference.inHours} hours overdue. Return now!';
+          }
+        } else {
+          return '${difference.inDays} days overdue. Return now!';
+        }
+      } else {
+        return 'Returned';
+      }
+    }
+    return '';
+  }
 
   @override
   Widget build(BuildContext context) {
+    PhysicalBookModel book =
+        this.book ?? loan!.physicalBook as PhysicalBookModel;
+    String timeLeft = _setTimeLeft();
+
     return Container(
       padding: const EdgeInsets.all(16.0),
       child: Stack(
@@ -94,7 +129,7 @@ class BookCard2 extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: (isBorrowed)
+                        mainAxisAlignment: (loan != null)
                             ? MainAxisAlignment.spaceAround
                             : MainAxisAlignment.start,
                         children: [
@@ -113,11 +148,13 @@ class BookCard2 extends StatelessWidget {
                               fontSize: 14,
                             ),
                           ),
-                          (isBorrowed)
+                          (loan != null)
                               ? Text(
-                                  timeLeft ?? '3 days',
-                                  style: const TextStyle(
-                                    color: Colors.grey,
+                                  timeLeft,
+                                  style: TextStyle(
+                                    color: (loan!.status.name == 'overdue')
+                                        ? Colors.red
+                                        : Colors.grey,
                                     fontSize: 14,
                                   ),
                                 )
@@ -130,21 +167,23 @@ class BookCard2 extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: Container(
-                    child: (isBorrowed)
-                        ? Padding(
-                            padding: const EdgeInsets.only(right: 10.0),
-                            child: TextButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'Renew',
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 241, 92, 81),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                    child: (loan != null)
+                        ? (loan!.status.name == 'active')
+                            ? Padding(
+                                padding: const EdgeInsets.only(right: 10.0),
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: const Text(
+                                    'Return',
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 241, 92, 81),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          )
+                              )
+                            : const SizedBox()
                         : Padding(
                             padding: const EdgeInsets.only(right: 10.0),
                             child: IconButton(

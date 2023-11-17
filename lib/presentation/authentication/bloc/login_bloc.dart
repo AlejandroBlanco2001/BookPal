@@ -35,8 +35,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       await getIt.get<SessionManager>().set("jwt", existingJwt);
     } else {
       emit(LoginInitial());
-      // // TODO: Remove this
-      // add(const Login("florix@gmail.com", "B00rgir_9116"));
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/data/data_sources/remote/api_service.dart';
 import 'package:bookpal/data/util/response_verifier.dart';
@@ -27,6 +28,7 @@ class CompanyRepositoryImplementation implements CompanyRepository {
       return responseVerifier.validateResponse(httpResponse);
       
     } on DioException catch (e) {
+      logger.d("Data: ${e.response?.data}");
       List<String>? messages = (e.response?.data['message'] is List)
           ? List<String>.from(e.response?.data['message'].map((m) => m.toString()))
           : [e.response?.data['message']];

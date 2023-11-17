@@ -2,7 +2,6 @@ part of 'remote_loan_bloc.dart';
 
 sealed class RemoteLoanState extends Equatable {
   final LoanModel? loan;
-  final List<LoanModel>? loans;
   final DioException? dioError;
   final dynamic genericError;
   final int? statusCode;
@@ -10,14 +9,13 @@ sealed class RemoteLoanState extends Equatable {
 
   const RemoteLoanState(
       {this.loan,
-      this.loans,
       this.dioError,
       this.genericError,
       this.statusCode,
       this.message});
 
   @override
-  List<Object?> get props => [loan, loans, dioError, genericError, statusCode];
+  List<Object?> get props => [loan, dioError, genericError, statusCode];
 }
 
 final class RemoteLoanInitial extends RemoteLoanState {}
@@ -30,14 +28,6 @@ final class RemoteLoanLoaded extends RemoteLoanState {
 
   @override
   List<Object?> get props => [statusCode, loan];
-}
-
-final class RemoteUserLoansLoaded extends RemoteLoanState {
-  const RemoteUserLoansLoaded(int statusCode, List<LoanModel> loans)
-      : super(statusCode: statusCode, loans: loans);
-
-  @override
-  List<Object?> get props => [statusCode, loans];
 }
 
 final class RemoteLoanReturned extends RemoteLoanState {

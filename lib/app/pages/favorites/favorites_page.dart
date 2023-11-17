@@ -11,7 +11,6 @@ class Favorites extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       body: SingleChildScrollView(
@@ -56,7 +55,9 @@ class Favorites extends StatelessWidget {
   List<Widget> _buildFavoriteBooks(List<PhysicalBookModel> books) {
     List<Widget> booksList = [];
     for (var book in books) {
-      booksList.add(BookCard2(book: book, isBorrowed: false));
+      booksList.add(BookCard2(
+        book: book,
+      ));
     }
     return booksList;
   }

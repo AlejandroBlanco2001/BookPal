@@ -1,8 +1,8 @@
 import 'package:bookpal/app/widgets/home_page/retry_fecth.dart';
 import 'package:bookpal/app/widgets/items/book_cards.dart';
 import 'package:bookpal/app/widgets/loading/loading_popular.dart';
-import 'package:bookpal/data/models/physical_book_model.dart';
-import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
+import 'package:bookpal/data/models/loan_model.dart';
+import 'package:bookpal/presentation/loan/remote_bloc/user_borrowed_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,21 +30,19 @@ class Borrowed extends StatelessWidget {
                 ),
               ),
             ),
-            BlocBuilder<HomeBooksBloc, HomeBooksState>(
+            BlocBuilder<UserBorrowedBloc, UserBorrowedState>(
               builder: (context, state) {
-                if (state is HomeBooksLoading || state is HomeBooksInitial) {
+                if (state is UserBorrowedLoading || state is UserBorrowedInitial) {
                   return const PopularBooksShimmer();
-                } else if (state is HomeBooksError) {
+                } else if (state is UserBorrowedError) {
                   return RetryFetch(
                       fetchMethod: () =>
-                          context.read<HomeBooksBloc>().add(FetchHomeBooks()));
+                          context.read<UserBorrowedBloc>().add(const GetUserBorrowed()));
                 }
                 return ListView(
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
-                  children: _buildRecentlyBorrowedBooks(state.allBooks)
-                      .take(3)
-                      .toList(),
+                  children: _buildRecentlyBorrowedBooks(state.userLoans!),
                 );
               },
             ),
@@ -55,13 +53,12 @@ class Borrowed extends StatelessWidget {
   }
 }
 
-List<Widget> _buildRecentlyBorrowedBooks(List<PhysicalBookModel> books) {
-  List<Widget> booksList = [];
-  for (var book in books) {
-    booksList.add(BookCard2(
-      book: book,
-      isBorrowed: true,
+List<Widget> _buildRecentlyBorrowedBooks(List<LoanModel> loans) {
+  List<Widget> loansList = [];
+  for (var loan in loans) {
+    loansList.add(BookCard2.fromLoan(
+      loan: loan,
     ));
   }
-  return booksList;
+  return loansList;
 }

@@ -2,7 +2,6 @@ import 'package:bookpal/app/pages/list_books/list_books_page.dart';
 import 'package:bookpal/app/widgets/home_page/book_row.dart';
 import 'package:bookpal/app/widgets/home_page/retry_fecth.dart';
 import 'package:bookpal/app/widgets/loading/loading_popular.dart';
-import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/data/models/physical_book_model.dart';
 import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +62,6 @@ class PopularBooks extends StatelessWidget {
   List<Widget> _buildPopularBooks(List<PhysicalBookModel> books) {
     List<Widget> booksList = [];
     for (var book in books) {
-      logger.d("Book ${book.title} cover: $booksCoversPath${book.bookCover}");
       booksList.add(
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),

@@ -1,6 +1,7 @@
 
 
 import 'package:bookpal/data/enums/loan_status.dart';
+import 'package:bookpal/data/models/physical_book_model.dart';
 import 'package:bookpal/domain/entities/loan.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:bookpal/core/util/utilities.dart';
@@ -12,7 +13,7 @@ class LoanModel extends Loan {
   LoanModel({
     required int id,
     required int userId,
-    required String physicalBookBarcode,
+    required PhysicalBookModel physicalBook,
     required DateTime startDate,
     required DateTime dueDate,
     DateTime? returnDate,
@@ -20,7 +21,7 @@ class LoanModel extends Loan {
   }) : super(
           id: id,
           userId: userId,
-          physicalBookBarcode: physicalBookBarcode,
+          physicalBook: physicalBook,
           startDate: startDate,
           dueDate: dueDate,
           returnDate: returnDate,

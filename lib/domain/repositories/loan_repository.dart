@@ -5,7 +5,7 @@ import 'package:bookpal/core/resources/data_state.dart';
 
 abstract class LoanRepository {
   Future<DataState<Loan>> getLoan(int id);
-  Future<DataState<Loan>> postLoan(String phoneToken, String bookBarcode);
+  Future<DataState<Loan>> postLoan(String bookBarcode);
   Future<DataState<List<Loan>>> getLoansByUser(int userId);
   Future<DataState<Loan>> makeReturn(int id);
 }

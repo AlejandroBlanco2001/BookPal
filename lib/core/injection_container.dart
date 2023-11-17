@@ -28,6 +28,7 @@ import 'package:bookpal/domain/usecases/user/get_user_usecase.dart';
 import 'package:bookpal/domain/usecases/user/register_user_usecase.dart';
 import 'package:bookpal/domain/usecases/user/update_user_usecase.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
+import 'package:bookpal/presentation/loan/remote_bloc/user_borrowed_bloc.dart';
 import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
 import 'package:bookpal/presentation/barcode/bloc/barcode_bloc.dart';
 import 'package:bookpal/presentation/company/remote_bloc/remote_company_bloc.dart';
@@ -98,7 +99,9 @@ Future<void> initializeDependencies() async {
       .registerSingleton<MakeLoanReturnUsecase>(MakeLoanReturnUsecase(getIt()));
 
   getIt.registerFactory<RemoteLoanBloc>(
-      () => RemoteLoanBloc(getIt(), getIt(), getIt(), getIt()));
+      () => RemoteLoanBloc(getIt(), getIt(), getIt()));
+
+  getIt.registerFactory<UserBorrowedBloc>(() => UserBorrowedBloc(getIt()));
 
   getIt.registerSingleton<PhysicalBookRepository>(
       PhysicalBookRepositoryImplementation(getIt()));

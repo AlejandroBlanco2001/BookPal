@@ -94,7 +94,7 @@ class PhysicalBookRepositoryImplementation implements PhysicalBookRepository {
           : [e.response?.data['message']];
       return DataFailed(e.response?.statusCode ?? 500, e, messages);
     } on Error catch (e) {
-      logger.d('E in rep: ${e.stackTrace.toString()}');
+      logger.d('E in rep: ${e.toString()}\n. Stacktrace: ${e.stackTrace.toString()}');
       rethrow;
     }
   }

@@ -4,6 +4,7 @@ import 'package:bookpal/data/enums/book_status.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:bookpal/core/util/utilities.dart';
 
+
 abstract class PhysicalBook {
   final int id;
   final String barcode;
@@ -28,6 +29,8 @@ abstract class PhysicalBook {
   String bookCover;
   BookStatus status;
   final String? bibliographicGps;
+  final int? rating;
+  List<Map<String,dynamic>>? ratings;
 
 
   PhysicalBook({
@@ -40,6 +43,8 @@ abstract class PhysicalBook {
     this.edition,
     required this.deweyCode,
     required this.creationDate,
+    this.rating,
+    this.ratings,
     this.isbn,
     this.isbn13,
     this.publisher,

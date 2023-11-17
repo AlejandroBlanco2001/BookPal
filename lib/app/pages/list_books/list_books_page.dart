@@ -66,8 +66,8 @@ class ListBooks extends StatelessWidget {
     List<Widget> booksList = [];
     for (var book in books) {
       booksList.add(BookCard2(
-          book: book,
-          isBorrowed: true));
+        book: book,
+      ));
     }
     return booksList;
   }

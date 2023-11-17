@@ -45,7 +45,7 @@ class RemoteCompanyBloc extends Bloc<RemoteCompanyEvent, RemoteCompanyState> {
       emit(RemoteCompanyError(e, e.response?.statusCode));
     } catch (e) {
       logger.d(
-          "Error Message: ${e.toString()}.\n StackTrace: ${(e as Error).stackTrace}");
+          "Error Message: ${e.toString()}}");
       emit(RemoteCompanyError.genericError(e));
     }
   }

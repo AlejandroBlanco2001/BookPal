@@ -1,6 +1,7 @@
 
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/injection_container.dart';
+import 'package:bookpal/domain/entities/physical_book.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -82,5 +83,29 @@ class Utilities {
         .child('$usersAvatarsPath${await getLoggedUserProfileImage()}')
         .getDownloadURL();
     return path;
+  }
+
+  static Map<String,dynamic> physicalBookToJson(PhysicalBook physicalBook){
+    return {
+      'id': physicalBook.id,
+      'barcode': physicalBook.barcode,
+      'author': physicalBook.author,
+      'referenceId': physicalBook.referenceId,
+      'collectionId': physicalBook.collectionId,
+      'title': physicalBook.title,
+      'edition': physicalBook.edition,
+      'deweyCode': physicalBook.deweyCode,
+      'creationDate': physicalBook.creationDate,
+      'rating': physicalBook.rating,
+      'ratings': physicalBook.ratings,
+      'isbn': physicalBook.isbn,
+      'isbn13': physicalBook.isbn13,
+      'publisher': physicalBook.publisher,
+      'publishDate': physicalBook.publishDate,
+      'language': physicalBook.language,
+      'bookCover': physicalBook.bookCover,
+      'status': physicalBook.status,
+      'bibliographicGps': physicalBook.bibliographicGps,
+    };
   }
 }

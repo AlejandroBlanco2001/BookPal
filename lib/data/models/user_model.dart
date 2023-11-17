@@ -19,7 +19,6 @@ class UserModel extends User {
     String? academicProgram,
     String profileImage = '/default_avatar.jpg',
     bool isAdmin = false,
-    required String phoneToken
   }) : super(
           id: id,
           companyId: companyId,
@@ -33,7 +32,6 @@ class UserModel extends User {
           academicProgram: academicProgram,
           profileImage: profileImage,
           isAdmin: isAdmin,
-          phoneToken: phoneToken,
         );
   
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
