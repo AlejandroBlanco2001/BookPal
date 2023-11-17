@@ -11,15 +11,15 @@ class LogoutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: const Color(0xffF5F5F5),
-      child: InkWell(
-        onTap: () {
-          context.read<NavigationBloc>().add(ToHomePage());
-          context.read<LoginBloc>().add(Logout());
-          context.read<NavigationPagesBloc>().add(const NotLoggedIn());
-        },
-        child: FittedBox(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+      child: FittedBox(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+          child: InkWell(
+            onTap: () {
+              context.read<NavigationBloc>().add(ToHomePage());
+              context.read<LoginBloc>().add(Logout());
+              context.read<NavigationPagesBloc>().add(const NotLoggedIn());
+            },
             child: Ink(
               decoration: const BoxDecoration(
                 color: Colors.white,

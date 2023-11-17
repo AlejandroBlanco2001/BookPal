@@ -22,6 +22,12 @@ class UserBorrowedBloc extends Bloc<UserBorrowedEvent, UserBorrowedState> {
     on<GetUserBorrowed>(onGetUserBorrowed);
   }
 
+  @override
+  onChange(Change<UserBorrowedState> change) {
+    super.onChange(change);
+    logger.d(change);
+  }
+
   FutureOr<void> onGetUserBorrowed(GetUserBorrowed event, Emitter<UserBorrowedState> emit) async {
     emit(UserBorrowedLoading());
     try {

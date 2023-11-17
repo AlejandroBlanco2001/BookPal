@@ -3,8 +3,6 @@ import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
 import 'package:bookpal/presentation/company/remote_bloc/remote_company_bloc.dart';
-import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
-import 'package:bookpal/presentation/navigation/bloc/navigation_pages_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -66,7 +64,8 @@ class _LoginPageState extends State<LoginPage> {
                             return CachedNetworkImage(
                               imageUrl: snapshot.data!,
                               fit: BoxFit.fitHeight,
-                              progressIndicatorBuilder: (context, url, progress) {
+                              progressIndicatorBuilder:
+                                  (context, url, progress) {
                                 return Center(
                                   child: SizedBox(
                                     height: 50,
@@ -97,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 60),
               BlocBuilder<LoginBloc, LoginState>(
                 builder: (context, state) {
+                  logger.d(state);
                   return TextFormField(
                     controller: _controllerEmail,
                     keyboardType: TextInputType.name,
@@ -181,24 +181,14 @@ class _LoginPageState extends State<LoginPage> {
                                               _controllerPassword.text,
                                             ),
                                           );
-                                      if (state is LoginSuccess) {
-                                        context
-                                            .read<NavigationBloc>()
-                                            .add(ToHomePage());
-                                          context.read<NavigationPagesBloc>().add(const LoggedIn());
-
-                                      }
                                     }
                                   }
                                 : null,
-                        child: (state is LoginInitial || state is LoginError)
-                            ? const Text("Log In")
-                            : (state is LoginLoading)
-                                ? (defaultTargetPlatform ==
-                                        TargetPlatform.android)
-                                    ? const CircularProgressIndicator()
-                                    : const CupertinoActivityIndicator()
-                                : const Text("Log In"),
+                        child: (state is LoginLoading)
+                            ? (defaultTargetPlatform == TargetPlatform.android)
+                                ? const CircularProgressIndicator()
+                                : const CupertinoActivityIndicator()
+                            : const Text("Log In"),
                       );
                     },
                   ),

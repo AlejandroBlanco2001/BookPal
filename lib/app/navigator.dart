@@ -1,6 +1,5 @@
 import 'package:bookpal/app/widgets/scanning/select_scan_method_button.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
-import 'package:bookpal/presentation/loan/remote_bloc/user_borrowed_bloc.dart';
 import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
 import 'package:bookpal/presentation/navigation/bloc/navigation_pages_bloc.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +23,6 @@ class _MainNavigatorState extends State<MainNavigator> {
           builder: (context, loginState) {
             if (loginState is LoginSuccess) {
               context.read<NavigationPagesBloc>().add(const LoggedIn());
-              context.read<UserBorrowedBloc>().add(const GetUserBorrowed());
             } else if (loginState is LoginInitial || loginState is LoginError) {
               context.read<NavigationPagesBloc>().add(const NotLoggedIn());
             }

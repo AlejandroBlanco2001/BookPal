@@ -134,7 +134,7 @@ Future<void> initializeDependencies() async {
 
   getIt.registerSingleton<LoginUsecase>(LoginUsecase(getIt()));
 
-  getIt.registerFactory<LoginBloc>(() => LoginBloc(getIt()));
+  getIt.registerFactory<LoginBloc>(() => LoginBloc(getIt(), getIt(), getIt(), getIt()));
 
   getIt.registerFactory<NavigationBloc>(() => NavigationBloc());
 
