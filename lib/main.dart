@@ -1,9 +1,11 @@
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/util/utilities.dart';
+import 'package:bookpal/presentation/favorites/bloc/favorite_bloc.dart';
 import 'package:bookpal/presentation/loan/remote_bloc/user_borrowed_bloc.dart';
 import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
 import 'package:bookpal/presentation/navigation/bloc/navigation_pages_bloc.dart';
 import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
+import 'package:bookpal/presentation/rating/bloc/rating_bloc.dart';
 import 'package:bookpal/presentation/theme/bloc/theme_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -54,7 +56,9 @@ class BookPal extends StatelessWidget {
         BlocProvider<RemoteLoanBloc>(
           create: (context) => getIt(),
         ),
-        BlocProvider<UserBorrowedBloc>(create: (context) => getIt()),
+        BlocProvider<UserBorrowedBloc>(
+          create: (context) => getIt(),
+        ),
         BlocProvider<BarcodeBloc>(
           create: (context) => getIt(),
         ),
@@ -63,6 +67,12 @@ class BookPal extends StatelessWidget {
         ),
         BlocProvider<LoginBloc>(
           create: (context) => getIt()..add(InitLogin()),
+        ),
+        BlocProvider<FavoritesBloc>(
+          create: (context) => getIt(),
+        ),
+        BlocProvider<RatingBloc>(
+          create: (context) => getIt(),
         ),
         BlocProvider<NavigationBloc>(
           create: (context) => getIt()..add(ToHomePage()),
@@ -91,7 +101,7 @@ class BookPal extends StatelessWidget {
                       ? const CupertinoActivityIndicator()
                       : const CircularProgressIndicator(),
                 ),
-            ),
+              ),
             );
           }
           return FutureBuilder(
@@ -102,20 +112,20 @@ class BookPal extends StatelessWidget {
                 context
                     .read<ThemeBloc>()
                     .add(CreateThemeFromLogo(snapshot.data!));
-          }
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'BookPal',
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: HexColor(state.company!.primaryColor!),
-                primary: HexColor(state.company!.primaryColor!),
-                secondary: HexColor(state.company!.secondaryColor!),
-              ),
-              useMaterial3: true,
-            ),
-            home: const MainNavigator(),
-);
+              }
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'BookPal',
+                theme: ThemeData(
+                  colorScheme: ColorScheme.fromSeed(
+                    seedColor: HexColor(state.company!.primaryColor!),
+                    primary: HexColor(state.company!.primaryColor!),
+                    secondary: HexColor(state.company!.secondaryColor!),
+                  ),
+                  useMaterial3: true,
+                ),
+                home: const MainNavigator(),
+              );
             },
           );
         },

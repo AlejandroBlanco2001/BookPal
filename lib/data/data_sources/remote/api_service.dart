@@ -1,7 +1,9 @@
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/data/models/company_model.dart';
+import 'package:bookpal/data/models/favorite_model.dart';
 import 'package:bookpal/data/models/loan_model.dart';
 import 'package:bookpal/data/models/physical_book_model.dart';
+import 'package:bookpal/data/models/rating_model.dart';
 import 'package:bookpal/data/models/user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -200,6 +202,34 @@ abstract class ApiService {
     @Header('Content-Type') String contentType = contentType,
     @Header('Authorization') String? authorization,
     @Query('take') int? take = 10
+  });
+
+  @PUT("/rating/{id}")
+  Future<HttpResponse<RatingModel>> putRating({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('Authorization') String? authorization,
+    @Path() required int id,
+    @Body() required Map<String, dynamic> fields
+  });
+
+  @POST("/rating")
+  Future<HttpResponse<RatingModel>> postRating({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('Authorization') String? authorization,
+    @Body() required RatingModel rating
+  });
+
+  @GET("/favorite/user")
+  Future<HttpResponse<List<FavoriteModel>>> getFavorites({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('Authorization') String? authorization,
+  });
+
+  @POST("/favorite")
+  Future<HttpResponse<FavoriteModel>> postFavorite({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('Authorization') String? authorization,
+    @Body() required Map<String, dynamic> fields
   });
 
   // @GET('/references/{id}')

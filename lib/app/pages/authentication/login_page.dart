@@ -96,7 +96,6 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 60),
               BlocBuilder<LoginBloc, LoginState>(
                 builder: (context, state) {
-                  logger.d(state);
                   return TextFormField(
                     controller: _controllerEmail,
                     keyboardType: TextInputType.name,

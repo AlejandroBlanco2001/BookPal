@@ -1,7 +1,8 @@
 import 'package:bookpal/app/widgets/home_page/retry_fecth.dart';
 import 'package:bookpal/app/widgets/items/book_cards.dart';
+import 'package:bookpal/app/widgets/loading/loading_covers.dart';
 import 'package:bookpal/data/models/physical_book_model.dart';
-import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
+import 'package:bookpal/presentation/loan/remote_bloc/user_borrowed_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,23 +38,27 @@ class RecentlyBorrowedBooks extends StatelessWidget {
         Container(
           margin: const EdgeInsets.fromLTRB(24.0, 12.0, 0, 0),
           height: 120,
-          child: BlocBuilder<HomeBooksBloc, HomeBooksState>(
+          child: BlocBuilder<UserBorrowedBloc, UserBorrowedState>(
             builder: (context, state) {
-              if (state is HomeBooksError) {
+              if (state is UserBorrowedLoading || state is UserBorrowedInitial) {
+                return const CardsListShimmer();
+              } else if (state is UserBorrowedError) {
                 return RetryFetch(
                     fetchMethod: () =>
-                        context.read<HomeBooksBloc>().add(FetchHomeBooks()));
+                        context.read<UserBorrowedBloc>().add(const GetUserBorrowed()));
               }
               return ListView(
                 scrollDirection: Axis.horizontal,
-                children: _buildRecentlyBorrowedBooks(state.allBooks),
+                children: _buildRecentlyBorrowedBooks(state.userLoans!
+                    .map((e) => e.physicalBook as PhysicalBookModel)
+                    .toList()),
               );
             },
           ),
         ),
       ],
     );
-  } 
+  }
 
   List<Widget> _buildRecentlyBorrowedBooks(List<PhysicalBookModel> books) {
     List<Widget> booksList = [];

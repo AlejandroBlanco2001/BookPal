@@ -1,5 +1,7 @@
 import 'package:bookpal/app/widgets/scanning/select_scan_method_button.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
+import 'package:bookpal/presentation/favorites/bloc/favorite_bloc.dart';
+import 'package:bookpal/presentation/loan/remote_bloc/user_borrowed_bloc.dart';
 import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
 import 'package:bookpal/presentation/navigation/bloc/navigation_pages_bloc.dart';
 import 'package:flutter/material.dart';
@@ -19,35 +21,41 @@ class _MainNavigatorState extends State<MainNavigator> {
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, navState) {
-        return BlocBuilder<LoginBloc, LoginState>(
-          builder: (context, loginState) {
+        return BlocListener<LoginBloc, LoginState>(
+          listener: (context, loginState) {
             if (loginState is LoginSuccess) {
               context.read<NavigationPagesBloc>().add(const LoggedIn());
+              context.read<NavigationBloc>().add(ToHomePage());
+              context.read<UserBorrowedBloc>().add(const GetUserBorrowed());
+              context.read<FavoritesBloc>().add(const GetUserFavorites());
             } else if (loginState is LoginInitial || loginState is LoginError) {
               context.read<NavigationPagesBloc>().add(const NotLoggedIn());
+              context.read<NavigationBloc>().add(ToHomePage());
+              context.read<UserBorrowedBloc>().add(const DisposeBorrowed());
+              context.read<FavoritesBloc>().add(const DisposeFavorites());
             }
-            return BlocBuilder<NavigationPagesBloc, NavigationPagesState>(
-              builder: (context, navPagesState) {
-                return Scaffold(
-                  resizeToAvoidBottomInset: false,
-                  floatingActionButton: const SelectScanMethodButton(),
-                  floatingActionButtonLocation:
-                      FloatingActionButtonLocation.centerDocked,
-                  body: IndexedStack(
-                    index: navState.index,
-                    children: navPagesState.pages,
-                  ),
-                  bottomNavigationBar: Visibility(
-                    visible: MediaQuery.of(context).viewInsets.bottom == 0,
-                    child: MainNavigationBar(
-                      currentIndex: navState.index,
-                      onTabSelected: _swapPage,
-                    ),
-                  ),
-                );
-              },
-            );
           },
+          child: BlocBuilder<NavigationPagesBloc, NavigationPagesState>(
+            builder: (context, navPagesState) {
+              return Scaffold(
+                resizeToAvoidBottomInset: false,
+                floatingActionButton: const SelectScanMethodButton(),
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.centerDocked,
+                body: IndexedStack(
+                  index: navState.index,
+                  children: navPagesState.pages,
+                ),
+                bottomNavigationBar: Visibility(
+                  visible: MediaQuery.of(context).viewInsets.bottom == 0,
+                  child: MainNavigationBar(
+                    currentIndex: navState.index,
+                    onTabSelected: _swapPage,
+                  ),
+                ),
+              );
+            },
+          ),
         );
       },
     );

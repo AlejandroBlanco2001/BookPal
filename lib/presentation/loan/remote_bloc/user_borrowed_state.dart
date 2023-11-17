@@ -39,5 +39,5 @@ final class UserBorrowedError extends UserBorrowedState {
       : super(genericError: genericError);
 
   @override
-  List<Object?> get props => [statusCode, dioError];
+  List<Object?> get props => [statusCode, dioError, message, genericError];
 }

@@ -20,12 +20,7 @@ class UserBorrowedBloc extends Bloc<UserBorrowedEvent, UserBorrowedState> {
 
   UserBorrowedBloc(this._getLoansByUser) : super(UserBorrowedInitial()) {
     on<GetUserBorrowed>(onGetUserBorrowed);
-  }
-
-  @override
-  onChange(Change<UserBorrowedState> change) {
-    super.onChange(change);
-    logger.d(change);
+    on<DisposeBorrowed>((event, emit) => emit(UserBorrowedInitial()));
   }
 
   FutureOr<void> onGetUserBorrowed(GetUserBorrowed event, Emitter<UserBorrowedState> emit) async {
@@ -51,4 +46,5 @@ class UserBorrowedBloc extends Bloc<UserBorrowedEvent, UserBorrowedState> {
       emit(UserBorrowedError.genericError(e));
     }
   }
+
 }

@@ -97,7 +97,6 @@ class Utilities {
       'deweyCode': physicalBook.deweyCode,
       'creationDate': physicalBook.creationDate,
       'rating': physicalBook.rating,
-      'ratings': physicalBook.ratings,
       'isbn': physicalBook.isbn,
       'isbn13': physicalBook.isbn13,
       'publisher': physicalBook.publisher,

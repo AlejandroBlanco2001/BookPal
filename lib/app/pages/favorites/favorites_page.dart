@@ -1,8 +1,8 @@
 import 'package:bookpal/app/widgets/home_page/retry_fecth.dart';
 import 'package:bookpal/app/widgets/items/book_cards.dart';
 import 'package:bookpal/app/widgets/loading/loading_popular.dart';
-import 'package:bookpal/data/models/physical_book_model.dart';
-import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
+import 'package:bookpal/data/models/favorite_model.dart';
+import 'package:bookpal/presentation/favorites/bloc/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,19 +30,19 @@ class Favorites extends StatelessWidget {
                 ),
               ),
             ),
-            BlocBuilder<HomeBooksBloc, HomeBooksState>(
+            BlocBuilder<FavoritesBloc, FavoritesState>(
               builder: (context, state) {
-                if (state is HomeBooksLoading || state is HomeBooksInitial) {
+                if (state is FavoritesLoading || state is FavoritesInitial) {
                   return const PopularBooksShimmer();
-                } else if (state is HomeBooksError) {
+                } else if (state is FavoritesError) {
                   return RetryFetch(
                       fetchMethod: () =>
-                          context.read<HomeBooksBloc>().add(FetchHomeBooks()));
+                          context.read<FavoritesBloc>().add(const GetUserFavorites()));
                 }
                 return ListView(
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
-                  children: _buildFavoriteBooks(state.allBooks),
+                  children: _buildFavoriteBooks(state.favoritesList!),
                 );
               },
             )
@@ -52,13 +52,13 @@ class Favorites extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildFavoriteBooks(List<PhysicalBookModel> books) {
-    List<Widget> booksList = [];
-    for (var book in books) {
-      booksList.add(BookCard2(
-        book: book,
+  List<Widget> _buildFavoriteBooks(List<FavoriteModel> favorites) {
+    List<Widget> favoritesList = [];
+    for (var favorite in favorites) {
+      favoritesList.add(BookCard2.fromFavorite(
+        favorite: favorite,
       ));
     }
-    return booksList;
+    return favoritesList;
   }
 }

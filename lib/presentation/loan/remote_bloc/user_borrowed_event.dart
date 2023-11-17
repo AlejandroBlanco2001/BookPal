@@ -14,3 +14,10 @@ final class GetUserBorrowed extends UserBorrowedEvent {
   @override
   List<Object> get props => [];
 }
+
+final class DisposeBorrowed extends UserBorrowedEvent {
+  const DisposeBorrowed();
+
+  @override
+  List<Object> get props => [];
+}

@@ -1,3 +1,4 @@
+import 'package:bookpal/app/widgets/book_description/ratings_row.dart';
 import 'package:bookpal/app/widgets/loading/basic_shimmer.dart';
 import 'package:bookpal/app/widgets/loading/shimmer_image.dart';
 import 'package:bookpal/core/constants/constants.dart';
@@ -6,9 +7,10 @@ import 'package:bookpal/data/models/physical_book_model.dart';
 import 'package:flutter/material.dart';
 
 class BookDescription extends StatelessWidget {
-  const BookDescription({super.key, required this.book});
+  const BookDescription({super.key, required this.book, this.scanned = false});
 
   final PhysicalBookModel book;
+  final bool scanned;
 
   @override
   Widget build(BuildContext context) {
@@ -63,91 +65,25 @@ class BookDescription extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const Text(
-                            'The Midnight Library',
+                          Text(
+                            book.title,
                             style: TextStyle(
-                              color: Colors.grey,
+                              color: Theme.of(context).colorScheme.onPrimary,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Container(
                             margin: const EdgeInsets.only(top: 6),
-                            child: const Text(
-                              'By Matt Haig',
+                            child: Text(
+                              'By ${book.author}',
                               style: TextStyle(
-                                color: Colors.grey,
+                                color: Theme.of(context).colorScheme.onPrimary,
                                 fontSize: 14,
                               ),
                             ),
                           ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 6),
-                            child: Row(
-                              children: <Widget>[
-                                Container(
-                                  margin: const EdgeInsets.only(right: 2.0),
-                                  child: const Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                    size: 16,
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(right: 2.0),
-                                  child: const Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                    size: 16,
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(right: 2.0),
-                                  child: const Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                    size: 16,
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(right: 2.0),
-                                  child: const Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                    size: 16,
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(right: 2.0),
-                                  child: const Icon(
-                                    Icons.star,
-                                    color: Colors.grey,
-                                    size: 16,
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(left: 4.0),
-                                  child: const Text(
-                                    '4.5',
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(left: 8.0),
-                                  child: const Text(
-                                    '(1.2k)',
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
+                          RatingsRow(book: book),
                           Container(
                             margin: const EdgeInsets.only(top: 6),
                             child: const Text(
