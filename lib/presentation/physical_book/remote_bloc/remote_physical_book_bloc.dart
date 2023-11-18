@@ -32,10 +32,11 @@ class RemotePhysicalBookBloc
         Utilities.getBookIdentifierName(event.identifier): event.identifier
       });
       if (dataState is DataSuccess && dataState.data != null) {
+        logger.d('DataSuccess: ${dataState.data}');
         emit(RemotePhysicalBookLoaded(
             dataState.statusCode, dataState.data! as PhysicalBookModel));
       } else if (dataState is DataFailed) {
-        emit(RemotePhysicalBookError(dataState.error!, dataState.statusCode));
+        emit(RemotePhysicalBookError(dataState.error!, dataState.statusCode, dataState.message));
       }
     } on DioException catch (e) {
       emit(RemotePhysicalBookError(e, e.response?.statusCode));

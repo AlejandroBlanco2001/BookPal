@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/resources/data_state.dart';
 import 'package:bookpal/data/models/loan_model.dart';
 import 'package:bookpal/domain/usecases/loan/create_loan_usecase.dart';
@@ -32,11 +33,15 @@ class RemoteLoanBloc extends Bloc<RemoteLoanEvent, RemoteLoanState> {
         emit(RemoteLoanLoaded(
             dataState.statusCode, dataState.data! as LoanModel));
       } else if (dataState is DataFailed) {
-        emit(RemoteLoanError(dataState.error!, dataState.statusCode));
+        logger.d("DataFailed: ${dataState.message}");
+        emit(RemoteLoanError(dataState.error!, dataState.statusCode, dataState.message));
       }
     } on DioException catch (e) {
+      logger.d("DioException: ${e.response}");
       emit(RemoteLoanError(e, e.response?.statusCode));
     } catch (e) {
+      logger.d(
+          "Generic Error Message: ${e.toString()}.\nStackTrace: ${(e as Error).stackTrace.toString()}");
       emit(RemoteLoanError.genericError(e));
     }
   }
@@ -51,12 +56,16 @@ class RemoteLoanBloc extends Bloc<RemoteLoanEvent, RemoteLoanState> {
         emit(RemoteLoanCreated(
             dataState.statusCode, dataState.data! as LoanModel));
       } else if (dataState is DataFailed) {
-        emit(RemoteLoanError(dataState.error!, dataState.statusCode));
+        logger.d("DataFailed: ${dataState.message}");
+        emit(CreateLoanError(dataState.error!, dataState.statusCode, dataState.message));
       }
     } on DioException catch (e) {
-      emit(RemoteLoanError(e, e.response?.statusCode));
+      logger.d("DioException: ${e.response}");
+      emit(CreateLoanError(e, e.response?.statusCode));
     } catch (e) {
-      emit(RemoteLoanError.genericError(e));
+      logger.d(
+          "Generic Error Message: ${e.toString()}.\nStackTrace: ${(e as Error).stackTrace.toString()}");
+      emit(CreateLoanError.genericError(e));
     }
   }
 
@@ -69,12 +78,16 @@ class RemoteLoanBloc extends Bloc<RemoteLoanEvent, RemoteLoanState> {
         emit(RemoteLoanReturned(
             dataState.statusCode, dataState.data! as LoanModel));
       } else if (dataState is DataFailed) {
-        emit(RemoteLoanError(dataState.error!, dataState.statusCode));
+        logger.d("DataFailed: ${dataState.message}");
+        emit(ReturnLoanError(dataState.error!, dataState.statusCode, dataState.message));
       }
     } on DioException catch (e) {
-      emit(RemoteLoanError(e, e.response?.statusCode));
+      logger.d("DioException: ${e.response}");
+      emit(ReturnLoanError(e, e.response?.statusCode));
     } catch (e) {
-      emit(RemoteLoanError.genericError(e));
+      logger.d(
+          "Generic Error Message: ${e.toString()}.\nStackTrace: ${(e as Error).stackTrace.toString()}");
+      emit(ReturnLoanError.genericError(e));
     }
   }
 }

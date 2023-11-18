@@ -1,6 +1,6 @@
 import 'package:bookpal/app/pages/book_description/book_description_page.dart';
 import 'package:bookpal/app/widgets/home_page/book_item.dart';
-import 'package:bookpal/app/widgets/loading/platform_activity_indicator.dart';
+import 'package:bookpal/app/widgets/loading/book_row.dart';
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/data/models/physical_book_model.dart';
@@ -31,7 +31,12 @@ class BookRow extends StatelessWidget {
               future: Utilities.getDownloadUrl('$booksCoversPath${book.bookCover}'),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData) {
-                  return const PlatformActivityIndicator();
+                  return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: const Padding(
+              padding: EdgeInsets.fromLTRB(24.0, 0.0, 24, 0),
+              child: BookRowShimmer()),
+        );
                 } else if (snapshot.hasError) {
                   logger.d("Error loading book cover of ${book.title}. Error: ${snapshot.error}");
                   return const Icon(Icons.error);

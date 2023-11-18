@@ -18,7 +18,7 @@ class UserSection extends StatelessWidget {
         Column(
           children: [
             Container(
-              padding: const EdgeInsets.fromLTRB(24.0, 0, 24.0, 0),
+              padding: const EdgeInsets.fromLTRB(30.0, 0, 30.0, 0),
               margin: const EdgeInsets.fromLTRB(0, 16.0, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,21 +35,37 @@ class UserSection extends StatelessWidget {
                               return const DefaultCircleAvatar();
                             } else if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return const ClipOval(
-                                child: SizedBox(
+                              return ClipOval(
+                                child: Container(
                                   width: 70,
                                   height: 70,
-                                  child: ThemeShimmer(),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: const ThemeShimmer(),
                                 ),
                               );
                             }
                             return CachedNetworkImage(
                               imageUrl: snapshot.data!,
                               imageBuilder: (context, imageProvider) {
-                                return CircleAvatar(
-                                  radius: 35,
-                                  backgroundColor: Colors.white,
-                                  backgroundImage: imageProvider,
+                                return Container(
+                                  width: 70,
+                                  height: 70,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    border: Border.all(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: CircleAvatar(
+                                    radius: 35,
+                                    backgroundColor: Colors.white,
+                                    backgroundImage: imageProvider,
+                                  ),
                                 );
                               },
                               placeholder: (context, url) {
@@ -72,37 +88,6 @@ class UserSection extends StatelessWidget {
                       } else {
                         return const DefaultCircleAvatar();
                       }
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(30.0, 0, 30.0, 0),
-              margin: const EdgeInsets.fromLTRB(0, 16.0, 0, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  BlocBuilder<LoginBloc, LoginState>(
-                    builder: (context, state) {
-                      String? text;
-                      if (state is LoginInitial ||
-                          state is LoggingOut ||
-                          state is LoginError) {
-                        text = "Please login...";
-                      } else if (state is LoginLoading) {
-                        text = "Loading...";
-                      } else {
-                        text =
-                            "Hi, ${state.jwt!['decoded_jwt']['name'].split(" ")[0]}!";
-                      }
-                      return Text(
-                        text,
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
-                      );
                     },
                   ),
                 ],

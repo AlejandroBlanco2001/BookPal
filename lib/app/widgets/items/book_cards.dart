@@ -1,62 +1,100 @@
 import 'package:bookpal/app/pages/book_description/book_description_page.dart';
+import 'package:bookpal/app/widgets/loading/platform_activity_indicator.dart';
 import 'package:bookpal/app/widgets/loading/shimmer_image.dart';
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/data/models/favorite_model.dart';
 import 'package:bookpal/data/models/loan_model.dart';
 import 'package:bookpal/data/models/physical_book_model.dart';
+import 'package:bookpal/presentation/favorites/bloc/favorite_bloc.dart';
+import 'package:bookpal/presentation/loan/remote_bloc/remote_loan_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
 class BookCard1 extends StatelessWidget {
-  final PhysicalBookModel book;
+  final LoanModel loan;
 
-  const BookCard1(this.book, {Key? key}) : super(key: key);
+  const BookCard1(this.loan, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String timeLeft = Utilities.getTimeLeft(loan);
     return Padding(
       padding: const EdgeInsets.only(right: 10.0),
-      child: Material(
-        borderRadius: BorderRadius.circular(10),
-        child: InkWell(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return BookDescription(book: book);
-            }));
-          },
-          splashFactory: InkSparkle.constantTurbulenceSeedSplashFactory,
-          child: Ink(
-            width: 80,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10), // Image border
-              child: SizedBox.fromSize(
-                size: const Size.fromRadius(24), // Image radius
-                child: FutureBuilder(
-                  future: Utilities.getDownloadUrl(
-                      '$booksCoversPath${book.bookCover}'),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return Shimmer.fromColors(
-                        baseColor:
-                            Theme.of(context).colorScheme.primaryContainer,
-                        highlightColor: Colors.grey[100]!,
-                        child: Container(
-                          color: Colors.white,
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return const Center(
-                        child: Icon(Icons.error),
-                      );
-                    }
-                    return ShimmerImage(url: snapshot.data!);
-                  },
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Positioned(
+            bottom: 0,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: Text(
+                timeLeft,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color:
+                      Theme.of(context).colorScheme.secondary.withOpacity(.7),
+                  fontSize: 12,
                 ),
               ),
             ),
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Material(
+                    borderRadius: BorderRadius.circular(10),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return BookDescription(
+                              book: loan.physicalBook as PhysicalBookModel);
+                        }));
+                      },
+                      splashFactory:
+                          InkSparkle.constantTurbulenceSeedSplashFactory,
+                      child: Ink(
+                        width: 80,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10), // Image border
+                          child: SizedBox.fromSize(
+                            size: const Size.fromRadius(24), // Image radius
+                            child: FutureBuilder(
+                              future: Utilities.getDownloadUrl(
+                                  '$booksCoversPath${loan.physicalBook!.bookCover}'),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return Shimmer.fromColors(
+                                    baseColor: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                    highlightColor: Colors.grey[100]!,
+                                    child: Container(
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return const Center(
+                                    child: Icon(Icons.error),
+                                  );
+                                }
+                                return ShimmerImage(url: snapshot.data!);
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -80,37 +118,6 @@ class BookCard2 extends StatelessWidget {
         book = null,
         super(key: key);
 
-  String _setTimeLeft() {
-    if (loan != null) {
-      if (loan!.status.name == 'active') {
-        var difference = loan!.dueDate.difference(loan!.startDate);
-        if (difference.inDays < 1) {
-          if (difference.inHours < 1) {
-            return '${difference.inMinutes} minutes left';
-          } else {
-            return '${difference.inHours} hours left';
-          }
-        } else {
-          return '${difference.inDays} days left';
-        }
-      } else if (loan!.status.name == 'Overdue') {
-        var difference = DateTime.now().difference(loan!.dueDate);
-        if (difference.inDays < 1) {
-          if (difference.inHours < 1) {
-            return '${difference.inMinutes} minutes overdue. Return now!';
-          } else {
-            return '${difference.inHours} hours overdue. Return now!';
-          }
-        } else {
-          return '${difference.inDays} days overdue. Return now!';
-        }
-      } else {
-        return 'Returned';
-      }
-    }
-    return '';
-  }
-
   PhysicalBookModel _getBook() {
     if (book != null) {
       return book!;
@@ -124,7 +131,7 @@ class BookCard2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PhysicalBookModel book = _getBook();
-    String timeLeft = _setTimeLeft();
+    String timeLeft = Utilities.getTimeLeft(loan);
 
     return Material(
       color: Colors.transparent,
@@ -165,6 +172,9 @@ class BookCard2 extends StatelessWidget {
                             children: [
                               Text(
                                 book.title,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: true,
                                 style: TextStyle(
                                   color:
                                       Theme.of(context).colorScheme.secondary,
@@ -172,24 +182,32 @@ class BookCard2 extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text(
-                                book.author,
-                                style: const TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14,
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  book.author,
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 14,
+                                  ),
                                 ),
                               ),
                               (loan != null)
-                                  ? Text(
-                                      timeLeft,
-                                      style: TextStyle(
-                                        color: (loan!.status.name == 'overdue')
-                                            ? Colors.red
-                                            : (loan!.status.name == 'active')
-                                                ? Theme.of(context)
-                                                    .primaryColorLight
-                                                : Colors.grey,
-                                        fontSize: 14,
+                                  ? FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        timeLeft,
+                                        maxLines: 2,
+                                        style: TextStyle(
+                                          color: (loan!.status.name ==
+                                                  'overdue')
+                                              ? Colors.red
+                                              : (loan!.status.name == 'active')
+                                                  ? Theme.of(context)
+                                                      .primaryColorLight
+                                                  : Colors.grey,
+                                          fontSize: 14,
+                                        ),
                                       ),
                                     )
                                   : Container(),
@@ -202,11 +220,16 @@ class BookCard2 extends StatelessWidget {
                       flex: 3,
                       child: Container(
                         child: (loan != null)
-                            ? (loan!.status.name == 'active')
+                            ? (loan!.status.name == 'active' ||
+                                    loan!.status.name == 'overdue')
                                 ? Padding(
                                     padding: const EdgeInsets.only(right: 10.0),
                                     child: TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        context
+                                            .read<RemoteLoanBloc>()
+                                            .add(MakeLoanReturn(loan!.id));
+                                      },
                                       child: const Text(
                                         'Return',
                                         style: TextStyle(
@@ -219,15 +242,33 @@ class BookCard2 extends StatelessWidget {
                                     ),
                                   )
                                 : const SizedBox()
-                            : Padding(
-                                padding: const EdgeInsets.only(right: 10.0),
-                                child: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.favorite,
-                                    color: Colors.red,
-                                  ),
-                                ),
+                            : BlocBuilder<FavoritesBloc, FavoritesState>(
+                                builder: (context, state) {
+                                  if (state is FavoritesLoaded) {
+                                    var favBooksIds = state.favoritesList!
+                                        .map((e) => e.physicalBook.id)
+                                        .toList();
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 10.0),
+                                      child: IconButton(
+                                        onPressed: () {
+                                          // TODO: Toggle favorites
+                                        },
+                                        icon: Icon(
+                                          (favBooksIds.contains(book.id))
+                                              ? Icons.favorite
+                                              : Icons.favorite_border,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    );
+                                  } else if (state is FavoritesLoading) {
+                                    return const PlatformActivityIndicator();
+                                  } else {
+                                    return const SizedBox();
+                                  }
+                                },
                               ),
                       ),
                     )

@@ -15,6 +15,13 @@ final class GetUserBorrowed extends UserBorrowedEvent {
   List<Object> get props => [];
 }
 
+final class RefreshBorrowed extends UserBorrowedEvent {
+  const RefreshBorrowed();
+
+  @override
+  List<Object> get props => [];
+}
+
 final class DisposeBorrowed extends UserBorrowedEvent {
   const DisposeBorrowed();
 

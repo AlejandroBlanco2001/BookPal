@@ -14,25 +14,34 @@ class SelectScanMethodButton extends StatelessWidget {
       builder: (context, state) {
         double height = 50;
         if (state is RemoteCompanyLoaded) height = 50.0 * state.company!.bookScanMethods.length;
-        return FloatingActionButton(
-          shape: ShapeBorder.lerp(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
-            1,
+        return Container(
+          width: 80,
+          height: 80,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle
           ),
-          onPressed: () => showPopover(
-            context: context,
-            direction: PopoverDirection.top,
-            height: height,
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-            bodyBuilder: (context) => const ScanMethodsMenu(),
+          child: FittedBox(
+            child: FloatingActionButton(
+              shape: ShapeBorder.lerp(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                1,
+              ),
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              child: const Icon(Icons.document_scanner_outlined),
+              onPressed: () => showPopover(
+                context: context,
+                direction: PopoverDirection.top,
+                height: height,
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                bodyBuilder: (context) => const ScanMethodsMenu(),
+              ),
+            ),
           ),
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          child: const Icon(Icons.document_scanner_outlined),
         );
       },
     );

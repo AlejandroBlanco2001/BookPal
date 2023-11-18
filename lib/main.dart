@@ -1,3 +1,4 @@
+import 'package:bookpal/app/widgets/loading/platform_activity_indicator.dart';
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/presentation/favorites/bloc/favorite_bloc.dart';
@@ -5,12 +6,14 @@ import 'package:bookpal/presentation/loan/remote_bloc/user_borrowed_bloc.dart';
 import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
 import 'package:bookpal/presentation/navigation/bloc/navigation_pages_bloc.dart';
 import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
+import 'package:bookpal/presentation/physical_book/remote_bloc/search_bloc.dart';
 import 'package:bookpal/presentation/rating/bloc/rating_bloc.dart';
 import 'package:bookpal/presentation/theme/bloc/theme_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'firebase_options.dart';
 
 import 'package:bookpal/app/navigator.dart';
@@ -49,6 +52,9 @@ class BookPal extends StatelessWidget {
         ),
         BlocProvider<HomeBooksBloc>(
           create: (context) => getIt()..add(FetchHomeBooks()),
+        ),
+        BlocProvider<SearchBloc>(
+          create: (_) => getIt(),
         ),
         BlocProvider<RemoteCompanyBloc>(
           create: (context) => getIt()..add(InitCompany()),
@@ -124,7 +130,14 @@ class BookPal extends StatelessWidget {
                   ),
                   useMaterial3: true,
                 ),
-                home: const MainNavigator(),
+                home: GlobalLoaderOverlay(
+                  overlayColor: Colors.black.withOpacity(.45),
+                  useDefaultLoading: false,
+                  overlayWidgetBuilder: (_) => const Center(
+                    child: PlatformActivityIndicator(),
+                  ),
+                  child: const MainNavigator(),
+                ),
               );
             },
           );

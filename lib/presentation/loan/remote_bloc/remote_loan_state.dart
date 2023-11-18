@@ -46,6 +46,28 @@ final class RemoteLoanCreated extends RemoteLoanState {
   List<Object?> get props => [statusCode, loan];
 }
 
+final class CreateLoanError extends RemoteLoanState {
+  const CreateLoanError(DioException dioError,
+      [int? statusCode, List<String>? message])
+      : super(statusCode: statusCode, dioError: dioError, message: message);
+  const CreateLoanError.genericError(dynamic genericError)
+      : super(genericError: genericError);
+
+  @override
+  List<Object?> get props => [statusCode, dioError, genericError];
+}
+
+final class ReturnLoanError extends RemoteLoanState {
+  const ReturnLoanError(DioException dioError,
+      [int? statusCode, List<String>? message])
+      : super(statusCode: statusCode, dioError: dioError, message: message);
+  const ReturnLoanError.genericError(dynamic genericError)
+      : super(genericError: genericError);
+
+  @override
+  List<Object?> get props => [statusCode, dioError, genericError];
+}
+
 final class RemoteLoanError extends RemoteLoanState {
   const RemoteLoanError(DioException dioError,
       [int? statusCode, List<String>? message])
@@ -54,5 +76,5 @@ final class RemoteLoanError extends RemoteLoanState {
       : super(genericError: genericError);
 
   @override
-  List<Object?> get props => [statusCode, dioError];
+  List<Object?> get props => [statusCode, dioError, genericError];
 }

@@ -17,10 +17,31 @@ class HomeBooksBloc extends Bloc<HomeBooksEvent, HomeBooksState> {
 
   HomeBooksBloc(this._getPhysicalBooks) : super(HomeBooksInitial()) {
     on<FetchHomeBooks>(onFetchHomeBooks);
+    on<RefreshHomeBooks>(onRefreshHomeBooks);
   }
 
   FutureOr<void> onFetchHomeBooks(FetchHomeBooks event, Emitter<HomeBooksState> emit) async {
     emit(HomeBooksLoading());
+    try {
+      final dataState =
+          await _getPhysicalBooks(params: {'pageSize': 10, 'recents': true});
+      if (dataState is DataSuccess && dataState.data != null) {
+        emit(HomeBooksLoaded(
+            dataState.statusCode, dataState.data! as List<PhysicalBookModel>));
+      } else if (dataState is DataFailed) {
+        logger.d('DataFailed: $dataState');
+        emit(HomeBooksError(dataState.error!, dataState.statusCode));
+      }
+    } on DioException catch (e) {
+      logger.d('DioE: ${e.toString()}');
+      emit(HomeBooksError(e, e.response?.statusCode));
+    } catch (e) {
+      logger.d('Generic: ${e.toString()}. StackTrace: ${(e as Error).stackTrace.toString()}');
+      emit(HomeBooksError.genericError(e));
+    }
+  }
+
+  FutureOr<void> onRefreshHomeBooks(RefreshHomeBooks event, Emitter<HomeBooksState> emit) async {
     try {
       final dataState =
           await _getPhysicalBooks(params: {'pageSize': 10, 'recents': true});

@@ -32,6 +32,7 @@ abstract class PhysicalBook extends Equatable {
   final String? bibliographicGps;
   final int? rating;
   final List<Map<String,dynamic>>? ratings;
+  final int? available;
 
 
   const PhysicalBook({
@@ -46,6 +47,7 @@ abstract class PhysicalBook extends Equatable {
     required this.creationDate,
     this.rating,
     this.ratings,
+    this.available,
     this.isbn,
     this.isbn13,
     this.publisher,

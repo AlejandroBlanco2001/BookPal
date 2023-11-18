@@ -6,6 +6,6 @@ import 'package:bookpal/core/resources/data_state.dart';
 abstract class PhysicalBookRepository {
   Future<DataState<PhysicalBook>> getPhysicalBookById(int id);
   Future<DataState<PhysicalBook>> getPhysicalBookByBarcode(String barcode);
-  Future<DataState<List<PhysicalBook>>> getPhysicalBooks([int pageSize]);
-  Future<DataState<List<PhysicalBook>>> getRecents([int pageSize]);
+  Future<DataState<List<PhysicalBook>>> getPhysicalBooks({int? pageSize, String? title});
+  Future<DataState<List<PhysicalBook>>> getPopular([int pageSize]);
 }

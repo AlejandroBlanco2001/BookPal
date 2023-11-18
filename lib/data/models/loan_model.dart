@@ -10,10 +10,11 @@ part 'loan_model.g.dart';
 
 @JsonSerializable()
 class LoanModel extends Loan {
-  LoanModel({
+  const LoanModel({
     required int id,
     required int userId,
-    required PhysicalBookModel physicalBook,
+    String? physicalBookBarcode,
+    PhysicalBookModel? physicalBook,
     required DateTime startDate,
     required DateTime dueDate,
     DateTime? returnDate,
@@ -21,6 +22,7 @@ class LoanModel extends Loan {
   }) : super(
           id: id,
           userId: userId,
+          physicalBookBarcode: physicalBookBarcode,
           physicalBook: physicalBook,
           startDate: startDate,
           dueDate: dueDate,

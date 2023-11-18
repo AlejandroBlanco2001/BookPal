@@ -15,18 +15,20 @@ part 'user_borrowed_event.dart';
 part 'user_borrowed_state.dart';
 
 class UserBorrowedBloc extends Bloc<UserBorrowedEvent, UserBorrowedState> {
-
   final GetLoansByUserUsecase _getLoansByUser;
 
   UserBorrowedBloc(this._getLoansByUser) : super(UserBorrowedInitial()) {
     on<GetUserBorrowed>(onGetUserBorrowed);
+    on<RefreshBorrowed>((event, emit) => onGetUserBorrowed(event, emit));
     on<DisposeBorrowed>((event, emit) => emit(UserBorrowedInitial()));
   }
 
-  FutureOr<void> onGetUserBorrowed(GetUserBorrowed event, Emitter<UserBorrowedState> emit) async {
+  FutureOr<void> onGetUserBorrowed(
+      UserBorrowedEvent event, Emitter<UserBorrowedState> emit) async {
     emit(UserBorrowedLoading());
     try {
-      int? id = JwtDecoder.decode(await getIt.get<SessionManager>().get("jwt"))['id'];
+      int? id =
+          JwtDecoder.decode(await getIt.get<SessionManager>().get("jwt"))['id'];
       if (id == null) {
         emit(const UserBorrowedError.genericError("User id is null"));
         return;
@@ -36,15 +38,46 @@ class UserBorrowedBloc extends Bloc<UserBorrowedEvent, UserBorrowedState> {
         emit(UserBorrowedLoaded(
             dataState.statusCode, dataState.data! as List<LoanModel>));
       } else if (dataState is DataFailed) {
-        emit(UserBorrowedError(dataState.error!, dataState.statusCode, dataState.message));
+        logger.d('DataFailed: ${dataState.message}');
+        emit(UserBorrowedError(
+            dataState.error!, dataState.statusCode, dataState.message));
       }
     } on DioException catch (e) {
       logger.d("DioException: ${e.response}");
       emit(UserBorrowedError(e, e.response?.statusCode));
     } catch (e) {
-      logger.d("Generic Error Message: ${e.toString()}");
+      logger.d(
+          "Generic Error Message: ${e.toString()}.\nStackTrace: ${(e as Error).stackTrace.toString()}");
       emit(UserBorrowedError.genericError(e));
     }
   }
 
+  FutureOr<void> onRefreshBorrowed(
+      UserBorrowedEvent event, Emitter<UserBorrowedState> emit) async {
+    try {
+      int? id =
+          JwtDecoder.decode(await getIt.get<SessionManager>().get("jwt"))['id'];
+      if (id == null) {
+        emit(const UserBorrowedError.genericError("User id is null"));
+        return;
+      }
+      final dataState = await _getLoansByUser(params: {'userId': id});
+      if (dataState is DataSuccess && dataState.data != null) {
+        logger.d("Refreshed borrowed: ${dataState.data}");
+        emit(UserBorrowedLoaded(
+            dataState.statusCode, dataState.data! as List<LoanModel>));
+      } else if (dataState is DataFailed) {
+        logger.d('DataFailed: ${dataState.message}');
+        emit(UserBorrowedError(
+            dataState.error!, dataState.statusCode, dataState.message));
+      }
+    } on DioException catch (e) {
+      logger.d("DioException: ${e.response}");
+      emit(UserBorrowedError(e, e.response?.statusCode));
+    } catch (e) {
+      logger.d(
+          "Generic Error Message: ${e.toString()}.\nStackTrace: ${(e as Error).stackTrace.toString()}");
+      emit(UserBorrowedError.genericError(e));
+    }
+  }
 }

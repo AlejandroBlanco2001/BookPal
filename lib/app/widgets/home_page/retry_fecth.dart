@@ -18,7 +18,7 @@ class RetryFetch extends StatelessWidget {
                 fontWeight: FontWeight.bold),
           ),
           IconButton(
-            onPressed: fetchMethod(),
+            onPressed: () => fetchMethod(),
             icon: Icon(
               Icons.refresh,
               color: Theme.of(context).colorScheme.secondary,

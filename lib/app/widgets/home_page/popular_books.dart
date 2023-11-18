@@ -12,51 +12,58 @@ class PopularBooks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-        margin: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              'Popular',
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: ((context) => const ListBooks(title: 'Popular Books'))));
-              },
-              child: Text(
-                'See all',
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                'Popular',
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 14,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold),
               ),
-            )
-          ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              const ListBooks(title: 'Popular Books'))));
+                },
+                child: Text(
+                  'See all',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold),
+                ),
+              )
+            ],
+          ),
         ),
-      ),
-      BlocBuilder<HomeBooksBloc, HomeBooksState>(
-        builder: (context, state) {
-          if (state is HomeBooksLoading || state is HomeBooksInitial) {
-            return const PopularBooksShimmer();
-          } else if (state is HomeBooksError) {
-            return RetryFetch(
-                fetchMethod: () =>
-                    context.read<HomeBooksBloc>().add(FetchHomeBooks()));
-          }
-          return ListView(
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            children: _buildPopularBooks(state.allBooks.take(3).toList()),
-          );
-        },
-      ),
-    ]);
+        BlocBuilder<HomeBooksBloc, HomeBooksState>(
+          builder: (context, state) {
+            if (state is HomeBooksLoading || state is HomeBooksInitial) {
+              return const PopularBooksShimmer();
+            } else if (state is HomeBooksError) {
+              return RetryFetch(
+                  fetchMethod: () =>
+                      context.read<HomeBooksBloc>().add(FetchHomeBooks()));
+            }
+            return ListView(
+              shrinkWrap: true,
+              physics: const ScrollPhysics(),
+              children: _buildPopularBooks(state.allBooks.take(3).toList()),
+            );
+          },
+        ),
+      ],
+    );
   }
 
   List<Widget> _buildPopularBooks(List<PhysicalBookModel> books) {

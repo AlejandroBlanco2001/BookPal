@@ -59,6 +59,8 @@ dependencies:
   nfc_manager: ^3.3.0
   firebase_core: ^2.22.0
   firebase_storage: ^11.5.0
+  flutter_animated_dialog: ^2.0.1
+  loader_overlay: ^3.0.0
 
 dev_dependencies:
   flutter_test:

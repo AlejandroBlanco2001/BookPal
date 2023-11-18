@@ -46,6 +46,7 @@ import 'package:bookpal/presentation/navigation/bloc/navigation_pages_bloc.dart'
 import 'package:bookpal/presentation/nfc/bloc/nfc_bloc.dart';
 import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
 import 'package:bookpal/presentation/physical_book/remote_bloc/remote_physical_book_bloc.dart';
+import 'package:bookpal/presentation/physical_book/remote_bloc/search_bloc.dart';
 import 'package:bookpal/presentation/rating/bloc/rating_bloc.dart';
 import 'package:bookpal/presentation/theme/bloc/theme_bloc.dart';
 import 'package:bookpal/presentation/user/remote_bloc/remote_user_bloc.dart';
@@ -126,6 +127,8 @@ Future<void> initializeDependencies() async {
       () => RemotePhysicalBookBloc(getIt(), getIt()));
 
   getIt.registerFactory<HomeBooksBloc>(() => HomeBooksBloc(getIt()));
+
+  getIt.registerFactory<SearchBloc>(() => SearchBloc(getIt()));
 
   getIt.registerSingleton<BarcodeScanner>(BarcodeScanner());
 

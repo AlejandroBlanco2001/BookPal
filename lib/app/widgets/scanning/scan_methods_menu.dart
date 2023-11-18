@@ -1,4 +1,3 @@
-import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/presentation/barcode/bloc/barcode_bloc.dart';
 import 'package:bookpal/presentation/company/remote_bloc/remote_company_bloc.dart';
 import 'package:bookpal/presentation/nfc/bloc/nfc_bloc.dart';
@@ -43,12 +42,11 @@ class MenuButton extends StatelessWidget {
         color: Theme.of(context).colorScheme.primaryContainer,
         child: TextButton(
           onPressed: () {
-            logger.d("Type: $type");
             Navigator.pop(context);
             if (type == 'rfid') {
               context.read<NfcBloc>().add(ScanNfc());
             } else if (type == 'barcode') {
-              context.read<BarcodeBloc>().add(ScanBarcode());
+              context.read<BarcodeBloc>().add(ScanBarcode(context));
             }
           },
           child: Row(

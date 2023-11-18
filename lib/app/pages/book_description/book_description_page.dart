@@ -1,3 +1,4 @@
+import 'package:bookpal/app/widgets/book_description/borrow_button.dart';
 import 'package:bookpal/app/widgets/book_description/ratings_row.dart';
 import 'package:bookpal/app/widgets/loading/basic_shimmer.dart';
 import 'package:bookpal/app/widgets/loading/shimmer_image.dart';
@@ -16,6 +17,11 @@ class BookDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
+      floatingActionButton: (scanned)
+          ? BorrowButton(
+              book: book)
+          : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         toolbarHeight: 80,
@@ -43,6 +49,7 @@ class BookDescription extends StatelessWidget {
               margin: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   FutureBuilder(
                     future: Utilities.getDownloadUrl(
@@ -59,7 +66,7 @@ class BookDescription extends StatelessWidget {
                   Expanded(
                     child: Container(
                       width: 200,
-                      height: 150,
+                      height: 300,
                       margin: const EdgeInsets.only(left: 16.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,10 +93,10 @@ class BookDescription extends StatelessWidget {
                           RatingsRow(book: book),
                           Container(
                             margin: const EdgeInsets.only(top: 6),
-                            child: const Text(
-                              '3 books in library',
+                            child: Text(
+                              '${book.available!} book${(book.available! > 1) ? 's' : ''} in library',
                               style: TextStyle(
-                                color: Colors.grey,
+                                color: Theme.of(context).colorScheme.onPrimary,
                                 fontSize: 14,
                               ),
                             ),

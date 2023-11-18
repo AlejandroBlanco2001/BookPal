@@ -50,10 +50,18 @@ class ProfilePage extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 20.0),
                       child: ClipRRect(
                         borderRadius:
-                            const BorderRadius.all(Radius.circular(15)),
-                        child: SizedBox(
+                            const BorderRadius.all(Radius.circular(20)),
+                        child: Container(
                           width: 100,
                           height: 100,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer,
+                                    width: 2),
+                            borderRadius: const BorderRadius.all(Radius.circular(20)),
+                          ),
                           child: BlocBuilder<LoginBloc, LoginState>(
                             builder: (context, loginState) {
                               return FutureBuilder(

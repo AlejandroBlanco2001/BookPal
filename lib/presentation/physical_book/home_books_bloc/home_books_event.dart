@@ -8,3 +8,5 @@ sealed class HomeBooksEvent extends Equatable {
 }
 
 final class FetchHomeBooks extends HomeBooksEvent {}
+
+final class RefreshHomeBooks extends HomeBooksEvent {}

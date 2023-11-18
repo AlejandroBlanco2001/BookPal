@@ -55,11 +55,11 @@ class PhysicalBookRepositoryImplementation implements PhysicalBookRepository {
 
   @override
   Future<DataState<List<PhysicalBookModel>>> getPhysicalBooks(
-      [int? pageSize]) async {
+      {int? pageSize, String? title}) async {
     try {
       String authorization = await Utilities.getAuthorization();
       final httpResponse = await _apiService.getPhysicalBooks(
-          take: pageSize, authorization: authorization);
+          take: pageSize, title: title, authorization: authorization);
       final ResponseVerifier<List<PhysicalBookModel>> responseVerifier =
           ResponseVerifier<List<PhysicalBookModel>>();
       return responseVerifier.validateResponse(httpResponse);
@@ -77,11 +77,10 @@ class PhysicalBookRepositoryImplementation implements PhysicalBookRepository {
   }
 
   @override
-  Future<DataState<List<PhysicalBookModel>>> getRecents(
-      [int? pageSize]) async {
+  Future<DataState<List<PhysicalBookModel>>> getPopular([int? pageSize]) async {
     try {
       String authorization = await Utilities.getAuthorization();
-      final httpResponse = await _apiService.getRecents(
+      final httpResponse = await _apiService.getPopular(
           take: pageSize, authorization: authorization);
       final ResponseVerifier<List<PhysicalBookModel>> responseVerifier =
           ResponseVerifier<List<PhysicalBookModel>>();
@@ -94,7 +93,8 @@ class PhysicalBookRepositoryImplementation implements PhysicalBookRepository {
           : [e.response?.data['message']];
       return DataFailed(e.response?.statusCode ?? 500, e, messages);
     } on Error catch (e) {
-      logger.d('E in rep: ${e.toString()}\n. Stacktrace: ${e.stackTrace.toString()}');
+      logger.d(
+          'E in rep: ${e.toString()}\n. Stacktrace: ${e.stackTrace.toString()}');
       rethrow;
     }
   }

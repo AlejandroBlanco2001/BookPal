@@ -31,9 +31,16 @@ class BookItem extends StatelessWidget {
               child: ThemeShimmer(),
             ),
           ),
-          imageBuilder: (context, imageProvider) => CircleAvatar(
-            backgroundImage: imageProvider,
-            radius: 37,
+          imageBuilder: (context, imageProvider) => Container(
+            width: 74,
+            height: 74,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+            ),
+            child: CircleAvatar(
+              backgroundImage: imageProvider,
+              radius: 37,
+            ),
           ),
         ),
         const SizedBox(

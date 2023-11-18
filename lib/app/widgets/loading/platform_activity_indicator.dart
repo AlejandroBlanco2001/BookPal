@@ -9,8 +9,8 @@ class PlatformActivityIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: (defaultTargetPlatform == TargetPlatform.iOS)
-          ? const CupertinoActivityIndicator()
-          : const CircularProgressIndicator(),
+          ? CupertinoActivityIndicator(color: Theme.of(context).colorScheme.secondary,)
+          : CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary,),
     );
   }
 }

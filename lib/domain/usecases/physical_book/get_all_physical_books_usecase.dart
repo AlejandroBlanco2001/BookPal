@@ -13,7 +13,7 @@ class GetAllPhysicalBooksUsecase
   Future<DataState<List<PhysicalBook>>> call({Map<String, dynamic>? params}) {
     bool recents = params!['recents'] ?? false;
     return (recents)
-        ? _physicalBookRepository.getRecents()
-        : _physicalBookRepository.getPhysicalBooks(params['pageSize']);
+        ? _physicalBookRepository.getPopular()
+        : _physicalBookRepository.getPhysicalBooks(pageSize: params['pageSize'], title: params['title']);
   }
 }
