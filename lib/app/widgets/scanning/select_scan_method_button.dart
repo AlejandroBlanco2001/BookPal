@@ -15,8 +15,8 @@ class SelectScanMethodButton extends StatelessWidget {
         double height = 50;
         if (state is RemoteCompanyLoaded) height = 50.0 * state.company!.bookScanMethods.length;
         return Container(
-          width: 80,
-          height: 80,
+          width: 70,
+          height: 70,
           decoration: const BoxDecoration(
             shape: BoxShape.circle
           ),

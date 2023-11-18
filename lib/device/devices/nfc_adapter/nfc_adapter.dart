@@ -7,8 +7,10 @@ class NfcAdapter {
     logger.d("NFC Available: $available");
     NdefMessage? message;
 
+    NfcManager instance = NfcManager.instance;
+
     // Start Session
-    NfcManager.instance.startSession(
+    instance.startSession(
       onDiscovered: (NfcTag tag) async {
         Ndef? ndef = Ndef.from(tag);
         if (ndef == null) {
@@ -16,13 +18,12 @@ class NfcAdapter {
         }
         logger.d("Reading tag");
         message = await ndef.read();
+        logger.d("Stopping session");
+        instance.stopSession();
       },
       alertMessage: "Approach a tag to the back of your phone.",
       onError: (error) async => logger.d("Error in adapter: $error"),
     );
-    logger.d("Stopping session");
-    // Stop Session
-    NfcManager.instance.stopSession();
 
     logger.d("Returning message with: $message");
     return message;

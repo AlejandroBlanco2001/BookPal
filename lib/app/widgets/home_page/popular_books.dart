@@ -38,8 +38,8 @@ class PopularBooks extends StatelessWidget {
                 child: Text(
                   'See all',
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontSize: 14,
+                      color: Theme.of(context).colorScheme.secondary.withOpacity(.8),
+                      fontSize: 12,
                       fontWeight: FontWeight.bold),
                 ),
               )

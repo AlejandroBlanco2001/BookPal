@@ -15,13 +15,12 @@ class RatingsRow extends StatelessWidget {
         children: <Widget>[...List.generate(
               7,
               (index) {
-                var rating = book.rating ?? 4;
-                var ratings = book.ratings ??
-                    List.filled(27, {'key': 'value'}, growable: false);
+                var rating = book.rating ?? 0;
+                var ratings = book.ratings ?? [];
                 if (index < 5) {
-                  return Star(colored: index < rating);
+                  return Star(colored: index < rating.floor());
                 } else if (index == 5) {
-                  return TextContainer(text: rating.toString());
+                  return TextContainer(text: rating.toStringAsPrecision(2));
                 } else {
                   return TextContainer(text: '(${ratings.length.toString()})');
                 }

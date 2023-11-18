@@ -20,22 +20,28 @@ class RecentlyBorrowedBooks extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
-                'Your Recently Borrowed Books',
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold),
+              Expanded(
+                child: Text(
+                  'Your Recently Borrowed Books',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
               InkWell(
                 onTap: () =>
                     context.read<NavigationBloc>().add(const SwapPage(1)),
-                child: Text(
-                  'See all',
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold),
+                child: Expanded(
+                  child: Text(
+                    'See all',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary.withOpacity(0.8),
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ],

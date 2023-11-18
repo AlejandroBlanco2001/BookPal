@@ -60,7 +60,6 @@ class ProfilePage extends StatelessWidget {
                                     .colorScheme
                                     .onPrimaryContainer,
                                     width: 2),
-                            borderRadius: const BorderRadius.all(Radius.circular(20)),
                           ),
                           child: BlocBuilder<LoginBloc, LoginState>(
                             builder: (context, loginState) {
@@ -83,7 +82,8 @@ class ProfilePage extends StatelessWidget {
                                     );
                                   } else {
                                     return CachedNetworkImage(
-                                        imageUrl: snapshot.data!);
+                                        imageUrl: snapshot.data!,
+                                        fit: BoxFit.cover,);
                                   }
                                 },
                               );

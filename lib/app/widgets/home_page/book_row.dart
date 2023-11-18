@@ -28,17 +28,22 @@ class BookRow extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(24.0, 6.0, 24, 6),
           child: Ink(
             child: FutureBuilder(
-              future: Utilities.getDownloadUrl('$booksCoversPath${book.bookCover}'),
+              future:
+                  Utilities.getDownloadUrl('$booksCoversPath${book.bookCover}'),
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData) {
-                  return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: const Padding(
-              padding: EdgeInsets.fromLTRB(24.0, 0.0, 24, 0),
-              child: BookRowShimmer()),
-        );
+                if (snapshot.connectionState == ConnectionState.waiting ||
+                    !snapshot.hasData) {
+                  return Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: const Padding(
+                          padding: EdgeInsets.fromLTRB(24.0, 0.0, 24, 0),
+                          child: BookRowShimmer()),
+                    ),
+                  );
                 } else if (snapshot.hasError) {
-                  logger.d("Error loading book cover of ${book.title}. Error: ${snapshot.error}");
+                  logger.d(
+                      "Error loading book cover of ${book.title}. Error: ${snapshot.error}");
                   return const Icon(Icons.error);
                 }
                 return BookItem(

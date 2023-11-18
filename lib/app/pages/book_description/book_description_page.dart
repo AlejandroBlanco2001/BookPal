@@ -17,10 +17,7 @@ class BookDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
-      floatingActionButton: (scanned)
-          ? BorrowButton(
-              book: book)
-          : null,
+      floatingActionButton: (scanned) ? BorrowButton(book: book) : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -44,6 +41,7 @@ class BookDescription extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               margin: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 0),
@@ -56,17 +54,18 @@ class BookDescription extends StatelessWidget {
                         '$booksCoversPath${book.bookCover}'),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return _buildBookCover(const ThemeShimmer());
+                        return _buildBookCover(context, const ThemeShimmer());
                       } else if (snapshot.hasError) {
-                        return _buildBookCover(const Icon(Icons.error_outline));
+                        return _buildBookCover(
+                            context, const Icon(Icons.error_outline));
                       }
-                      return _buildBookCover(ShimmerImage(url: snapshot.data!));
+                      return _buildBookCover(
+                          context, ShimmerImage(url: snapshot.data!));
                     },
                   ),
                   Expanded(
                     child: Container(
-                      width: 200,
-                      height: 300,
+                      height: MediaQuery.of(context).size.width * 0.525,
                       margin: const EdgeInsets.only(left: 16.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,18 +107,44 @@ class BookDescription extends StatelessWidget {
                 ],
               ),
             ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 0),
+                  child: Text(
+                    'Synopsis:',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(32.0, 8.0, 32.0, 0),
+                  child: Text(
+                    textPlaceholder,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 
-  _buildBookCover(Widget child) {
+  _buildBookCover(BuildContext context, Widget child) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(18),
       child: SizedBox(
-        width: 140,
-        height: 200,
+        width: MediaQuery.of(context).size.width * 0.35,
+        height: MediaQuery.of(context).size.width * 0.525,
         child: child,
       ),
     );

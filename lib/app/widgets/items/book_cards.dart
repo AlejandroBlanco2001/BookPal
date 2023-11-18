@@ -197,7 +197,7 @@ class BookCard2 extends StatelessWidget {
                                       fit: BoxFit.scaleDown,
                                       child: Text(
                                         timeLeft,
-                                        maxLines: 2,
+                                        maxLines: 1,
                                         style: TextStyle(
                                           color: (loan!.status.name ==
                                                   'overdue')
@@ -230,13 +230,17 @@ class BookCard2 extends StatelessWidget {
                                             .read<RemoteLoanBloc>()
                                             .add(MakeLoanReturn(loan!.id));
                                       },
-                                      child: const Text(
-                                        'Return',
-                                        style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 241, 92, 81),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
+                                      child: const FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                          'Return',
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                            color:
+                                                Color.fromARGB(255, 241, 92, 81),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
                                     ),

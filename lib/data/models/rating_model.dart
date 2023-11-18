@@ -8,7 +8,7 @@ part 'rating_model.g.dart';
 class RatingModel extends Rating {
   const RatingModel({
     int? id,
-    required int rating,
+    required double rating,
     required String physicalBookBarcode,
     int? userId,
     DateTime? createdAt,

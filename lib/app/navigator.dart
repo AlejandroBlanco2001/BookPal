@@ -1,5 +1,6 @@
 import 'package:bookpal/app/pages/book_description/book_description_page.dart';
 import 'package:bookpal/app/widgets/scanning/select_scan_method_button.dart';
+import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
 import 'package:bookpal/presentation/barcode/bloc/barcode_bloc.dart';
 import 'package:bookpal/presentation/favorites/bloc/favorite_bloc.dart';
@@ -63,9 +64,10 @@ class _MainNavigatorState extends State<MainNavigator> {
           child: BlocListener<NfcBloc, NfcState>(
             listener: (context, nfcState) {
               if (nfcState is NfcScanned) {
-                context
-                    .read<RemotePhysicalBookBloc>()
-                    .add(GetPhysicalBook(nfcState.identifier!));
+                logger.d("NFC scanned: ${nfcState.ndefMessage?.records ?? 'No records'}");
+                // context
+                //     .read<RemotePhysicalBookBloc>()
+                //     .add(GetPhysicalBook(nfcState.identifier!));
               }
             },
             child: BlocListener<BarcodeBloc, BarcodeState>(

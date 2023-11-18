@@ -19,7 +19,7 @@ class UserSection extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.fromLTRB(30.0, 0, 30.0, 0),
-              margin: const EdgeInsets.fromLTRB(0, 16.0, 0, 0),
+              margin: const EdgeInsets.fromLTRB(0, 20.0, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

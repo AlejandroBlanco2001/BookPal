@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 abstract class Rating extends Equatable {
 
   final int? id;
-  final int rating;
+  final double rating;
   @JsonKey(name: 'physical_book_barcode')
   final String physicalBookBarcode;
   @JsonKey(name: 'user_id')

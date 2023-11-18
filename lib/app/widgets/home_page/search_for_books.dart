@@ -20,7 +20,7 @@ class _BookSearchFieldState extends State<BookSearchField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 0),
+      margin: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0),
       child: Form(
         child: TextFormField(
           key: _formKey,

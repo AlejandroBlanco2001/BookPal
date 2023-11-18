@@ -12,7 +12,7 @@ class Star extends StatelessWidget {
       child: Icon(
         Icons.star,
         color: (colored) ? Colors.yellow : Colors.grey,
-        size: 16,
+        size: 14,
       ),
     );
   }

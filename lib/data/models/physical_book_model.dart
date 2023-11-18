@@ -19,7 +19,7 @@ class PhysicalBookModel extends PhysicalBook {
     String? edition,
     required String deweyCode,
     required DateTime creationDate,
-    int? rating,
+    double? rating,
     List<Map<String,dynamic>>? ratings,
     int? available,
     String? isbn,

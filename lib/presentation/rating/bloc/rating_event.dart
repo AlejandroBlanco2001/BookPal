@@ -9,7 +9,7 @@ sealed class RatingEvent extends Equatable {
 
 final class RateBook extends RatingEvent {
   final String barcode;
-  final int rating;
+  final double rating;
 
   const RateBook(this.barcode, this.rating);
 
@@ -19,7 +19,7 @@ final class RateBook extends RatingEvent {
 
 final class UpdateRating extends RatingEvent {
   final int bookId;
-  final int rating;
+  final double rating;
 
   const UpdateRating(this.bookId, this.rating);
 

@@ -30,7 +30,7 @@ abstract class PhysicalBook extends Equatable {
   final String bookCover;
   final BookStatus status;
   final String? bibliographicGps;
-  final int? rating;
+  final double? rating;
   final List<Map<String,dynamic>>? ratings;
   final int? available;
 

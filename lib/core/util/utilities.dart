@@ -180,7 +180,7 @@ class Utilities {
       edition: json['edition'] as String?,
       deweyCode: json['dewey_code'] as String,
       creationDate: DateTime.parse(json['creation_date'] as String),
-      rating: json['rating'] as int?,
+      rating: json['rating'] as double?,
       ratings: (json['ratings'] as List<dynamic>?)
           ?.map((e) => e as Map<String, dynamic>)
           .toList(),
