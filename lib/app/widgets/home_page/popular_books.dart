@@ -27,22 +27,23 @@ class PopularBooks extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.bold),
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) =>
-                              const ListBooks(title: 'Popular Books'))));
-                },
+              TextButton(
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) =>
+                            const ListBooks(title: 'Popular Books')))),
                 child: Text(
                   'See all',
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary.withOpacity(.8),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .secondary
+                          .withOpacity(.8),
                       fontSize: 12,
                       fontWeight: FontWeight.bold),
                 ),
-              )
+              ),
             ],
           ),
         ),

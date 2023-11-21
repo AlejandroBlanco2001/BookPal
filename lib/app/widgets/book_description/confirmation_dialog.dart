@@ -26,13 +26,14 @@ class ConfirmationDialog extends StatelessWidget {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.fromLTRB(20,20,20,15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 'Borrow ${book.title}?',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onPrimaryContainer,
                   fontSize: 20,

@@ -31,17 +31,18 @@ class RecentlyBorrowedBooks extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              InkWell(
-                onTap: () =>
+              TextButton(
+                onPressed: () =>
                     context.read<NavigationBloc>().add(const SwapPage(1)),
-                child: Expanded(
-                  child: Text(
-                    'See all',
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary.withOpacity(0.8),
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold),
-                  ),
+                child: Text(
+                  'See all',
+                  style: TextStyle(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .secondary
+                          .withOpacity(0.8),
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
             ],

@@ -1,4 +1,6 @@
+import 'package:bookpal/app/widgets/book_description/book_synopsis.dart';
 import 'package:bookpal/app/widgets/book_description/borrow_button.dart';
+import 'package:bookpal/app/widgets/book_description/rating_menu.dart';
 import 'package:bookpal/app/widgets/book_description/ratings_row.dart';
 import 'package:bookpal/app/widgets/loading/basic_shimmer.dart';
 import 'package:bookpal/app/widgets/loading/shimmer_image.dart';
@@ -40,100 +42,85 @@ class BookDescription extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  FutureBuilder(
-                    future: Utilities.getDownloadUrl(
-                        '$booksCoversPath${book.bookCover}'),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return _buildBookCover(context, const ThemeShimmer());
-                      } else if (snapshot.hasError) {
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    FutureBuilder(
+                      future: Utilities.getDownloadUrl(
+                          '$booksCoversPath${book.bookCover}'),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return _buildBookCover(context, const ThemeShimmer());
+                        } else if (snapshot.hasError) {
+                          return _buildBookCover(
+                              context, const Icon(Icons.error_outline));
+                        }
                         return _buildBookCover(
-                            context, const Icon(Icons.error_outline));
-                      }
-                      return _buildBookCover(
-                          context, ShimmerImage(url: snapshot.data!));
-                    },
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: MediaQuery.of(context).size.width * 0.525,
-                      margin: const EdgeInsets.only(left: 16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            book.title,
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 6),
-                            child: Text(
-                              'By ${book.author}',
+                            context, ShimmerImage(url: snapshot.data!));
+                      },
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: MediaQuery.of(context).size.width * 0.525,
+                        margin: const EdgeInsets.only(left: 16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              book.title,
                               style: TextStyle(
                                 color: Theme.of(context).colorScheme.onPrimary,
-                                fontSize: 14,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ),
-                          RatingsRow(book: book),
-                          Container(
-                            margin: const EdgeInsets.only(top: 6),
-                            child: Text(
-                              '${book.available!} book${(book.available! > 1) ? 's' : ''} in library',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                fontSize: 14,
+                            Container(
+                              margin: const EdgeInsets.only(top: 6),
+                              child: Text(
+                                'By ${book.author}',
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                  fontSize: 14,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                            RatingsRow(book: book),
+                            Container(
+                              margin: const EdgeInsets.only(top: 6),
+                              child: Text(
+                                '${book.available!} book${(book.available! > 1) ? 's' : ''} in library',
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 0),
-                  child: Text(
-                    'Synopsis:',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.fromLTRB(32.0, 8.0, 32.0, 0),
-                  child: Text(
-                    textPlaceholder,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
+              const BookSynopsis(),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: RatingMenu(),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:bookpal/app/pages/authentication/signup_page.dart';
+import 'package:bookpal/app/widgets/loading/platform_activity_indicator.dart';
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
@@ -184,9 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                                   }
                                 : null,
                         child: (state is LoginLoading)
-                            ? (defaultTargetPlatform == TargetPlatform.android)
-                                ? const CircularProgressIndicator()
-                                : const CupertinoActivityIndicator()
+                            ? const PlatformActivityIndicator(light: false)
                             : const Text("Log In"),
                       );
                     },

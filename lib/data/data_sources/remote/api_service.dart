@@ -205,6 +205,13 @@ abstract class ApiService {
     @Query('take') int? take = 10
   });
 
+  @GET("/rating/user/{userId}")
+  Future<HttpResponse<List<RatingModel>>> getUserRatings({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('Authorization') String? authorization,
+    @Path() required int userId
+  });
+
   @PUT("/rating/{id}")
   Future<HttpResponse<RatingModel>> putRating({
     @Header('Content-Type') String contentType = contentType,

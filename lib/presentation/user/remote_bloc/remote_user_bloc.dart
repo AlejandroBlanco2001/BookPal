@@ -42,7 +42,7 @@ class RemoteUserBloc extends Bloc<RemoteUserEvent, RemoteUserState> {
     } on Error catch (e) {
       logger.e('$e. Stacktrace: ${e.stackTrace}');
       emit(RemoteUserError.genericError(e));
-    } on Exception catch (e) {
+    } catch (e) {
       logger.e(e);
       emit(RemoteUserError.genericError(e));
     }
@@ -63,6 +63,9 @@ class RemoteUserBloc extends Bloc<RemoteUserEvent, RemoteUserState> {
         emit(RemoteUserError(
             dataState.error!, dataState.statusCode, dataState.message));
       }
+    } on Error catch (e) {
+      logger.e('$e. Stacktrace: ${e.stackTrace}');
+      emit(RemoteUserError.genericError(e));
     } catch (e) {
       logger.e(e);
       emit(RemoteUserError.genericError(e));
@@ -70,7 +73,7 @@ class RemoteUserBloc extends Bloc<RemoteUserEvent, RemoteUserState> {
   }
 
   void onRegisterUser(RegisterUser event, Emitter<RemoteUserState> emit) async {
-    emit(RemoteUserLoading());
+    emit(RegisteringUser());
     logger.i('Registering user: ${event.user.toJson()}');
     try {
       final dataState = await _registerUser(params: {'user': event.user});
@@ -80,12 +83,18 @@ class RemoteUserBloc extends Bloc<RemoteUserEvent, RemoteUserState> {
             dataState.statusCode, dataState.data! as UserModel));
       } else if (dataState is DataFailed) {
         logger.d(dataState.message, error: dataState.error, stackTrace: dataState.error!.stackTrace);
-        emit(RemoteUserError(
+        emit(RegisterUserError(
             dataState.error!, dataState.statusCode, dataState.message));
       }
-    } on Exception catch (e) {
-      logger.d(e.toString());
-      emit(RemoteUserError.genericError(e));
+    } on DioException catch (e) {
+      logger.e(e);
+      emit(RegisterUserError(e, e.response?.statusCode));
+    } on Error catch (e) {
+      logger.e('$e. Stacktrace: ${e.stackTrace}');
+      emit(RegisterUserError.genericError(e));
+    } catch (e) {
+      logger.e(e);
+      emit(RegisterUserError.genericError(e));
     }
   }
 }

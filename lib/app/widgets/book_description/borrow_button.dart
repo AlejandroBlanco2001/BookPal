@@ -1,5 +1,4 @@
 import 'package:bookpal/app/widgets/book_description/confirmation_dialog.dart';
-import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/data/models/physical_book_model.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
 import 'package:bookpal/presentation/loan/remote_bloc/remote_loan_bloc.dart';
@@ -26,7 +25,6 @@ class BorrowButton extends StatelessWidget {
                   builder: (context) => ConfirmationDialog(
                       book: book,
                       callback: () {
-                        logger.d("Entro a callback");
                         context
                             .read<RemoteLoanBloc>()
                             .add(CreateLoan(book.barcode));

@@ -6,11 +6,33 @@ import 'package:bookpal/data/util/response_verifier.dart';
 import 'package:bookpal/domain/entities/rating.dart';
 import 'package:bookpal/domain/repositories/rating_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class RatingRepositoryImplementation implements RatingRepository {
   final ApiService _apiService;
 
   RatingRepositoryImplementation(this._apiService);
+
+  @override
+  Future<DataState<List<RatingModel>>> getUserRatings() async {
+    try {
+      String authorization = await Utilities.getAuthorization();
+      int userId = JwtDecoder.decode(authorization)['id'];
+      final httpResponse = await _apiService.getUserRatings(
+        userId: userId,
+        authorization: authorization,
+      );
+      final ResponseVerifier<List<RatingModel>> responseVerifier =
+          ResponseVerifier<List<RatingModel>>();
+      return responseVerifier.validateResponse(httpResponse);
+    } on DioException catch (e) {
+      List<String>? messages = (e.response?.data['message'] is List)
+          ? List<String>.from(
+              e.response?.data['message'].map((m) => m.toString()))
+          : [e.response?.data['message']];
+      return DataFailed(e.response?.statusCode ?? 500, e, messages);
+    }
+  }
 
   @override
   Future<DataState<Rating>> postRating(Rating rating) async {

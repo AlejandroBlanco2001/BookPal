@@ -33,14 +33,9 @@ class BookRow extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting ||
                     !snapshot.hasData) {
-                  return Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: const Padding(
-                          padding: EdgeInsets.fromLTRB(24.0, 0.0, 24, 0),
-                          child: BookRowShimmer()),
-                    ),
-                  );
+                  return const Padding(
+                      padding: EdgeInsets.fromLTRB(24.0, 0.0, 24, 0),
+                      child: BookRowShimmer());
                 } else if (snapshot.hasError) {
                   logger.d(
                       "Error loading book cover of ${book.title}. Error: ${snapshot.error}");

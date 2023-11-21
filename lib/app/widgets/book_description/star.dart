@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Star extends StatelessWidget {
-  const Star({super.key, required this.colored});
+  const Star({super.key, required this.colored, this.fontSize});
 
   final bool colored;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class Star extends StatelessWidget {
       child: Icon(
         Icons.star,
         color: (colored) ? Colors.yellow : Colors.grey,
-        size: 14,
+        size: fontSize ?? 14,
       ),
     );
   }

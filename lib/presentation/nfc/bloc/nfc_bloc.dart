@@ -28,7 +28,7 @@ class NfcBloc extends Bloc<NfcEvent, NfcState> {
       emit(NfcScanned(ndefMessage: ndefMessage, identifier: ndefMessage.records[0].payload.toString()));
     } catch (e) {
       logger.d("Error: $e");
-      emit(NfcError(error: e as Exception));
+      emit(NfcError(error: Exception(e)));
     }
   }
 }
