@@ -22,10 +22,19 @@ class NfcAdapter {
           if (ndef == null) {
             return;
           }
-          logger.d("Reading tag $tag");
-          logger.d("Stopping session");
+          if (ndef.cachedMessage != null) {
+            String tempRecord = "";
+            for (var record in ndef.cachedMessage!.records) {
+              tempRecord =
+              "$tempRecord ${String.fromCharCodes(record.payload.sublist(record.payload[0] + 1))}";
+            }
+            logger.d(tempRecord);
+            // TODO: controller.add(tempRecord)
+          } else {
+            logger.d("Missing data");
+            // TODO: Handle this
+          }
           instance.stopSession();
-          controller.add(await ndef.read());
           controller.close();
         },
         alertMessage: "Approach a tag to the back of your phone.",
