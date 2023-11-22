@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class Star extends StatelessWidget {
-  const Star({super.key, required this.colored, this.fontSize});
+  const Star(
+      {super.key, required this.colored, this.fontSize, this.shadows = false});
 
   final bool colored;
   final double? fontSize;
+  final bool shadows;
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +16,15 @@ class Star extends StatelessWidget {
         Icons.star,
         color: (colored) ? Colors.yellow : Colors.grey,
         size: fontSize ?? 14,
+        shadows: (shadows)
+            ? [
+                Shadow(
+                  color: Colors.black.withOpacity(.45),
+                  blurRadius: 4.0,
+                  offset: const Offset(2, 2),
+                ),
+              ]
+            : [],
       ),
     );
   }

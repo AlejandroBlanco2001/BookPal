@@ -23,6 +23,7 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
 
   FavoritesBloc(this._getUserFavorites, this._postFavorite) : super(FavoritesInitial()) {
     on<GetUserFavorites>(onGetUserFavorites);
+    on<RefreshFavorites>(onRefreshFavorites);
     // on<AddFavorite>(onAddFavorite);
     // on<RemoveFavorite>(onRemoveFavorite);
     on<DisposeFavorites>((event, emit) => emit(FavoritesInitial()));
@@ -30,6 +31,30 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
 
   FutureOr<void> onGetUserFavorites(GetUserFavorites event, Emitter<FavoritesState> emit) async {
     emit(FavoritesLoading());
+    try {
+      int? id = JwtDecoder.decode(await getIt.get<SessionManager>().get("jwt"))['id'];
+      if (id == null) {
+        emit(const FavoritesError.genericError("User id is null"));
+        return;
+      }
+      final dataState = await _getUserFavorites();
+      if (dataState is DataSuccess && dataState.data != null) {
+        emit(FavoritesLoaded(
+            dataState.statusCode, dataState.data! as List<FavoriteModel>));
+      } else if (dataState is DataFailed) {
+        logger.d("DataFailed: ${dataState.error}");
+        emit(FavoritesError(dataState.error!, dataState.statusCode, dataState.message));
+      }
+    } on DioException catch (e) {
+      logger.d("DioException: ${e.response}");
+      emit(FavoritesError(e, e.response?.statusCode));
+    } catch (e) {
+      logger.d("Generic Error Message: ${e.toString()}");
+      emit(FavoritesError.genericError(e));
+    }
+  }
+
+  FutureOr<void> onRefreshFavorites(RefreshFavorites event, Emitter<FavoritesState> emit) async {
     try {
       int? id = JwtDecoder.decode(await getIt.get<SessionManager>().get("jwt"))['id'];
       if (id == null) {

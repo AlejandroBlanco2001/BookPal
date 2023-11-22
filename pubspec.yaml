@@ -61,6 +61,7 @@ dependencies:
   firebase_storage: ^11.5.0
   flutter_animated_dialog: ^2.0.1
   loader_overlay: ^3.0.0
+  jumping_dot: ^0.0.6
 
 dev_dependencies:
   flutter_test:

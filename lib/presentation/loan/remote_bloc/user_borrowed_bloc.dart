@@ -19,7 +19,7 @@ class UserBorrowedBloc extends Bloc<UserBorrowedEvent, UserBorrowedState> {
 
   UserBorrowedBloc(this._getLoansByUser) : super(UserBorrowedInitial()) {
     on<GetUserBorrowed>(onGetUserBorrowed);
-    on<RefreshBorrowed>((event, emit) => onGetUserBorrowed(event, emit));
+    on<RefreshBorrowed>(onRefreshBorrowed);
     on<DisposeBorrowed>((event, emit) => emit(UserBorrowedInitial()));
   }
 

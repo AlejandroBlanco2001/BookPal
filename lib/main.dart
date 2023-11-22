@@ -8,6 +8,7 @@ import 'package:bookpal/presentation/navigation/bloc/navigation_pages_bloc.dart'
 import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
 import 'package:bookpal/presentation/physical_book/remote_bloc/search_bloc.dart';
 import 'package:bookpal/presentation/rating/bloc/rating_bloc.dart';
+import 'package:bookpal/presentation/rating/bloc/user_ratings_bloc.dart';
 import 'package:bookpal/presentation/theme/bloc/theme_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -79,6 +80,12 @@ class BookPal extends StatelessWidget {
         ),
         BlocProvider<RatingBloc>(
           create: (context) => getIt(),
+        ),
+        BlocProvider<UserRatingsBloc>(
+          create: (_) => getIt()
+            ..add(
+              FetchUserRatings(),
+            ),
         ),
         BlocProvider<NavigationBloc>(
           create: (context) => getIt()..add(ToHomePage()),

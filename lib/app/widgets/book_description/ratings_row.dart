@@ -2,30 +2,36 @@ import 'package:bookpal/app/widgets/book_description/star.dart';
 import 'package:bookpal/data/models/physical_book_model.dart';
 import 'package:flutter/material.dart';
 
-class RatingsRow extends StatelessWidget {
+class RatingsRow extends StatefulWidget {
   const RatingsRow({super.key, required this.book});
 
   final PhysicalBookModel book;
 
   @override
+  State<RatingsRow> createState() => _RatingsRowState();
+}
+
+class _RatingsRowState extends State<RatingsRow> {
+
+  PhysicalBookModel get book => widget.book;
+
+  @override
   Widget build(BuildContext context) {
+    var rating = widget.book.rating ?? 0;
+    var ratings = widget.book.ratings ?? [];
     return Container(
       margin: const EdgeInsets.only(top: 6),
       child: Row(
-        children: <Widget>[...List.generate(
-              7,
-              (index) {
-                var rating = book.rating ?? 0;
-                var ratings = book.ratings ?? [];
-                if (index < 5) {
-                  return Star(colored: index < rating.floor());
-                } else if (index == 5) {
-                  return TextContainer(text: rating.toStringAsPrecision(2));
-                } else {
-                  return TextContainer(text: '(${ratings.length.toString()})');
-                }
-              },
-            )],
+        children: <Widget>[
+          ...List.generate(
+            5,
+            (index) {
+              return Star(colored: index < rating.floor());
+            },
+          ),
+          TextContainer(text: rating.toStringAsPrecision(2)),
+          TextContainer(text: '(${ratings.length.toString()})')
+        ],
       ),
     );
   }

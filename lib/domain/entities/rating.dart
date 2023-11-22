@@ -21,6 +21,8 @@ abstract class Rating extends Equatable {
     this.createdAt,
   });
 
+  set rating(double rating) => rating = rating;
+
   @override
   List<Object?> get props => [id, rating, physicalBookBarcode, userId, createdAt];
 }

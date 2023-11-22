@@ -28,6 +28,7 @@ import 'package:bookpal/domain/usecases/loan/get_loans_by_user_usecase.dart';
 import 'package:bookpal/domain/usecases/loan/make_loan_return_usecase.dart';
 import 'package:bookpal/domain/usecases/physical_book/get_all_physical_books_usecase.dart';
 import 'package:bookpal/domain/usecases/physical_book/get_physical_book_usecase.dart';
+import 'package:bookpal/domain/usecases/rating/get_user_ratings.dart';
 import 'package:bookpal/domain/usecases/rating/rate_book.dart';
 import 'package:bookpal/domain/usecases/rating/update_rating.dart';
 import 'package:bookpal/domain/usecases/scanning/read_nfc_usecase.dart';
@@ -48,6 +49,7 @@ import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bl
 import 'package:bookpal/presentation/physical_book/remote_bloc/remote_physical_book_bloc.dart';
 import 'package:bookpal/presentation/physical_book/remote_bloc/search_bloc.dart';
 import 'package:bookpal/presentation/rating/bloc/rating_bloc.dart';
+import 'package:bookpal/presentation/rating/bloc/user_ratings_bloc.dart';
 import 'package:bookpal/presentation/theme/bloc/theme_bloc.dart';
 import 'package:bookpal/presentation/user/remote_bloc/remote_user_bloc.dart';
 import 'package:dio/dio.dart';
@@ -126,7 +128,7 @@ Future<void> initializeDependencies() async {
   getIt.registerFactory<RemotePhysicalBookBloc>(
       () => RemotePhysicalBookBloc(getIt(), getIt()));
 
-  getIt.registerFactory<HomeBooksBloc>(() => HomeBooksBloc(getIt()));
+  getIt.registerFactory<HomeBooksBloc>(() => HomeBooksBloc(getIt(), getIt()));
 
   getIt.registerFactory<SearchBloc>(() => SearchBloc(getIt()));
 
@@ -156,9 +158,15 @@ Future<void> initializeDependencies() async {
 
   getIt.registerSingleton<UpdateRatingUsecase>(UpdateRatingUsecase(getIt()));
 
+  getIt
+      .registerSingleton<GetUserRatingsUsecase>(GetUserRatingsUsecase(getIt()));
+
   getIt.registerFactory<RatingBloc>(() => RatingBloc(getIt(), getIt()));
 
-  getIt.registerSingleton<FavoriteRepository>(FavoriteRepositoryImplementation(getIt()));
+  getIt.registerFactory<UserRatingsBloc>(() => UserRatingsBloc(getIt(), getIt(), getIt()));
+
+  getIt.registerSingleton<FavoriteRepository>(
+      FavoriteRepositoryImplementation(getIt()));
 
   getIt.registerSingleton<GetUserFavoritesUsecase>(
       GetUserFavoritesUsecase(getIt()));

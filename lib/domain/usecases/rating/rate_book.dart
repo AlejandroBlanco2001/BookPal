@@ -11,7 +11,7 @@ class RateBookUsecase extends Usecase<DataState<Rating>> {
 
   @override
   Future<DataState<Rating>> call({Map<String, dynamic>? params}) {
-    Rating rating = params!['rating'];
-    return _ratingRepository.postRating(rating);
+    Map<String,dynamic> fields = params!['fields'];
+    return _ratingRepository.postRating(fields);
   }
 }

@@ -18,11 +18,11 @@ final class RateBook extends RatingEvent {
 }
 
 final class UpdateRating extends RatingEvent {
-  final int bookId;
+  final int id;
   final double rating;
 
-  const UpdateRating(this.bookId, this.rating);
+  const UpdateRating(this.id, this.rating);
 
   @override
-  List<Object> get props => [bookId, rating];
+  List<Object> get props => [id, rating];
 }

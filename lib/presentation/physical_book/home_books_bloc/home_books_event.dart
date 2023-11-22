@@ -10,3 +10,12 @@ sealed class HomeBooksEvent extends Equatable {
 final class FetchHomeBooks extends HomeBooksEvent {}
 
 final class RefreshHomeBooks extends HomeBooksEvent {}
+
+final class RefreshHomeBook extends HomeBooksEvent {
+  final String bookBarcode;
+
+  const RefreshHomeBook(this.bookBarcode);
+
+  @override
+  List<Object> get props => [bookBarcode];
+}

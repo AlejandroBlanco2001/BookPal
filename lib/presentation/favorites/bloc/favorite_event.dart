@@ -11,6 +11,10 @@ final class GetUserFavorites extends FavoritesEvent {
   const GetUserFavorites();
 }
 
+final class RefreshFavorites extends FavoritesEvent {
+  const RefreshFavorites();
+}
+
 final class AddFavorite extends FavoritesEvent {
   final String bookBarcode;
 

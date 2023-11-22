@@ -224,7 +224,7 @@ abstract class ApiService {
   Future<HttpResponse<RatingModel>> postRating({
     @Header('Content-Type') String contentType = contentType,
     @Header('Authorization') String? authorization,
-    @Body() required RatingModel rating
+    @Body() required Map<String,dynamic> fields
   });
 
   @GET("/favorite/user")

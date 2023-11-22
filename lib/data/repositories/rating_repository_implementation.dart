@@ -35,11 +35,11 @@ class RatingRepositoryImplementation implements RatingRepository {
   }
 
   @override
-  Future<DataState<Rating>> postRating(Rating rating) async {
+  Future<DataState<Rating>> postRating(Map<String, dynamic> fields) async {
     try {
       String authorization = await Utilities.getAuthorization();
       final httpResponse = await _apiService.postRating(
-        rating: rating as RatingModel,
+        fields: fields,
         authorization: authorization,
       );
 

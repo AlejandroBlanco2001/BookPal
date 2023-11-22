@@ -50,7 +50,7 @@ class RatingBloc extends Bloc<RatingEvent, RatingState> {
     emit(RatingLoading());
     try {
       final dataState = await _updateRatingUsecase(params: {
-        'id': event.bookId,
+        'id': event.id,
         'fields': {'rating': event.rating}
       });
       if (dataState is DataSuccess && dataState.data != null) {
