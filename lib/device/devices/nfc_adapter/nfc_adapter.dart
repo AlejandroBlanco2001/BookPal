@@ -13,10 +13,8 @@ class NfcAdapter {
       StreamController<NdefMessage?> controller =
           StreamController<NdefMessage?>();
 
-      NfcManager instance = NfcManager.instance;
-
       // Start Session
-      instance.startSession(
+      NfcManager.instance.startSession(
         onDiscovered: (NfcTag tag) async {
           Ndef? ndef = Ndef.from(tag);
           if (ndef == null) {
@@ -34,7 +32,7 @@ class NfcAdapter {
             logger.d("Missing data");
             // TODO: Handle this
           }
-          instance.stopSession();
+          NfcManager.instance.stopSession();
           controller.close();
         },
         alertMessage: "Approach a tag to the back of your phone.",
@@ -44,7 +42,7 @@ class NfcAdapter {
       Timer(const Duration(seconds: 10), () {
         if (!controller.isClosed) {
           logger.d("Stopping session");
-          instance.stopSession();
+          NfcManager.instance.stopSession();
           controller.addError('Timeout occured');
           controller.close();
         }
