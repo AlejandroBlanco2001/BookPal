@@ -8,11 +8,10 @@ sealed class BarcodeEvent extends Equatable {
 }
 
 final class ScanBarcode extends BarcodeEvent {
-  final BuildContext context;
 
-  const ScanBarcode(this.context);
+  const ScanBarcode();
 
   @override
-  List<Object> get props => [context];
+  List<Object> get props => [];
 }
 

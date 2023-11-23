@@ -41,6 +41,16 @@ final class UserRatingsUpdated extends UserRatingsState {
   List<Object?> get props => [userRatings, statusCode];
 }
 
+final class UserRatingsUpdatedTemp extends UserRatingsState {
+
+  const UserRatingsUpdatedTemp(List<RatingModel> userRatings, [int? statusCode])
+      : super(userRatings: userRatings, statusCode: statusCode);
+
+  @override
+  List<Object?> get props => [userRatings, statusCode];
+}
+
+
 final class UserRatingsError extends UserRatingsState {
   const UserRatingsError(DioException dioException,
       [int? statusCode, List<String>? message])

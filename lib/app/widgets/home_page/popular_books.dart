@@ -2,6 +2,7 @@ import 'package:bookpal/app/pages/list_books/list_books_page.dart';
 import 'package:bookpal/app/widgets/home_page/book_row.dart';
 import 'package:bookpal/app/widgets/home_page/retry_fecth.dart';
 import 'package:bookpal/app/widgets/loading/loading_popular.dart';
+import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/data/models/physical_book_model.dart';
 import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class PopularBooks extends StatelessWidget {
                 'Popular',
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 16,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold),
               ),
               TextButton(
@@ -56,6 +57,7 @@ class PopularBooks extends StatelessWidget {
                   fetchMethod: () =>
                       context.read<HomeBooksBloc>().add(FetchHomeBooks()));
             }
+            logger.d("State: ${state.runtimeType} -> ${state.allBooks.map((e) => e.title)}");
             return ListView(
               shrinkWrap: true,
               physics: const ScrollPhysics(),

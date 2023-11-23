@@ -1,6 +1,7 @@
 import 'package:bookpal/app/widgets/loading/platform_activity_indicator.dart';
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/util/utilities.dart';
+import 'package:bookpal/presentation/barcode/bloc/qr_bloc.dart';
 import 'package:bookpal/presentation/favorites/bloc/favorite_bloc.dart';
 import 'package:bookpal/presentation/loan/remote_bloc/user_borrowed_bloc.dart';
 import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
@@ -68,6 +69,9 @@ class BookPal extends StatelessWidget {
         ),
         BlocProvider<BarcodeBloc>(
           create: (context) => getIt(),
+        ),
+        BlocProvider<QRBloc>(
+          create: (_) => getIt(),
         ),
         BlocProvider<NfcBloc>(
           create: (context) => getIt(),

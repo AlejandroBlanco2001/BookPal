@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/domain/usecases/scanning/scan_barcode_usecase.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
 part 'barcode_event.dart';
 part 'barcode_state.dart';
@@ -21,7 +20,7 @@ class BarcodeBloc extends Bloc<BarcodeEvent, BarcodeState> {
     emit(ScanningBarcode());
     try {
       final barcodeScanRes =
-          await _scanBarcode(params: {'context': event.context});
+          await _scanBarcode();
       if (barcodeScanRes.isEmpty) {
         throw Exception('Empty response from barcode scanner');
       }

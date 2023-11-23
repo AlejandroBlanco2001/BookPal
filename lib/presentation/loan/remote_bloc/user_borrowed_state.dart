@@ -2,14 +2,14 @@ part of 'user_borrowed_bloc.dart';
 
 sealed class UserBorrowedState extends Equatable {
 
-  final List<LoanModel>? userLoans;
+  final List<LoanModel> userLoans;
   final DioException? dioError;
   final dynamic genericError;
   final int? statusCode;
   final List<String>? message;
 
   const UserBorrowedState(
-      {this.userLoans,
+      {this.userLoans = const [],
       this.dioError,
       this.genericError,
       this.statusCode,

@@ -6,6 +6,7 @@ import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/data/models/favorite_model.dart';
 import 'package:bookpal/data/models/loan_model.dart';
 import 'package:bookpal/data/models/physical_book_model.dart';
+import 'package:bookpal/presentation/barcode/bloc/qr_bloc.dart';
 import 'package:bookpal/presentation/favorites/bloc/favorite_bloc.dart';
 import 'package:bookpal/presentation/loan/remote_bloc/remote_loan_bloc.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,8 @@ class BookCard1 extends StatelessWidget {
                       child: Ink(
                         width: 80,
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10), // Image border
+                          borderRadius:
+                              BorderRadius.circular(10), // Image border
                           child: SizedBox.fromSize(
                             size: const Size.fromRadius(24), // Image radius
                             child: FutureBuilder(
@@ -224,25 +226,36 @@ class BookCard2 extends StatelessWidget {
                                     loan!.status.name == 'overdue')
                                 ? Padding(
                                     padding: const EdgeInsets.only(right: 10.0),
-                                    child: TextButton(
-                                      onPressed: () {
-                                        context
-                                            .read<RemoteLoanBloc>()
-                                            .add(MakeLoanReturn(loan!.id));
-                                      },
-                                      child: const FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        child: Text(
-                                          'Return',
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 241, 92, 81),
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
+                                    child: BlocBuilder<QRBloc, QRState>(
+                                      builder: (context, state) {
+                                        return TextButton(
+                                          onPressed: () {
+                                            context
+                                                .read<QRBloc>()
+                                                .add(const ScanQR());
+                                            if (state is QRScanned) {
+                                              logger.d("Escaneado qr: ${state.qrScanRes}");
+                                              context
+                                                  .read<RemoteLoanBloc>()
+                                                  .add(
+                                                      MakeLoanReturn(loan!.id, state.qrScanRes!));
+                                            }
+                                          },
+                                          child: const FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            child: Text(
+                                              'Return',
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 241, 92, 81),
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
+                                        );
+                                      },
                                     ),
                                   )
                                 : const SizedBox()

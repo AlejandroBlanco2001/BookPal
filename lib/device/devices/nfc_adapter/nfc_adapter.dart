@@ -5,13 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 
 class NfcAdapter {
-  Future<NdefMessage?> readNdefMessage() async {
+  Future<String?> readNdefMessage() async {
     try {
       var available = await NfcManager.instance.isAvailable();
       logger.d("NFC Available: $available");
 
-      StreamController<NdefMessage?> controller =
-          StreamController<NdefMessage?>();
+      StreamController<String?> controller =
+          StreamController<String?>();
 
       // Start Session
       NfcManager.instance.startSession(
@@ -26,7 +26,8 @@ class NfcAdapter {
               tempRecord =
               "$tempRecord ${String.fromCharCodes(record.payload.sublist(record.payload[0] + 1))}";
             }
-            logger.d(tempRecord);
+            logger.d("Record: $tempRecord");
+            controller.add(tempRecord);
             // TODO: controller.add(tempRecord)
           } else {
             logger.d("Missing data");

@@ -27,9 +27,10 @@ final class CreateLoan extends RemoteLoanEvent {
 
 final class MakeLoanReturn extends RemoteLoanEvent {
   final int id;
+  final String dynamicCode;
 
-  const MakeLoanReturn(this.id);
+  const MakeLoanReturn(this.id, this.dynamicCode);
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [id, dynamicCode];
 }

@@ -13,17 +13,18 @@ part 'home_books_event.dart';
 part 'home_books_state.dart';
 
 class HomeBooksBloc extends Bloc<HomeBooksEvent, HomeBooksState> {
-
   final GetPhysicalBookUsecase _getPhysicalBook;
   final GetAllPhysicalBooksUsecase _getPhysicalBooks;
 
-  HomeBooksBloc(this._getPhysicalBooks, this._getPhysicalBook) : super(HomeBooksInitial()) {
+  HomeBooksBloc(this._getPhysicalBooks, this._getPhysicalBook)
+      : super(HomeBooksInitial()) {
     on<FetchHomeBooks>(onFetchHomeBooks);
     on<RefreshHomeBooks>(onRefreshHomeBooks);
     on<RefreshHomeBook>(onRefreshHomeBook);
   }
 
-  FutureOr<void> onFetchHomeBooks(FetchHomeBooks event, Emitter<HomeBooksState> emit) async {
+  FutureOr<void> onFetchHomeBooks(
+      FetchHomeBooks event, Emitter<HomeBooksState> emit) async {
     emit(HomeBooksLoading());
     try {
       final dataState =
@@ -39,18 +40,20 @@ class HomeBooksBloc extends Bloc<HomeBooksEvent, HomeBooksState> {
       logger.d('DioE: ${e.toString()}');
       emit(HomeBooksError(e, e.response?.statusCode));
     } catch (e) {
-      logger.d('Generic: ${e.toString()}. StackTrace: ${(e as Error).stackTrace.toString()}');
+      logger.d(
+          'Generic: ${e.toString()}. StackTrace: ${(e as Error).stackTrace.toString()}');
       emit(HomeBooksError.genericError(e));
     }
   }
 
-  FutureOr<void> onRefreshHomeBooks(RefreshHomeBooks event, Emitter<HomeBooksState> emit) async {
+  FutureOr<void> onRefreshHomeBooks(
+      RefreshHomeBooks event, Emitter<HomeBooksState> emit) async {
     try {
       final dataState =
           await _getPhysicalBooks(params: {'pageSize': 10, 'recents': true});
       if (dataState is DataSuccess && dataState.data != null) {
-        emit(HomeBooksLoaded(
-            dataState.statusCode, dataState.data! as List<PhysicalBookModel>));
+        emit(HomeBooksRefreshed(
+            dataState.data! as List<PhysicalBookModel>, dataState.statusCode));
       } else if (dataState is DataFailed) {
         logger.d('DataFailed: $dataState');
         emit(HomeBooksError(dataState.error!, dataState.statusCode));
@@ -59,25 +62,25 @@ class HomeBooksBloc extends Bloc<HomeBooksEvent, HomeBooksState> {
       logger.d('DioE: ${e.toString()}');
       emit(HomeBooksError(e, e.response?.statusCode));
     } catch (e) {
-      logger.d('Generic: ${e.toString()}. StackTrace: ${(e as Error).stackTrace.toString()}');
+      logger.d(
+          'Generic: ${e.toString()}. StackTrace: ${(e as Error).stackTrace.toString()}');
       emit(HomeBooksError.genericError(e));
     }
   }
 
-  FutureOr<void> onRefreshHomeBook(RefreshHomeBook event, Emitter<HomeBooksState> emit) async {
+  FutureOr<void> onRefreshHomeBook(
+      RefreshHomeBook event, Emitter<HomeBooksState> emit) async {
     var homeBooks = state.allBooks;
     try {
-      await _getPhysicalBook(params: {
-        'barcode': event.bookBarcode
-      }).then((dataState) {
-        logger.d("Datastate: ${dataState.data}");
+      await _getPhysicalBook(params: {'barcode': event.bookBarcode})
+          .then((dataState) {
         if (dataState is DataSuccess && dataState.data != null) {
           var refreshedHomeBooks = homeBooks
               .map((e) => (e.id == dataState.data!.id)
                   ? dataState.data! as PhysicalBookModel
                   : e)
               .toList();
-          emit(HomeBooksUpdated(refreshedHomeBooks, dataState.statusCode));
+          emit(HomeBooksRefreshed(refreshedHomeBooks));
         } else if (dataState is DataFailed) {
           logger.d("DataFailed: ${dataState.error}");
           emit(RefreshHomeBookError(dataState.error!, homeBooks,

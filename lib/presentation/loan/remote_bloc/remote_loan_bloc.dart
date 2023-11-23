@@ -73,7 +73,7 @@ class RemoteLoanBloc extends Bloc<RemoteLoanEvent, RemoteLoanState> {
       MakeLoanReturn event, Emitter<RemoteLoanState> emit) async {
     emit(RemoteLoanLoading());
     try {
-      final dataState = await _makeLoanReturn(params: {'id': event.id});
+      final dataState = await _makeLoanReturn(params: {'id': event.id, "fields": {"dynamic_code": event.dynamicCode}});
       if (dataState is DataSuccess && dataState.data != null) {
         emit(RemoteLoanReturned(
             dataState.statusCode, dataState.data! as LoanModel));

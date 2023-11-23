@@ -33,10 +33,12 @@ import 'package:bookpal/domain/usecases/rating/rate_book.dart';
 import 'package:bookpal/domain/usecases/rating/update_rating.dart';
 import 'package:bookpal/domain/usecases/scanning/read_nfc_usecase.dart';
 import 'package:bookpal/domain/usecases/scanning/scan_barcode_usecase.dart';
+import 'package:bookpal/domain/usecases/scanning/scan_qr_usecase.dart';
 import 'package:bookpal/domain/usecases/user/get_user_usecase.dart';
 import 'package:bookpal/domain/usecases/user/register_user_usecase.dart';
 import 'package:bookpal/domain/usecases/user/update_user_usecase.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
+import 'package:bookpal/presentation/barcode/bloc/qr_bloc.dart';
 import 'package:bookpal/presentation/favorites/bloc/favorite_bloc.dart';
 import 'package:bookpal/presentation/loan/remote_bloc/user_borrowed_bloc.dart';
 import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
@@ -137,6 +139,10 @@ Future<void> initializeDependencies() async {
   getIt.registerSingleton<ScanBarcodeUsecase>(ScanBarcodeUsecase());
 
   getIt.registerFactory<BarcodeBloc>(() => BarcodeBloc(getIt()));
+
+  getIt.registerSingleton<ScanQRUsecase>(ScanQRUsecase());
+
+  getIt.registerFactory<QRBloc>(() => QRBloc(getIt()));
 
   getIt.registerSingleton<NfcAdapter>(NfcAdapter());
 

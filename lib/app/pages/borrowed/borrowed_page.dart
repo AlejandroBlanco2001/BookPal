@@ -43,7 +43,7 @@ class Borrowed extends StatelessWidget {
                 return ListView(
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
-                  children: _buildRecentlyBorrowedBooks(state.userLoans!),
+                  children: _buildRecentlyBorrowedBooks(state.userLoans),
                 );
               },
             ),

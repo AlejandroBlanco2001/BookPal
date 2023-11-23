@@ -36,9 +36,11 @@ class RemotePhysicalBookBloc
         emit(RemotePhysicalBookLoaded(
             dataState.statusCode, dataState.data! as PhysicalBookModel));
       } else if (dataState is DataFailed) {
+        logger.d('DataFailed: $dataState. DataState content: ${dataState.error}, ${dataState.statusCode}, ${dataState.message}'); 
         emit(RemotePhysicalBookError(dataState.error!, dataState.statusCode, dataState.message));
       }
     } on DioException catch (e) {
+      logger.d("DioE: ${e.toString()}");
       emit(RemotePhysicalBookError(e, e.response?.statusCode));
     } on Error catch (e) {
       logger.d('Message: ${e.toString()}\nStackTrace: ${e.stackTrace.toString()}');

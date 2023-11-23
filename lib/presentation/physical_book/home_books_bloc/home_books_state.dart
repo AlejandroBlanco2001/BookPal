@@ -34,6 +34,14 @@ final class HomeBooksUpdated extends HomeBooksState {
   List<Object?> get props => [statusCode, allBooks];
 }
 
+final class HomeBooksRefreshed extends HomeBooksState {
+
+  const HomeBooksRefreshed(List<PhysicalBookModel> allBooks, [int? statusCode]) : super(statusCode: statusCode, allBooks: allBooks);
+
+  @override
+  List<Object?> get props => [statusCode, allBooks];
+}
+
 final class RefreshHomeBookError extends HomeBooksState {
   const RefreshHomeBookError(DioException dioException, List<PhysicalBookModel> rollbackBooks,
       [int? statusCode, List<String>? message])

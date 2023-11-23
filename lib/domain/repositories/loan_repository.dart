@@ -7,5 +7,5 @@ abstract class LoanRepository {
   Future<DataState<Loan>> getLoan(int id);
   Future<DataState<Loan>> postLoan(String bookBarcode);
   Future<DataState<List<Loan>>> getLoansByUser(int userId);
-  Future<DataState<Loan>> makeReturn(int id);
+  Future<DataState<Loan>> makeReturn(int id, Map<String,String> fields);
 }

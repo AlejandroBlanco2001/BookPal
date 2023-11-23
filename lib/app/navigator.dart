@@ -64,10 +64,10 @@ class _MainNavigatorState extends State<MainNavigator> {
           child: BlocListener<NfcBloc, NfcState>(
             listener: (context, nfcState) {
               if (nfcState is NfcScanned) {
-                logger.d("NFC scanned: ${nfcState.ndefMessage?.records ?? 'No records'}");
-                // context
-                //     .read<RemotePhysicalBookBloc>()
-                //     .add(GetPhysicalBook(nfcState.identifier!));
+                logger.d("NFC scanned: ${nfcState.identifier ?? 'Empty response'}");
+                context
+                    .read<RemotePhysicalBookBloc>()
+                    .add(GetPhysicalBook(nfcState.identifier!));
               }
             },
             child: BlocListener<BarcodeBloc, BarcodeState>(

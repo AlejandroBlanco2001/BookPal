@@ -76,7 +76,7 @@ class UserRatingsBloc extends Bloc<UserRatingsEvent, UserRatingsState> {
     RatingModel newRating =
         RatingModel(rating: event.rating, physicalBookBarcode: event.barcode);
     List<RatingModel> newRatings = state.userRatings!..add(newRating);
-    emit(UserRatingsUpdated(newRatings));
+    emit(UserRatingsUpdatedTemp(newRatings));
     List<RatingModel> rollbackRatings = state.userRatings!;
     try {
       await _rateBookUsecase(params: {
@@ -117,7 +117,7 @@ class UserRatingsBloc extends Bloc<UserRatingsEvent, UserRatingsState> {
     var newRatings = state.userRatings!
         .map((e) => (e.id == newRating.id) ? newRating : e)
         .toList();
-    emit(UserRatingsUpdated(newRatings));
+    emit(UserRatingsUpdatedTemp(newRatings));
     List<RatingModel> rollbackRatings = state.userRatings!;
     try {
       await _updateRatingUsecase(params: {

@@ -74,11 +74,12 @@ class LoanRepositoryImplementation implements LoanRepository {
   }
 
   @override
-  Future<DataState<LoanModel>> makeReturn(int id) async {
+  Future<DataState<LoanModel>> makeReturn(int id, Map<String, String> fields) async {
     try {
       String authorization = await Utilities.getAuthorization();
       final httpResponse = await _apiService.makeReturn(
         id: id,
+        fields: fields,
         authorization: authorization,
       );
       final ResponseVerifier<LoanModel> responseVerifier =

@@ -150,7 +150,8 @@ abstract class ApiService {
   Future<HttpResponse<LoanModel>> makeReturn({
     @Header('Content-Type') String contentType = contentType,
     @Header('Authorization') String? authorization,
-    @Path() required int id
+    @Path() required int id,
+    @Body() required Map<String, String> fields
   });
 
   @POST('/loan')

@@ -46,7 +46,7 @@ class MenuButton extends StatelessWidget {
             if (type == 'rfid') {
               context.read<NfcBloc>().add(ScanNfc());
             } else if (type == 'barcode') {
-              context.read<BarcodeBloc>().add(ScanBarcode(context));
+              context.read<BarcodeBloc>().add(const ScanBarcode());
             }
           },
           child: Row(

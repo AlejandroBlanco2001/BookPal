@@ -1,5 +1,6 @@
 import 'package:bookpal/app/widgets/book_description/star.dart';
 import 'package:bookpal/core/constants/constants.dart';
+import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
 import 'package:bookpal/presentation/favorites/bloc/favorite_bloc.dart';
 import 'package:bookpal/presentation/loan/remote_bloc/user_borrowed_bloc.dart';
 import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
@@ -28,7 +29,9 @@ class _RatingMenuState extends State<RatingMenu> {
   double _rating = 0;
 
   double getRating(UserRatingsState state) {
-    if (state is UserRatingsFetched || state is UserRatingsUpdated) {
+    if (state is UserRatingsFetched ||
+        state is UserRatingsUpdated ||
+        state is UserRatingsUpdatedTemp) {
       var indexOfBook = state.userRatings!
           .map((e) => e.physicalBookBarcode)
           .toList()
@@ -110,6 +113,7 @@ class _RatingMenuState extends State<RatingMenu> {
                   );
                 }
               }
+              if (state is UserRatingsUpdated) logger.d("UpdatingTemp");
               if (state is UserRatingsUpdated) {
                 var homeBooksBloc = context.read<HomeBooksBloc>();
                 var borrowedBooksBloc = context.read<UserBorrowedBloc>();
@@ -117,13 +121,14 @@ class _RatingMenuState extends State<RatingMenu> {
                 if (homeBooksBloc.state.allBooks
                     .map((e) => e.barcode)
                     .contains(widget.bookBarcode)) {
+                  logger.d("Updating home books");
                   homeBooksBloc.add(RefreshHomeBook(widget.bookBarcode));
-                } 
-                if (borrowedBooksBloc.state.userLoans!
+                }
+                if (borrowedBooksBloc.state.userLoans
                     .map((e) => e.physicalBookBarcode)
                     .contains(widget.bookBarcode)) {
                   borrowedBooksBloc.add(const RefreshBorrowed());
-                } 
+                }
                 if (favoritesBloc.state.favoritesList!
                     .map((e) => e.physicalBook.barcode)
                     .contains(widget.bookBarcode)) {
@@ -139,19 +144,41 @@ class _RatingMenuState extends State<RatingMenu> {
                   (index) => (index < 5)
                       ? GestureDetector(
                           onTap: () {
-                            if (_rating > 0) {
-                              context.read<UserRatingsBloc>().add(UpdateRating(
-                                  state
-                                      .userRatings![state.userRatings!
-                                          .map((e) => e.physicalBookBarcode)
-                                          .toList()
-                                          .indexOf(widget.bookBarcode)]
-                                      .id!,
-                                  index.toDouble() + 1));
-                            } else if (_rating == 0) {
-                              logger.d('RateBook');
-                              context.read<UserRatingsBloc>().add(RateBook(
-                                  widget.bookBarcode, index.toDouble() + 1));
+                            if (context.read<LoginBloc>().state
+                                is LoginSuccess) {
+                              if (_rating > 0) {
+                                context.read<UserRatingsBloc>().add(
+                                    UpdateRating(
+                                        state
+                                            .userRatings![state.userRatings!
+                                                .map((e) =>
+                                                    e.physicalBookBarcode)
+                                                .toList()
+                                                .indexOf(widget.bookBarcode)]
+                                            .id!,
+                                        index.toDouble() + 1));
+                              } else if (_rating == 0) {
+                                logger.d('RateBook');
+                                context.read<UserRatingsBloc>().add(RateBook(
+                                    widget.bookBarcode, index.toDouble() + 1));
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  behavior: SnackBarBehavior.floating,
+                                  content: const Text(
+                                    'Please login to rate books.',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  backgroundColor: Colors.black.withOpacity(.7),
+                                  duration: const Duration(seconds: 5),
+                                ),
+                              );
                             }
                           },
                           child: Star(
