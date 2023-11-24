@@ -84,14 +84,18 @@ class _MainNavigatorState extends State<MainNavigator> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            'Place your phone on the NFC tag',
-                            maxLines: 2,
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
-                              fontSize: 16,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Text(
+                              'Place your phone back to back with the book',
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                           Padding(
@@ -142,7 +146,7 @@ class _MainNavigatorState extends State<MainNavigator> {
                         return AlertDialog(
                           title: const Text('Error'),
                           backgroundColor:
-                              Theme.of(context).colorScheme.primary,
+                              Theme.of(context).colorScheme.primaryContainer,
                           content: const Text(
                               'Could not retrieve the scanned book.'),
                           actions: [

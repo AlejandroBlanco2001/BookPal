@@ -19,16 +19,17 @@ class NfcBloc extends Bloc<NfcEvent, NfcState> {
   FutureOr<void> onScanNFC(NfcEvent event, Emitter<NfcState> emit) async {
     emit(NfcScanning());
     logger.d("Scanning NFC");
-    try {
-      final nfcResult = await _readNfc();
-      logger.d("Result: $nfcResult");
-      if (nfcResult == '' || nfcResult.isEmpty) {
-        throw Exception('Empty response from nfc adapter');
-      }
-      emit(NfcScanned(nfcResult.trim()));
-    } catch (e) {
-      logger.d("Error: $e");
-      emit(NfcError(error: Exception(e)));
-    }
+    await Future.delayed(const Duration(seconds: 3), () => emit(const NfcScanned("1234567890")));
+    // try {
+    //   final nfcResult = await _readNfc();
+    //   logger.d("Result: $nfcResult");
+    //   if (nfcResult == '' || nfcResult.isEmpty) {
+    //     throw Exception('Empty response from nfc adapter');
+    //   }
+    //   emit(NfcScanned(nfcResult.trim()));
+    // } catch (e) {
+    //   logger.d("Error: $e");
+    //   emit(NfcError(error: Exception(e)));
+    // }
   }
 }
