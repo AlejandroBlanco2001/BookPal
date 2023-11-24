@@ -1,3 +1,4 @@
+import 'package:bookpal/data/enums/book_scan_method.dart';
 import 'package:bookpal/presentation/barcode/bloc/barcode_bloc.dart';
 import 'package:bookpal/presentation/company/remote_bloc/remote_company_bloc.dart';
 import 'package:bookpal/presentation/nfc/bloc/nfc_bloc.dart';
@@ -6,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ScanMethodsMenu extends StatelessWidget {
-  const ScanMethodsMenu({super.key});
+  const ScanMethodsMenu({super.key, required this.enabledScanMethods});
+
+  final List<BookScanMethod> enabledScanMethods;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class ScanMethodsMenu extends StatelessWidget {
       builder: (context, state) {
         if (state is RemoteCompanyLoaded) {
           var buttons = <Widget>[];
-          for (var scanMethod in state.company!.bookScanMethods) {
+          for (var scanMethod in enabledScanMethods) {
             buttons.add(MenuButton(type: scanMethod.name));
           }
           return Column(
