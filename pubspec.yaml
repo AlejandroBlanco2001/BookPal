@@ -62,6 +62,8 @@ dependencies:
   flutter_animated_dialog: ^2.0.1
   loader_overlay: ^3.0.0
   jumping_dot: ^0.0.6
+  flutter_animated_icons: ^1.0.1
+  lottie: ^1.4.3
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +95,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/default_avatar.jpg
+    - assets/icons/book.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

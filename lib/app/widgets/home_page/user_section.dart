@@ -102,34 +102,32 @@ class UserSection extends StatelessWidget {
                       if (state is LoginSuccess) {
                         return Padding(
                           padding: const EdgeInsets.only(left: 15.0),
-                          child: Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Hi, ${state.jwt!['decoded_jwt']['name']}!",
-                                  maxLines: 2,
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Hi, ${state.jwt!['decoded_jwt']['name']}!",
+                                maxLines: 2,
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                Text(
-                                  "What do you want to read today?",
-                                  maxLines: 2,
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimary
-                                        .withOpacity(0.8),
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                              ),
+                              Text(
+                                "What do you want to read today?",
+                                maxLines: 2,
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimary
+                                      .withOpacity(0.8),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         );
                       }

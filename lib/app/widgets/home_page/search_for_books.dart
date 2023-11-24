@@ -64,6 +64,25 @@ class _BookSearchFieldState extends State<BookSearchField> {
               borderSide: BorderSide.none,
             ),
           ),
+          onFieldSubmitted: (value) {
+            if (_controller.text.isNotEmpty) {
+              _focusNode.unfocus();
+              context.read<SearchBloc>().add(Search(_controller.text.trim()));
+              _controller.clear();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BlocBuilder<SearchBloc, SearchState>(
+                    builder: (context, state) {
+                      return const ListBooks(
+                        title: 'Search Results',
+                      );
+                    },
+                  ),
+                ),
+              );
+            }
+          },
         ),
       ),
     );

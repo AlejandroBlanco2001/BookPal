@@ -1,5 +1,6 @@
 import 'package:bookpal/app/widgets/home_page/retry_fecth.dart';
 import 'package:bookpal/app/widgets/items/book_cards.dart';
+import 'package:bookpal/app/widgets/loading/empty_book_list.dart';
 import 'package:bookpal/app/widgets/loading/loading_popular.dart';
 import 'package:bookpal/data/models/favorite_model.dart';
 import 'package:bookpal/presentation/favorites/bloc/favorite_bloc.dart';
@@ -38,6 +39,9 @@ class Favorites extends StatelessWidget {
                   return RetryFetch(
                       fetchMethod: () =>
                           context.read<FavoritesBloc>().add(const GetUserFavorites()));
+                }
+                if (state.favoritesList!.isEmpty) {
+                  return const EmptyBookList(title: "You haven't added any book to your favorites yet");
                 }
                 return ListView(
                   shrinkWrap: true,

@@ -1,5 +1,6 @@
 import 'package:bookpal/app/widgets/home_page/retry_fecth.dart';
 import 'package:bookpal/app/widgets/items/book_cards.dart';
+import 'package:bookpal/app/widgets/loading/empty_book_list.dart';
 import 'package:bookpal/app/widgets/loading/loading_popular.dart';
 import 'package:bookpal/data/models/physical_book_model.dart';
 import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
@@ -60,6 +61,9 @@ class ListBooks extends StatelessWidget {
                           fetchMethod: () => context
                               .read<SearchBloc>()
                               .add(Search(searchState.query!)));
+                    }
+                    if (searchState.books.isEmpty || homeState.allBooks.isEmpty) {
+                      return const EmptyBookList(title: 'No results found');
                     }
                     return ListView(
                       shrinkWrap: true,
