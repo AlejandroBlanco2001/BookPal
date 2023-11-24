@@ -1,14 +1,14 @@
 part of 'user_ratings_bloc.dart';
 
 sealed class UserRatingsState extends Equatable {
-  final List<RatingModel>? userRatings;
+  final List<RatingModel> userRatings;
   final int? statusCode;
   final List<String>? message;
   final dynamic error;
   final DioException? dioException;
 
   const UserRatingsState({
-    this.userRatings,
+    this.userRatings = const [],
     this.statusCode,
     this.message,
     this.error,

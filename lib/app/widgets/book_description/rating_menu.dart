@@ -32,12 +32,12 @@ class _RatingMenuState extends State<RatingMenu> {
     if (state is UserRatingsFetched ||
         state is UserRatingsUpdated ||
         state is UserRatingsUpdatedTemp) {
-      var indexOfBook = state.userRatings!
+      var indexOfBook = state.userRatings
           .map((e) => e.physicalBookBarcode)
           .toList()
           .indexOf(widget.bookBarcode);
       return (indexOfBook != -1)
-          ? state.userRatings![indexOfBook].rating.toDouble()
+          ? state.userRatings[indexOfBook].rating.toDouble()
           : 0.0;
     } else {
       return 0.0;
@@ -126,8 +126,8 @@ class _RatingMenuState extends State<RatingMenu> {
                     .contains(widget.bookBarcode)) {
                   borrowedBooksBloc.add(const RefreshBorrowed());
                 }
-                if (favoritesBloc.state.favoritesList!
-                    .map((e) => e.physicalBook.barcode)
+                if (favoritesBloc.state.favoritesList
+                    .map((e) => e.physicalBook!.barcode)
                     .contains(widget.bookBarcode)) {
                   favoritesBloc.add(const RefreshFavorites());
                 }
@@ -147,7 +147,7 @@ class _RatingMenuState extends State<RatingMenu> {
                                 context.read<UserRatingsBloc>().add(
                                     UpdateRating(
                                         state
-                                            .userRatings![state.userRatings!
+                                            .userRatings[state.userRatings
                                                 .map((e) =>
                                                     e.physicalBookBarcode)
                                                 .toList()

@@ -86,10 +86,7 @@ class BookPal extends StatelessWidget {
           create: (context) => getIt(),
         ),
         BlocProvider<UserRatingsBloc>(
-          create: (_) => getIt()
-            ..add(
-              FetchUserRatings(),
-            ),
+          create: (_) => getIt(),
         ),
         BlocProvider<NavigationBloc>(
           create: (context) => getIt()..add(ToHomePage()),

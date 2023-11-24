@@ -30,3 +30,5 @@ final class RateBook extends UserRatingsEvent {
   @override
   List<Object> get props => [barcode, rating];
 }
+
+final class DisposeUserRatings extends UserRatingsEvent {}

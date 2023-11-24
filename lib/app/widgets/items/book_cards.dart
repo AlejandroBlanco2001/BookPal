@@ -11,6 +11,7 @@ import 'package:bookpal/presentation/favorites/bloc/favorite_bloc.dart';
 import 'package:bookpal/presentation/loan/remote_bloc/remote_loan_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
 class BookCard1 extends StatelessWidget {
@@ -108,7 +109,7 @@ class BookCard1 extends StatelessWidget {
   }
 }
 
-class BookCard2 extends StatelessWidget {
+class BookCard2 extends StatefulWidget {
   final PhysicalBookModel? book;
   final LoanModel? loan;
   final FavoriteModel? favorite;
@@ -126,20 +127,53 @@ class BookCard2 extends StatelessWidget {
         book = null,
         super(key: key);
 
+  @override
+  State<BookCard2> createState() => _BookCard2State();
+}
+
+class _BookCard2State extends State<BookCard2> with TickerProviderStateMixin {
+  late AnimationController _favoriteController;
+
+  @override
+  initState() {
+    super.initState();
+    _favoriteController = AnimationController(
+        vsync: this,
+        duration: const Duration(seconds: 1),
+        value: (context
+                .read<FavoritesBloc>()
+                .state
+                .favoritesList
+                .map((e) => e.physicalBookBarcode)
+                .contains((widget.book != null)
+                    ? widget.book!.barcode
+                    : (widget.loan != null)
+                        ? widget.loan!.physicalBook!.barcode
+                        : widget.favorite!.physicalBookBarcode))
+            ? 0.6
+            : 0.0);
+  }
+
+  @override
+  void dispose() {
+    _favoriteController.dispose();
+    super.dispose();
+  }
+
   PhysicalBookModel _getBook() {
-    if (book != null) {
-      return book!;
-    } else if (loan != null) {
-      return loan!.physicalBook as PhysicalBookModel;
+    if (widget.book != null) {
+      return widget.book!;
+    } else if (widget.loan != null) {
+      return widget.loan!.physicalBook as PhysicalBookModel;
     } else {
-      return favorite!.physicalBook as PhysicalBookModel;
+      return widget.favorite!.physicalBook as PhysicalBookModel;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     PhysicalBookModel book = _getBook();
-    String timeLeft = Utilities.getTimeLeft(loan);
+    String timeLeft = Utilities.getTimeLeft(widget.loan);
 
     return Material(
       color: Colors.transparent,
@@ -174,7 +208,7 @@ class BookCard2 extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: (loan != null)
+                            mainAxisAlignment: (widget.loan != null)
                                 ? MainAxisAlignment.spaceAround
                                 : MainAxisAlignment.start,
                             children: [
@@ -199,17 +233,18 @@ class BookCard2 extends StatelessWidget {
                                   fontSize: 12,
                                 ),
                               ),
-                              (loan != null)
+                              (widget.loan != null)
                                   ? FittedBox(
                                       fit: BoxFit.scaleDown,
                                       child: Text(
                                         timeLeft,
                                         maxLines: 1,
                                         style: TextStyle(
-                                          color: (loan!.status.name ==
+                                          color: (widget.loan!.status.name ==
                                                   'overdue')
                                               ? Colors.red
-                                              : (loan!.status.name == 'active')
+                                              : (widget.loan!.status.name ==
+                                                      'active')
                                                   ? Theme.of(context)
                                                       .primaryColorLight
                                                   : Colors.grey,
@@ -224,11 +259,18 @@ class BookCard2 extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      flex: 3,
+                      flex: ((widget.loan == null ||
+                                  !(widget.loan!.status.name == 'active' ||
+                                      widget.loan!.status.name == 'overdue')) ||
+                              widget.favorite == null)
+                          ? (widget.favorite == null)
+                              ? 0
+                              : 2
+                          : 3,
                       child: Container(
-                        child: (loan != null)
-                            ? (loan!.status.name == 'active' ||
-                                    loan!.status.name == 'overdue')
+                        child: (widget.loan != null)
+                            ? (widget.loan!.status.name == 'active' ||
+                                    widget.loan!.status.name == 'overdue')
                                 ? Padding(
                                     padding: const EdgeInsets.only(right: 10.0),
                                     child: BlocBuilder<QRBloc, QRState>(
@@ -243,7 +285,8 @@ class BookCard2 extends StatelessWidget {
                                                   "Escaneado qr: ${state.qrScanRes}");
                                               context
                                                   .read<RemoteLoanBloc>()
-                                                  .add(MakeLoanReturn(loan!.id,
+                                                  .add(MakeLoanReturn(
+                                                      widget.loan!.id,
                                                       state.qrScanRes!));
                                             }
                                           },
@@ -265,36 +308,127 @@ class BookCard2 extends StatelessWidget {
                                     ),
                                   )
                                 : const SizedBox()
-                            : BlocBuilder<FavoritesBloc, FavoritesState>(
+                            : BlocConsumer<FavoritesBloc, FavoritesState>(
+                                listener: (context, state) {
+                                  if (state is AddFavoriteError) {
+                                    if (_favoriteController.status ==
+                                        AnimationStatus.completed) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          behavior: SnackBarBehavior.floating,
+                                          content: const Text(
+                                            'Could not add book to favorites',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          backgroundColor:
+                                              Colors.black.withOpacity(.7),
+                                          duration: const Duration(seconds: 5),
+                                        ),
+                                      );
+                                      _favoriteController.reverse();
+                                    }
+                                  } else if (state is RemoveFavoriteError) {
+                                    if (_favoriteController.status ==
+                                        AnimationStatus.dismissed) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          behavior: SnackBarBehavior.floating,
+                                          content: const Text(
+                                            'Could not remove book from favorites',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          backgroundColor:
+                                              Colors.black.withOpacity(.7),
+                                          duration: const Duration(seconds: 5),
+                                        ),
+                                      );
+                                      _favoriteController.reset();
+                                      _favoriteController.animateTo(0.6);
+                                    }
+                                  }
+                                },
                                 builder: (context, state) {
-                                  if (state is FavoritesLoaded) {
-                                    var favBooksIds = state.favoritesList!
-                                        .map((e) => e.physicalBook.id)
-                                        .toList();
+                                  if (state is FavoritesFetched ||
+                                      state is FavoritesUpdated ||
+                                      state is FavoritesUpdatedTemp) {
+                                    if (context
+                                        .read<FavoritesBloc>()
+                                        .state
+                                        .favoritesList
+                                        .map((e) => e.physicalBookBarcode)
+                                        .contains((widget.book != null)
+                                            ? widget.book!.barcode
+                                            : (widget.loan != null)
+                                                ? widget
+                                                    .loan!.physicalBook!.barcode
+                                                : widget.favorite!
+                                                    .physicalBookBarcode)) {
+                                      _favoriteController.value = 0.6;
+                                    } else {
+                                      _favoriteController.value = 0.0;
+                                    }
                                     return Padding(
                                       padding:
                                           const EdgeInsets.only(right: 10.0),
                                       child: IconButton(
                                         onPressed: () {
-                                          // TODO: Toggle favorites
+                                          if (_favoriteController.status ==
+                                              AnimationStatus.dismissed) {
+                                            _favoriteController.reset();
+                                            _favoriteController.animateTo(0.6);
+                                            context
+                                                .read<FavoritesBloc>()
+                                                .add(AddFavorite(book));
+                                          } else {
+                                            _favoriteController.reverse();
+                                            context.read<FavoritesBloc>().add(
+                                                RemoveFavorite(book.barcode));
+                                          }
                                         },
-                                        icon: Icon(
-                                          (favBooksIds.contains(book.id))
-                                              ? Icons.favorite
-                                              : Icons.favorite_border,
-                                          color: Colors.red,
+                                        icon: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              .09,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              .09,
+                                          child: Lottie.asset(
+                                              "assets/icons/heart.json",
+                                              controller: _favoriteController),
                                         ),
                                       ),
                                     );
-                                  } else if (state is FavoritesLoading) {
-                                    return const PlatformActivityIndicator();
+                                  } else if (state is FetchingFavorites) {
+                                    return SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                .09,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                .09,
+                                        child:
+                                            const PlatformActivityIndicator());
                                   } else {
                                     return const SizedBox();
                                   }
                                 },
                               ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

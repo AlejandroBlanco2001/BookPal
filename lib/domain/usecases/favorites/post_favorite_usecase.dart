@@ -11,7 +11,7 @@ class PostFavoriteUsecase extends Usecase<DataState<Favorite>> {
 
   @override
   Future<DataState<Favorite>> call({Map<String,dynamic>? params}) async {
-    String bookBarcode = params!['bookBarcode'];
+    String bookBarcode = params!['physicalBookBarcode'];
     return await _favoriteRepository.postFavorite(bookBarcode);
   }
   

@@ -8,11 +8,11 @@ part 'favorite_model.g.dart';
 @JsonSerializable()
 class FavoriteModel extends Favorite {
   const FavoriteModel({
-    required int id,
-    required int userId,
+    int? id,
+    int? userId,
     required String physicalBookBarcode,
-    required PhysicalBookModel physicalBook,
-    required DateTime createdAt,
+    PhysicalBookModel? physicalBook,
+    DateTime? createdAt,
   }) : super(
           id: id,
           userId: userId,
@@ -24,4 +24,20 @@ class FavoriteModel extends Favorite {
   factory FavoriteModel.fromJson(Map<String, dynamic> json) => _$FavoriteModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$FavoriteModelToJson(this);
+
+  FavoriteModel copyWith({
+    int? id,
+    int? userId,
+    String? physicalBookBarcode,
+    PhysicalBookModel? physicalBook,
+    DateTime? createdAt,
+  }) {
+    return FavoriteModel(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      physicalBookBarcode: physicalBookBarcode ?? this.physicalBookBarcode,
+      physicalBook: physicalBook ?? this.physicalBook as PhysicalBookModel?,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
 }

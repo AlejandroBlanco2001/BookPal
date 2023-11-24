@@ -25,6 +25,7 @@ class UserRatingsBloc extends Bloc<UserRatingsEvent, UserRatingsState> {
     on<RefreshUserRatings>(onRefreshUserRatings);
     on<RateBook>(onRatebook);
     on<UpdateRating>(onUpdateRating);
+    on<DisposeUserRatings>((event, emit) => emit(UserRatingsInitial()));
   }
 
   FutureOr<void> onFetchUserRatings(
@@ -75,9 +76,9 @@ class UserRatingsBloc extends Bloc<UserRatingsEvent, UserRatingsState> {
     logger.d("Event: ${event.barcode}. Rating: ${event.rating}");
     RatingModel newRating =
         RatingModel(rating: event.rating, physicalBookBarcode: event.barcode);
-    List<RatingModel> newRatings = state.userRatings!..add(newRating);
+    List<RatingModel> rollbackRatings = state.userRatings;
+    List<RatingModel> newRatings = state.userRatings..add(newRating);
     emit(UserRatingsUpdatedTemp(newRatings));
-    List<RatingModel> rollbackRatings = state.userRatings!;
     try {
       await _rateBookUsecase(params: {
         'fields': {
@@ -87,7 +88,7 @@ class UserRatingsBloc extends Bloc<UserRatingsEvent, UserRatingsState> {
       }).then((dataState) {
         logger.d("Datastate: ${dataState.data}");
         if (dataState is DataSuccess && dataState.data != null) {
-          var newRatings = state.userRatings!
+          var newRatings = state.userRatings
               .map((e) =>
                   (e.physicalBookBarcode == dataState.data!.physicalBookBarcode)
                       ? dataState.data! as RatingModel
@@ -112,14 +113,14 @@ class UserRatingsBloc extends Bloc<UserRatingsEvent, UserRatingsState> {
 
   FutureOr<void> onUpdateRating(
       UpdateRating event, Emitter<UserRatingsState> emit) async {
-    var newRating = state.userRatings!
+    var newRating = state.userRatings
         .firstWhere((r) => r.id == event.ratingId)
         .copyWith(rating: event.rating);
-    var newRatings = state.userRatings!
+    var newRatings = state.userRatings
         .map((e) => (e.id == newRating.id) ? newRating : e)
         .toList();
+    List<RatingModel> rollbackRatings = state.userRatings;
     emit(UserRatingsUpdatedTemp(newRatings));
-    List<RatingModel> rollbackRatings = state.userRatings!;
     try {
       await _updateRatingUsecase(params: {
         'id': event.ratingId,
@@ -127,7 +128,7 @@ class UserRatingsBloc extends Bloc<UserRatingsEvent, UserRatingsState> {
       }).then((dataState) {
         logger.d("Datastate: ${dataState.data}");
         if (dataState is DataSuccess && dataState.data != null) {
-          var newRatings = state.userRatings!
+          var newRatings = state.userRatings
               .map((e) => (e.id == dataState.data!.id)
                   ? dataState.data! as RatingModel
                   : e)

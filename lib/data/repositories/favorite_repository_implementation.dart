@@ -50,6 +50,8 @@ class FavoriteRepositoryImplementation extends FavoriteRepository {
               e.response?.data['message'].map((m) => m.toString()))
           : [e.response?.data['message']];
       return DataFailed(e.response?.statusCode ?? 500, e, messages);
+    } catch (e) {
+      rethrow;
     }
   }
 }

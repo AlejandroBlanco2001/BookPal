@@ -11,6 +11,7 @@ import 'package:bookpal/presentation/navigation/bloc/navigation_pages_bloc.dart'
 import 'package:bookpal/presentation/nfc/bloc/nfc_bloc.dart';
 import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
 import 'package:bookpal/presentation/physical_book/remote_bloc/remote_physical_book_bloc.dart';
+import 'package:bookpal/presentation/rating/bloc/user_ratings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:bookpal/app/widgets/navigation_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,11 +56,13 @@ class _MainNavigatorState extends State<MainNavigator> {
               context.read<NavigationPagesBloc>().add(const LoggedIn());
               context.read<NavigationBloc>().add(ToHomePage());
               context.read<UserBorrowedBloc>().add(const GetUserBorrowed());
-              context.read<FavoritesBloc>().add(const GetUserFavorites());
+              context.read<FavoritesBloc>().add(FetchUserFavorites());
+              context.read<UserRatingsBloc>().add(FetchUserRatings());
             } else if (loginState is LoginInitial || loginState is LoginError) {
               context.read<NavigationPagesBloc>().add(const NotLoggedIn());
               context.read<UserBorrowedBloc>().add(const DisposeBorrowed());
               context.read<FavoritesBloc>().add(const DisposeFavorites());
+              context.read<UserRatingsBloc>().add(DisposeUserRatings());
             }
           },
           child: BlocListener<NfcBloc, NfcState>(
