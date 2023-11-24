@@ -72,11 +72,8 @@ class _RatingMenuState extends State<RatingMenu> {
           padding: const EdgeInsets.only(top: 8.0),
           child: BlocConsumer<UserRatingsBloc, UserRatingsState>(
             listener: (context, state) {
-              if (state is UserRatingsFetched ||
-                  state is UserRatingsUpdated ||
-                  state is RateBookError ||
-                  state is UpdateRatingError) {
-                upateRating(getRating(state));
+              upateRating(getRating(state));
+              if (state is RateBookError || state is UpdateRatingError) {
                 if (state is RateBookError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -113,7 +110,7 @@ class _RatingMenuState extends State<RatingMenu> {
                   );
                 }
               }
-              if (state is UserRatingsUpdated) logger.d("UpdatingTemp");
+              if (state is UserRatingsUpdatedTemp) logger.d("UpdatingTemp");
               if (state is UserRatingsUpdated) {
                 var homeBooksBloc = context.read<HomeBooksBloc>();
                 var borrowedBooksBloc = context.read<UserBorrowedBloc>();
@@ -158,7 +155,6 @@ class _RatingMenuState extends State<RatingMenu> {
                                             .id!,
                                         index.toDouble() + 1));
                               } else if (_rating == 0) {
-                                logger.d('RateBook');
                                 context.read<UserRatingsBloc>().add(RateBook(
                                     widget.bookBarcode, index.toDouble() + 1));
                               }

@@ -93,6 +93,7 @@ class UserRatingsBloc extends Bloc<UserRatingsEvent, UserRatingsState> {
                       ? dataState.data! as RatingModel
                       : e)
               .toList();
+          newRatings.sort((a, b) => b.rating.compareTo(a.rating));
           emit(UserRatingsUpdated(newRatings, dataState.statusCode));
         } else if (dataState is DataFailed) {
           logger.d("DataFailed: ${dataState.error}");
@@ -131,6 +132,7 @@ class UserRatingsBloc extends Bloc<UserRatingsEvent, UserRatingsState> {
                   ? dataState.data! as RatingModel
                   : e)
               .toList();
+          newRatings.sort((a, b) => b.rating.compareTo(a.rating));
           emit(UserRatingsUpdated(newRatings, dataState.statusCode));
         } else if (dataState is DataFailed) {
           logger.d("DataFailed: ${dataState.error}");

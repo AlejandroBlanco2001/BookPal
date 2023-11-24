@@ -37,7 +37,6 @@ class PhysicalBookRepositoryImplementation implements PhysicalBookRepository {
       String barcode) async {
     try {
       String authorization = await Utilities.getAuthorization();
-      logger.d("Barcode received: $barcode");
       final httpResponse = await _apiService.getPhysicalBookByBarcode(
         barcode: barcode,
         authorization: authorization,

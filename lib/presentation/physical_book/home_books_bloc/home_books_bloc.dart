@@ -28,7 +28,7 @@ class HomeBooksBloc extends Bloc<HomeBooksEvent, HomeBooksState> {
     emit(HomeBooksLoading());
     try {
       final dataState =
-          await _getPhysicalBooks(params: {'pageSize': 10, 'recents': true});
+          await _getPhysicalBooks(params: {'pageSize': 10, 'top_rated': true});
       if (dataState is DataSuccess && dataState.data != null) {
         emit(HomeBooksLoaded(
             dataState.statusCode, dataState.data! as List<PhysicalBookModel>));
@@ -50,7 +50,7 @@ class HomeBooksBloc extends Bloc<HomeBooksEvent, HomeBooksState> {
       RefreshHomeBooks event, Emitter<HomeBooksState> emit) async {
     try {
       final dataState =
-          await _getPhysicalBooks(params: {'pageSize': 10, 'recents': true});
+          await _getPhysicalBooks(params: {'pageSize': 10, 'top_rated': true});
       if (dataState is DataSuccess && dataState.data != null) {
         emit(HomeBooksRefreshed(
             dataState.data! as List<PhysicalBookModel>, dataState.statusCode));
@@ -80,6 +80,7 @@ class HomeBooksBloc extends Bloc<HomeBooksEvent, HomeBooksState> {
                   ? dataState.data! as PhysicalBookModel
                   : e)
               .toList();
+          refreshedHomeBooks.sort((a, b) => b.rating!.compareTo(a.rating!));
           emit(HomeBooksRefreshed(refreshedHomeBooks));
         } else if (dataState is DataFailed) {
           logger.d("DataFailed: ${dataState.error}");

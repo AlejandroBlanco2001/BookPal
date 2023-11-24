@@ -1,7 +1,7 @@
 import 'package:bookpal/app/widgets/home_page/retry_fecth.dart';
 import 'package:bookpal/app/widgets/items/book_cards.dart';
 import 'package:bookpal/app/widgets/loading/empty_book_list.dart';
-import 'package:bookpal/app/widgets/loading/loading_popular.dart';
+import 'package:bookpal/app/widgets/loading/loading_list.dart';
 import 'package:bookpal/data/models/favorite_model.dart';
 import 'package:bookpal/presentation/favorites/bloc/favorite_bloc.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +34,7 @@ class Favorites extends StatelessWidget {
             BlocBuilder<FavoritesBloc, FavoritesState>(
               builder: (context, state) {
                 if (state is FavoritesLoading || state is FavoritesInitial) {
-                  return const PopularBooksShimmer();
+                  return const ListBooksShimmer();
                 } else if (state is FavoritesError) {
                   return RetryFetch(
                       fetchMethod: () =>

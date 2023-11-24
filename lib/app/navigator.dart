@@ -14,6 +14,7 @@ import 'package:bookpal/presentation/physical_book/remote_bloc/remote_physical_b
 import 'package:flutter/material.dart';
 import 'package:bookpal/app/widgets/navigation_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jumping_dot/jumping_dot.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class MainNavigator extends StatefulWidget {
@@ -64,10 +65,54 @@ class _MainNavigatorState extends State<MainNavigator> {
           child: BlocListener<NfcBloc, NfcState>(
             listener: (context, nfcState) {
               if (nfcState is NfcScanned) {
-                logger.d("NFC scanned: ${nfcState.identifier ?? 'Empty response'}");
+                logger.d(
+                    "NFC scanned: ${nfcState.identifier ?? 'Empty response'}");
+                Navigator.pop(context);
                 context
                     .read<RemotePhysicalBookBloc>()
                     .add(GetPhysicalBook(nfcState.identifier!));
+              } else if (nfcState is NfcScanning) {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => Dialog(
+                    backgroundColor:
+                        Theme.of(context).colorScheme.primaryContainer,
+                    child: SizedBox(
+                      height: 100,
+                      width: 150,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Place your phone on the NFC tag',
+                            maxLines: 2,
+                            style: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: JumpingDots(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer,
+                              numberOfDots: 3,
+                              verticalOffset: 10,
+                              innerPadding: 3,
+                              radius: 3,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              } else if (nfcState is NfcError) {
+                Navigator.pop(context);
               }
             },
             child: BlocListener<BarcodeBloc, BarcodeState>(
@@ -96,6 +141,8 @@ class _MainNavigatorState extends State<MainNavigator> {
                       builder: (context) {
                         return AlertDialog(
                           title: const Text('Error'),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
                           content: const Text(
                               'Could not retrieve the scanned book.'),
                           actions: [
@@ -138,14 +185,16 @@ class _MainNavigatorState extends State<MainNavigator> {
                               if (context
                                   .read<HomeBooksBloc>()
                                   .state
-                                  .allBooks.map((e) => e.barcode)
-                                  .contains(state.loan?.physicalBookBarcode ?? 'none')) {
+                                  .allBooks
+                                  .map((e) => e.barcode)
+                                  .contains(state.loan?.physicalBookBarcode ??
+                                      'none')) {
                                 context
                                     .read<HomeBooksBloc>()
                                     .add(RefreshHomeBooks());
-                                  }
-                                _sendSnackBar(
-                                    context, 'Book borrowed successfully');
+                              }
+                              _sendSnackBar(
+                                  context, 'Book borrowed successfully');
                             } else if (state is ReturnLoanError) {
                               var message = state.message?[0] ?? 'Unknown';
                               if (message == 'Unathorized') {
@@ -155,12 +204,14 @@ class _MainNavigatorState extends State<MainNavigator> {
                               if (context
                                   .read<HomeBooksBloc>()
                                   .state
-                                  .allBooks.map((e) => e.barcode)
-                                  .contains(state.loan?.physicalBookBarcode ?? 'none')) {
+                                  .allBooks
+                                  .map((e) => e.barcode)
+                                  .contains(state.loan?.physicalBookBarcode ??
+                                      'none')) {
                                 context
                                     .read<HomeBooksBloc>()
                                     .add(RefreshHomeBooks());
-                                  }
+                              }
                               _sendSnackBar(context,
                                   'Could not return book. Reason: $message');
                             } else if (state is RemoteLoanReturned) {

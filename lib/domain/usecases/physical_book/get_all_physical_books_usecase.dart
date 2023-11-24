@@ -11,8 +11,8 @@ class GetAllPhysicalBooksUsecase
 
   @override
   Future<DataState<List<PhysicalBook>>> call({Map<String, dynamic>? params}) {
-    bool recents = params!['recents'] ?? false;
-    return (recents)
+    bool topRated = params!['top_rated'] ?? false;
+    return (topRated)
         ? _physicalBookRepository.getPopular()
         : _physicalBookRepository.getPhysicalBooks(pageSize: params['pageSize'], title: params['title']);
   }

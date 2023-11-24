@@ -2,7 +2,7 @@
 import 'package:bookpal/app/widgets/home_page/retry_fecth.dart';
 import 'package:bookpal/app/widgets/items/book_cards.dart';
 import 'package:bookpal/app/widgets/loading/empty_book_list.dart';
-import 'package:bookpal/app/widgets/loading/loading_popular.dart';
+import 'package:bookpal/app/widgets/loading/loading_list.dart';
 import 'package:bookpal/data/models/loan_model.dart';
 import 'package:bookpal/presentation/loan/remote_bloc/user_borrowed_bloc.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class Borrowed extends StatelessWidget {
             BlocBuilder<UserBorrowedBloc, UserBorrowedState>(
               builder: (context, state) {
                 if (state is UserBorrowedLoading || state is UserBorrowedInitial) {
-                  return const PopularBooksShimmer();
+                  return const ListBooksShimmer();
                 } else if (state is UserBorrowedError) {
                   return RetryFetch(
                       fetchMethod: () =>

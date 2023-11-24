@@ -1,3 +1,4 @@
+import 'package:bookpal/app/widgets/loading/book_card_shimmer.dart';
 import 'package:flutter/material.dart';
 
 class ListBooksShimmer extends StatelessWidget {
@@ -5,6 +6,13 @@ class ListBooksShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return ListView.builder(
+      itemCount: 7,
+      shrinkWrap: true,
+      physics: const ScrollPhysics(),
+      itemBuilder: (context, index) {
+        return const BookCardShimmer();
+      },
+    );
   }
 }

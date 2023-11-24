@@ -1,7 +1,7 @@
 import 'package:bookpal/app/widgets/home_page/retry_fecth.dart';
 import 'package:bookpal/app/widgets/items/book_cards.dart';
 import 'package:bookpal/app/widgets/loading/empty_book_list.dart';
-import 'package:bookpal/app/widgets/loading/loading_popular.dart';
+import 'package:bookpal/app/widgets/loading/loading_list.dart';
 import 'package:bookpal/data/models/physical_book_model.dart';
 import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
 import 'package:bookpal/presentation/physical_book/remote_bloc/search_bloc.dart';
@@ -48,21 +48,24 @@ class ListBooks extends StatelessWidget {
               builder: (context, homeState) {
                 if (homeState is HomeBooksError) {
                   return RetryFetch(
-                          fetchMethod: () => context
-                              .read<HomeBooksBloc>()
-                              .add(FetchHomeBooks()));
+                      fetchMethod: () =>
+                          context.read<HomeBooksBloc>().add(FetchHomeBooks()));
                 }
                 return BlocBuilder<SearchBloc, SearchState>(
                   builder: (context, searchState) {
-                    if (searchState is SearchLoading || homeState is HomeBooksLoading) {
-                      return const PopularBooksShimmer();
+                    if (searchState is SearchLoading ||
+                        homeState is HomeBooksLoading) {
+                      return const ListBooksShimmer();
                     } else if (searchState is SearchError) {
                       return RetryFetch(
                           fetchMethod: () => context
                               .read<SearchBloc>()
                               .add(Search(searchState.query!)));
                     }
-                    if (searchState.books.isEmpty || homeState.allBooks.isEmpty) {
+                    if ((title == 'Search Results' &&
+                            searchState.books.isEmpty) ||
+                        (title == 'Popular Books' &&
+                            homeState.allBooks.isEmpty)) {
                       return const EmptyBookList(title: 'No results found');
                     }
                     return ListView(
