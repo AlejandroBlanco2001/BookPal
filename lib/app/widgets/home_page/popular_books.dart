@@ -60,6 +60,7 @@ class PopularBooks extends StatelessWidget {
             logger.d("State: ${state.runtimeType}. Books: ${state.allBooks.map((e) => '${e.title}: ${e.rating}')}}");
             return ListView(
               shrinkWrap: true,
+              padding: const EdgeInsets.all(0),
               physics: const ScrollPhysics(),
               children: _buildPopularBooks(state.allBooks.take(3).toList()),
             );

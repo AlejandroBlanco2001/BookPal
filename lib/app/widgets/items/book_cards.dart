@@ -34,8 +34,14 @@ class BookCard1 extends StatelessWidget {
                 timeLeft,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color:
-                      Theme.of(context).colorScheme.secondary.withOpacity(.7),
+                  color: (loan.status.name == 'overdue')
+                      ? Colors.red
+                      : (loan.status.name == 'active')
+                          ? Theme.of(context).primaryColorLight
+                          : Theme.of(context)
+                              .colorScheme
+                              .onPrimary
+                              .withOpacity(.7),
                   fontSize: 12,
                 ),
               ),
@@ -184,14 +190,13 @@ class BookCard2 extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Text(
-                                  book.author,
-                                  style: const TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 14,
-                                  ),
+                              Text(
+                                book.author,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
                                 ),
                               ),
                               (loan != null)
@@ -234,11 +239,12 @@ class BookCard2 extends StatelessWidget {
                                                 .read<QRBloc>()
                                                 .add(const ScanQR());
                                             if (state is QRScanned) {
-                                              logger.d("Escaneado qr: ${state.qrScanRes}");
+                                              logger.d(
+                                                  "Escaneado qr: ${state.qrScanRes}");
                                               context
                                                   .read<RemoteLoanBloc>()
-                                                  .add(
-                                                      MakeLoanReturn(loan!.id, state.qrScanRes!));
+                                                  .add(MakeLoanReturn(loan!.id,
+                                                      state.qrScanRes!));
                                             }
                                           },
                                           child: const FittedBox(

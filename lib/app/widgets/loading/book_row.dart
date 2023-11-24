@@ -6,6 +6,8 @@ class BookRowShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double coverWidth = MediaQuery.of(context).size.width * .155;
+    double coverHeight = coverWidth * (4 / 3);
     return Shimmer.fromColors(
       baseColor: Theme.of(context).highlightColor,
       highlightColor: Colors.grey[100]!,
@@ -15,11 +17,11 @@ class BookRowShimmer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              width: 74,
-              height: 74,
+              width: coverWidth,
+              height: coverHeight,
               decoration: BoxDecoration(
                 color: Colors.grey[300]!.withOpacity(.7),
-                borderRadius: BorderRadius.circular(50),
+                borderRadius: BorderRadius.circular(2),
               ),
             ),
             const SizedBox(width: 14),
@@ -38,16 +40,18 @@ class BookRowShimmer extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   Container(
-                    width: double.infinity,
-                    height: 12,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: 8,
                     decoration: BoxDecoration(
                       color: Colors.grey[300]!.withOpacity(.7),
                       borderRadius: BorderRadius.circular(3),
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  Divider(
+                    color: Theme.of(context).colorScheme.onPrimary.withOpacity(.7),
+                  ),
                   Container(
-                    width: double.infinity,
+                    width: MediaQuery.of(context).size.width * 0.2,
                     height: 12,
                     decoration: BoxDecoration(
                       color: Colors.grey[300]!.withOpacity(.7),

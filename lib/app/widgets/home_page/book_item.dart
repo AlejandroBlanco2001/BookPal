@@ -1,4 +1,3 @@
-
 import 'package:bookpal/app/widgets/loading/basic_shimmer.dart';
 import 'package:bookpal/core/util/utilities.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -20,26 +19,34 @@ class BookItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double coverWidth = MediaQuery.of(context).size.width * 0.155;
+    double coverHeight = coverWidth * (4 / 3);
     return Row(
       children: <Widget>[
         CachedNetworkImage(
           imageUrl: imageUrl,
-          placeholder: (context, url) => const ClipOval(
+          placeholder: (context, url) => ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
             child: SizedBox(
-              width: 74,
-              height: 74,
-              child: ThemeShimmer(),
+              width: coverWidth,
+              height: coverHeight,
+              child: const ThemeShimmer(),
             ),
           ),
           imageBuilder: (context, imageProvider) => Container(
-            width: 74,
-            height: 74,
+            width: coverWidth,
+            height: coverHeight,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
+              borderRadius: BorderRadius.circular(2),
             ),
-            child: CircleAvatar(
-              backgroundImage: imageProvider,
-              radius: 37,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(2),
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
           ),
         ),
@@ -70,6 +77,9 @@ class BookItem extends StatelessWidget {
               ),
               const SizedBox(
                 height: 4,
+              ),
+              Divider(
+                color: Theme.of(context).colorScheme.onPrimary.withOpacity(.5),
               ),
               Text(
                 Utilities.capitalize(status),

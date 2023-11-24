@@ -16,7 +16,7 @@ class RecentlyBorrowedBooks extends StatelessWidget {
     return Column(
       children: [
         Container(
-          margin: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 0),
+          margin: const EdgeInsets.fromLTRB(24.0, 10.0, 24.0, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
