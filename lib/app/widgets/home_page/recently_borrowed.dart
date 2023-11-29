@@ -54,7 +54,8 @@ class RecentlyBorrowedBooks extends StatelessWidget {
               return BlocBuilder<UserBorrowedBloc, UserBorrowedState>(
                 builder: (context, borrowedState) {
                   double height = 0;
-                  if (borrowedState.userLoans.isEmpty && borrowedState is! UserBorrowedLoading) {
+                  if (borrowedState.userLoans.isEmpty &&
+                      borrowedState is! UserBorrowedLoading) {
                     height = 50;
                   } else {
                     height = 135;
@@ -67,14 +68,17 @@ class RecentlyBorrowedBooks extends StatelessWidget {
                 },
               );
             }
-            return Center(
-              child: Text(
-                'Please login to see your recently \nborrowed books...',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold),
+            return Container(
+              margin: const EdgeInsets.fromLTRB(24.0, 12.0, 24, 40),
+              child: Center(
+                child: Text(
+                  'Please login to see your recently \nborrowed books...',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             );
           },

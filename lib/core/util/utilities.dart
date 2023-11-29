@@ -93,8 +93,8 @@ class Utilities {
     if (loan != null) {
       if (loan.status.name == 'active') {
         var difference = loan.dueDate.difference(loan.startDate);
-        if (difference.inDays < 1) {
-          if (difference.inHours < 1) {
+        if (difference.inDays.abs() < 1) {
+          if (difference.inHours.abs() < 1) {
             return '${difference.inMinutes} minutes left';
           } else {
             return '${difference.inHours} hours left';
@@ -104,8 +104,8 @@ class Utilities {
         }
       } else if (loan.status.name == 'overdue') {
         var difference = DateTime.now().difference(loan.dueDate);
-        if (difference.inDays < 1) {
-          if (difference.inHours < 1) {
+        if (difference.inDays.abs() < 1) {
+          if (difference.inHours.abs() < 1) {
             return '${difference.inMinutes} minutes overdue';
           } else {
             return '${difference.inHours} hours overdue';
