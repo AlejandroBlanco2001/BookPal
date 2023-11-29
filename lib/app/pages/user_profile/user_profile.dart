@@ -1,10 +1,10 @@
+import 'package:bookpal/app/widgets/loading/basic_shimmer.dart';
 import 'package:bookpal/app/widgets/profile_page/logout_button.dart';
 import 'package:bookpal/app/widgets/profile_page/settings_card.dart';
 import 'package:bookpal/core/constants/constants.dart';
+import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
-import 'package:bookpal/presentation/storage_bucket/bloc/bucket_bloc.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,135 +15,121 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:
+            Theme.of(context).colorScheme.primary.withBlue(85).withOpacity(.8),
         toolbarHeight: 80,
-        title: const Padding(
-          padding: EdgeInsets.only(left: 10.0),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 25.0),
           child: Text(
             'Your profile',
             style: TextStyle(
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.onPrimary,
               fontSize: 36,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
       ),
-      body: Container(
-        color: const Color(0xffF5F5F5),
-        child: Column(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                border: Border(bottom: BorderSide(color: Colors.grey)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 20.0),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15)),
-                        child: Container(
-                          width: 100,
-                          height: 100,
-                          color: Colors.grey,
-                          child: BlocBuilder<LoginBloc, LoginState>(
-                            builder: (context, loginState) {
-                              if (loginState is LoginSuccess) {
-                                context.read<BucketBloc>().add(GetDownloadUrl(
-                                    '$usersAvatarsPath${loginState.jwt!['decoded_jwt']['profile_image']}'));
-                              }
-                              return BlocBuilder<BucketBloc, BucketState>(
-                                builder: (context, bucketState) {
-                                  if (bucketState is GotUserDownloadUrl) {
-                                    return Image(
-                                        image:
-                                            NetworkImage(bucketState.downloadUrl!));
-                                  } else if (bucketState is DownloadUrlError) {
-                                    logger.d(
-                                        "Error getting download Url. Message: ${bucketState.error}\nStackTrace: ${bucketState.error.stackTrace()}");
-                                    return const Icon(
-                                      Icons.error,
-                                      color: Colors.red,
-                                    );
-                                  } else if (bucketState is DownloadUrlLoading || bucketState is BucketInitial) {
-                                    switch (defaultTargetPlatform) {
-                                      case TargetPlatform.android:
-                                        return const Padding(
-                                          padding: EdgeInsets.all(20.0),
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      case TargetPlatform.iOS:
-                                        return const Padding(
-                                          padding: EdgeInsets.all(20.0),
-                                          child: CupertinoActivityIndicator(),
-                                        );
-                                      default:
-                                        return const Padding(
-                                          padding: EdgeInsets.all(20.0),
-                                          child: CircularProgressIndicator(),
-                                        );
-                                    }
-                                  } else {
-                                    return const Icon(
-                                      Icons.error,
-                                      color: Colors.red,
-                                    );
-                                  }
-                                },
+      body: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context)
+                  .colorScheme
+                  .primary
+                  .withBlue(85)
+                  .withOpacity(.8),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, bottom: 30.0, top: 10),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: SizedBox(
+                      width: 80,
+                      height: 80,
+                      child: ClipOval(
+                        child: FutureBuilder(
+                          future: Utilities.getDownloadUrl(
+                              '$usersAvatarsPath${context.read<LoginBloc>().state.jwt!['decoded_jwt']['profile_image']}'),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const ThemeShimmer();
+                            } else if (snapshot.hasError) {
+                              logger.d(
+                                  "Error getting download Url. Message: ${snapshot.error}\nStackTrace: ${snapshot.stackTrace}");
+                              return Center(
+                                child: Icon(
+                                  Icons.error,
+                                  color: Theme.of(context).colorScheme.error,
+                                ),
                               );
-                            },
-                          ),
+                            } else {
+                              return CachedNetworkImage(
+                                imageUrl: snapshot.data!,
+                                fit: BoxFit.cover,
+                              );
+                            }
+                          },
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: BlocBuilder<LoginBloc, LoginState>(
-                        builder: (context, state) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                state.jwt!['decoded_jwt']['name'],
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: BlocBuilder<LoginBloc, LoginState>(
+                      builder: (context, state) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              state.jwt!['decoded_jwt']['name'],
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
                               ),
-                              Text(
-                                state.jwt!['decoded_jwt']['email'],
-                                style: const TextStyle(
-                                  color: Color.fromARGB(255, 73, 39, 176),
-                                  fontSize: 16,
-                                ),
+                            ),
+                            Text(
+                              state.jwt!['decoded_jwt']['email'],
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
                               ),
-                            ],
-                          );
-                        },
-                      ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            SettingsCard(
-                title: 'Modify your user info',
-                callback: () {
-                  logger.d("Quiere modificar su info");
-                }),
-            SettingsCard(
-                title: 'Change your password',
-                callback: () {
-                  logger.d("Quiere cambiar su contraseña");
-                }),
-            const LogoutButton(),
-          ],
-        ),
+          ),
+          Expanded(
+            child: Container(
+              color: Theme.of(context).colorScheme.primary,
+              child: Column(
+                children: [
+                  SettingsCard(
+                      title: 'Modify your user info',
+                      callback: () {
+                        logger.d("Quiere modificar su info");
+                      }),
+                  SettingsCard(
+                      title: 'Change your password',
+                      callback: () {
+                        logger.d("Quiere cambiar su contraseña");
+                      }),
+                  const LogoutButton(),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

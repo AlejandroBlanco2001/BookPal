@@ -7,5 +7,11 @@ sealed class BarcodeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class ScanBarcode extends BarcodeEvent {}
+final class ScanBarcode extends BarcodeEvent {
+
+  const ScanBarcode();
+
+  @override
+  List<Object> get props => [];
+}
 

@@ -1,69 +1,70 @@
+import 'package:bookpal/app/widgets/home_page/retry_fecth.dart';
 import 'package:bookpal/app/widgets/items/book_cards.dart';
+import 'package:bookpal/app/widgets/loading/empty_book_list.dart';
+import 'package:bookpal/app/widgets/loading/loading_list.dart';
+import 'package:bookpal/core/constants/constants.dart';
+import 'package:bookpal/data/models/favorite_model.dart';
+import 'package:bookpal/presentation/favorites/bloc/favorite_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Favorites extends StatelessWidget {
   const Favorites({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const favoriteBooks = [
-      {
-        'imageUrl':
-            'https://media.revistaad.es/photos/60c227359ae22619e08751b2/master/w_1600%2Cc_limit/247747.jpg',
-        'title': 'Matar a un ruiseñor',
-        'author': 'By Harper Lee'
-      },
-      {
-        'imageUrl':
-            'https://www.letraminuscula.com/wp-content/uploads/Portada-55x85-EL-CAMINO-DE-LA-GUERRERA-663x1024.jpg',
-        'title': 'Guerrera',
-        'author': 'By Elizabeth Gilbert'
-      },
-      {
-        'imageUrl':
-            'https://cdn.domestika.org/c_fill,dpr_auto,f_auto,q_auto/v1547929697/content-items/002/728/738/Captura_de_pantalla_2019-01-19_a_las_21.22.29-original.png?1547929697',
-        'title': 'Semilla Feliz',
-        'author': 'By Jose Luis'
-      }
-    ];
-
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 48,
-          ),
-          Container(
-            margin: const EdgeInsets.only(bottom: 16),
-            child: const Text(
-              'Favorites',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 48,
+            ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              child: Text(
+                'Favorites',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          ListView(
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            children: _buildFavoriteBooks(favoriteBooks),
-          )
-        ],
+            BlocBuilder<FavoritesBloc, FavoritesState>(
+              builder: (context, state) {
+                if (state is FetchingFavorites || state is FavoritesInitial) {
+                  return const ListBooksShimmer();
+                } else if (state is FavoritesError) {
+                  return RetryFetch(
+                      fetchMethod: () =>
+                          context.read<FavoritesBloc>().add(FetchUserFavorites()));
+                }
+                if (state.favoritesList.isEmpty) {
+                  return const EmptyBookList(title: "You haven't added any book to your favorites yet");
+                }
+                return ListView(
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
+                  children: _buildFavoriteBooks(state.favoritesList),
+                );
+              },
+            )
+          ],
+        ),
       ),
     );
   }
-}
 
-List<Widget> _buildFavoriteBooks(List<Map<String,String>> books) {
-  List<Widget> booksList = [];
-  for (var book in books) {
-    booksList.add(BookCard2(
-      imageUrl: book['imageUrl']!,
-      title: book['title']!,
-      author: book['author']!,
-      isFavorite: true
-    ));
+  List<Widget> _buildFavoriteBooks(List<FavoriteModel> favorites) {
+    List<Widget> favoritesList = [];
+    logger.d("Reconstruyendo favoritos: ${favorites.length}. Libros: ${favorites.map((e) => e.physicalBook!.title)}");
+    for (var favorite in favorites) {
+      favoritesList.add(BookCard2.fromFavorite(
+        favorite: favorite,
+      ));
+    }
+    return favoritesList;
   }
-  return booksList;
 }

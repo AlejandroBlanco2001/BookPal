@@ -57,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  back_button_interceptor:
+    dependency: transitive
+    description:
+      name: back_button_interceptor
+      sha256: e47660f2178a4392eb72001f9594d3fdcb5efde93e59d2819d61fda499e781c8
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.2"
   beamer:
     dependency: "direct main"
     description:
@@ -177,14 +185,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
-  charcode:
-    dependency: transitive
-    description:
-      name: charcode
-      sha256: fb98c0f6d12c920a02ee2d998da788bca066ca5f148492b7085ee23372b12306
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.3.1"
   checked_yaml:
     dependency: transitive
     description:
@@ -353,14 +353,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  floor:
-    dependency: "direct main"
-    description:
-      name: floor
-      sha256: "52a8eac2c8d274e7c0c54251226f59786bb5b749365a2d8537d8095aa5132d92"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.4.2"
   floor_annotation:
     dependency: transitive
     description:
@@ -382,6 +374,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_animated_dialog:
+    dependency: "direct main"
+    description:
+      name: flutter_animated_dialog
+      sha256: "16b88e56ea7014925a1ed4c3c3644f735edfe9194d5cc027a1a10a95d8f55fce"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
+  flutter_animated_icons:
+    dependency: "direct main"
+    description:
+      name: flutter_animated_icons
+      sha256: f9d8069c746b3723d7c9a70087913ddff8e44ea636b831bcccfc58082600afe9
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   flutter_barcode_scanner:
     dependency: "direct main"
     description:
@@ -406,14 +414,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.1"
-  flutter_hooks:
-    dependency: "direct main"
-    description:
-      name: flutter_hooks
-      sha256: "7c8db779c2d1010aa7f9ea3fbefe8f86524fcb87b69e8b0af31e1a4b55422dec"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.20.3"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -544,6 +544,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
+  hexcolor:
+    dependency: "direct main"
+    description:
+      name: hexcolor
+      sha256: c07f4bbb9095df87eeca87e7c69e8c3d60f70c66102d7b8d61c4af0453add3f6
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   http:
     dependency: "direct dev"
     description:
@@ -616,6 +624,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.7.1"
+  jumping_dot:
+    dependency: "direct main"
+    description:
+      name: jumping_dot
+      sha256: a2f755140da73d018bf5198acd83cdd2898a393e5ea45ee94250b9ba44566d1c
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.6"
   jwt_decoder:
     dependency: "direct main"
     description:
@@ -640,6 +656,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  loader_overlay:
+    dependency: "direct main"
+    description:
+      name: loader_overlay
+      sha256: "2b43430880a22133c9d18f65b96c166afa37b605bbe35efcb4f65073ae5aab97"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   logger:
     dependency: "direct main"
     description:
@@ -656,6 +680,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  lottie:
+    dependency: "direct main"
+    description:
+      name: lottie
+      sha256: "893da7a0022ec2fcaa616f34529a081f617e86cc501105b856e5a3184c58c7c2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.3"
   matcher:
     dependency: transitive
     description:
@@ -1013,30 +1045,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.0+1"
-  sqflite_common_ffi:
-    dependency: transitive
-    description:
-      name: sqflite_common_ffi
-      sha256: "198b40b4a7ba58cca18d7837d0246859b7b4c8b007d2902634fc26dec57fa3f1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.0+3"
-  sqlite3:
-    dependency: transitive
-    description:
-      name: sqlite3
-      sha256: db65233e6b99e99b2548932f55a987961bc06d82a31a0665451fa0b4fff4c3fb
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.0"
-  sqlparser:
-    dependency: transitive
-    description:
-      name: sqlparser
-      sha256: "91f47610aa54d8abf9d795a7b4e49b2a788f65d7493d5a68fbf180c3cbcc6f38"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.27.0"
   stack_trace:
     dependency: transitive
     description:

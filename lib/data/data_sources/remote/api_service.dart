@@ -1,7 +1,9 @@
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/data/models/company_model.dart';
+import 'package:bookpal/data/models/favorite_model.dart';
 import 'package:bookpal/data/models/loan_model.dart';
 import 'package:bookpal/data/models/physical_book_model.dart';
+import 'package:bookpal/data/models/rating_model.dart';
 import 'package:bookpal/data/models/user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -70,6 +72,13 @@ abstract class ApiService {
   //   @Header('x-api-key') String apiKey = apiKey,
   //   @Header('Authorization') String? authorization,
   // });
+
+  @GET('/company/style/{id}')
+  Future<HttpResponse<CompanyModel>> getCompanyStyle({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('Authorization') String? authorization,
+    @Path() required int id
+  });
 
   @GET('/company/{id}')
   Future<HttpResponse<CompanyModel>> getCompany({
@@ -141,7 +150,8 @@ abstract class ApiService {
   Future<HttpResponse<LoanModel>> makeReturn({
     @Header('Content-Type') String contentType = contentType,
     @Header('Authorization') String? authorization,
-    @Path() required int id
+    @Path() required int id,
+    @Body() required Map<String, String> fields
   });
 
   @POST('/loan')
@@ -185,7 +195,50 @@ abstract class ApiService {
   Future<HttpResponse<List<PhysicalBookModel>>> getPhysicalBooks({
     @Header('Content-Type') String contentType = contentType,
     @Header('Authorization') String? authorization,
+    @Query('take') int? take = 10,
+    @Query('title') String? title
+  });
+
+  @GET("/physical-book/top-rated-books")
+  Future<HttpResponse<List<PhysicalBookModel>>> getPopular({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('Authorization') String? authorization,
     @Query('take') int? take = 10
+  });
+
+  @GET("/rating/user/{userId}")
+  Future<HttpResponse<List<RatingModel>>> getUserRatings({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('Authorization') String? authorization,
+    @Path() required int userId
+  });
+
+  @PUT("/rating/{id}")
+  Future<HttpResponse<RatingModel>> putRating({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('Authorization') String? authorization,
+    @Path() required int id,
+    @Body() required Map<String, dynamic> fields
+  });
+
+  @POST("/rating")
+  Future<HttpResponse<RatingModel>> postRating({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('Authorization') String? authorization,
+    @Body() required Map<String,dynamic> fields
+  });
+
+  @GET("/favorite/user")
+  Future<HttpResponse<List<FavoriteModel>>> getFavorites({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('Authorization') String? authorization,
+  });
+
+  @POST("/favorite")
+  Future<HttpResponse<FavoriteModel>> postFavorite({
+    @Header('Content-Type') String contentType = contentType,
+    @Header('Authorization') String? authorization,
+    @Body() required Map<String, dynamic> fields
   });
 
   // @GET('/references/{id}')

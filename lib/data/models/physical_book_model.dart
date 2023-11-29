@@ -9,7 +9,7 @@ part 'physical_book_model.g.dart';
 
 @JsonSerializable()
 class PhysicalBookModel extends PhysicalBook {
-  PhysicalBookModel({
+  const PhysicalBookModel({
     required int id,
     required String barcode,
     required author,
@@ -19,6 +19,9 @@ class PhysicalBookModel extends PhysicalBook {
     String? edition,
     required String deweyCode,
     required DateTime creationDate,
+    double? rating,
+    List<Map<String,dynamic>>? ratings,
+    int? available,
     String? isbn,
     String? isbn13,
     String? publisher,
@@ -35,6 +38,9 @@ class PhysicalBookModel extends PhysicalBook {
     collectionId: collectionId,
     title: title,
     edition: edition,
+    rating: rating,
+    ratings: ratings,
+    available: available,
     deweyCode: deweyCode,
     creationDate: creationDate,
     isbn: isbn,
@@ -42,7 +48,7 @@ class PhysicalBookModel extends PhysicalBook {
     publisher: publisher,
     publishDate: publishDate,
     language: language,
-    bookCover: '',
+    bookCover: bookCover,
     status: status,
     bibliographicGps: bibliographicGps,
   );

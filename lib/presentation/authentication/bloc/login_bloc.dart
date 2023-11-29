@@ -18,7 +18,8 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginUsecase _login;
 
-  LoginBloc(this._login) : super(LoginInitial()) {
+  LoginBloc(this._login)
+      : super(LoginInitial()) {
     on<InitLogin>(onInitLogin);
     on<Login>(onLogin);
     on<Logout>(onLogout);
@@ -28,15 +29,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(LoginInitial());
     var existingJwt = await getIt.get<FlutterSecureStorage>().read(key: "jwt");
     if (existingJwt != null && !JwtDecoder.isExpired(existingJwt)) {
+      await getIt.get<SessionManager>().set("jwt", existingJwt);
       emit(LoginSuccess(200, {
         "raw_jwt": existingJwt,
         "decoded_jwt": Utilities.unifyNames(JwtDecoder.decode(existingJwt))
       }));
-      await getIt.get<SessionManager>().set("jwt", existingJwt);
     } else {
       emit(LoginInitial());
-      // TODO: Remove this
-      add(const Login("florix@gmail.com", "B00rgir_9116"));
     }
   }
 

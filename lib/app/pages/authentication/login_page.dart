@@ -1,10 +1,10 @@
 import 'package:bookpal/app/pages/authentication/signup_page.dart';
+import 'package:bookpal/app/widgets/loading/platform_activity_indicator.dart';
 import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/core/util/utilities.dart';
 import 'package:bookpal/presentation/authentication/bloc/login_bloc.dart';
 import 'package:bookpal/presentation/company/remote_bloc/remote_company_bloc.dart';
-import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
-import 'package:bookpal/presentation/storage_bucket/bloc/bucket_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -45,18 +45,12 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: BlocBuilder<RemoteCompanyBloc, RemoteCompanyState>(
                     builder: (context, companyState) {
-                      if (companyState is RemoteCompanyLoaded) {
-                        context.read<BucketBloc>().add(GetDownloadUrl(
-                            '$companiesLogosPath${companyState.company!.logo}'));
-                      }
-                      return BlocBuilder<BucketBloc, BucketState>(
-                        builder: (context, bucketState) {
-                          if (bucketState is GotCompanyDownloadUrl) {
-                            return Image.network(
-                              bucketState.downloadUrl!,
-                              fit: BoxFit.fitHeight,
-                            );
-                          } else if (bucketState is DownloadUrlLoading) {
+                      return FutureBuilder(
+                        future: Utilities.getDownloadUrl(
+                            '$companiesLogosPath${companyState.company!.logo}'),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
                             switch (defaultTargetPlatform) {
                               case TargetPlatform.android:
                                 return const CircularProgressIndicator();
@@ -65,8 +59,25 @@ class _LoginPageState extends State<LoginPage> {
                               default:
                                 return const CircularProgressIndicator();
                             }
-                          } else {
+                          } else if (snapshot.hasError) {
                             return const Icon(Icons.error_outline);
+                          } else {
+                            return CachedNetworkImage(
+                              imageUrl: snapshot.data!,
+                              fit: BoxFit.fitHeight,
+                              progressIndicatorBuilder:
+                                  (context, url, progress) {
+                                return Center(
+                                  child: SizedBox(
+                                    height: 50,
+                                    width: 50,
+                                    child: CircularProgressIndicator(
+                                      value: progress.progress,
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
                           }
                         },
                       );
@@ -91,7 +102,9 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.name,
                     decoration: InputDecoration(
                       labelText: "Email",
-                      errorText: (state is LoginError) ? "Incorrect email or password" : null,
+                      errorText: (state is LoginError)
+                          ? "Incorrect email or password"
+                          : null,
                       prefixIcon: const Icon(Icons.email_outlined),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -102,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onEditingComplete: () => _focusNodePassword.requestFocus(),
                     validator: (value) {
-                      if (value == null || value.isEmpty) { 
+                      if (value == null || value.isEmpty) {
                         return "Please introduce your email";
                       } else if (!Utilities.validateEmail(value)) {
                         return "Invalid email";
@@ -115,7 +128,6 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 10),
               BlocBuilder<LoginBloc, LoginState>(
                 builder: (context, state) {
-                  logger.d("State: $state");
                   return TextFormField(
                     controller: _controllerPassword,
                     focusNode: _focusNodePassword,
@@ -123,7 +135,9 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
                       labelText: "Password",
-                      errorText: (state is LoginError) ? "Incorrect email or password" : null,
+                      errorText: (state is LoginError)
+                          ? "Incorrect email or password"
+                          : null,
                       prefixIcon: const Icon(Icons.password_outlined),
                       suffixIcon: IconButton(
                           onPressed: () {
@@ -167,22 +181,12 @@ class _LoginPageState extends State<LoginPage> {
                                               _controllerPassword.text,
                                             ),
                                           );
-                                      if (state is LoginSuccess) {
-                                        context
-                                            .read<NavigationBloc>()
-                                            .add(ToHomePage());
-                                      }
                                     }
                                   }
                                 : null,
-                        child: (state is LoginInitial || state is LoginError)
-                            ? const Text("Log In")
-                            : (state is LoginLoading)
-                                ? (defaultTargetPlatform ==
-                                        TargetPlatform.android)
-                                    ? const CircularProgressIndicator()
-                                    : const CupertinoActivityIndicator()
-                                : const Text("Log In"),
+                        child: (state is LoginLoading)
+                            ? const PlatformActivityIndicator(light: false)
+                            : const Text("Log In"),
                       );
                     },
                   ),

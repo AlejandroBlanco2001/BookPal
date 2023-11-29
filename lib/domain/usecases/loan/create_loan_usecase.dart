@@ -10,8 +10,7 @@ class CreateLoanUsecase extends Usecase<DataState<Loan>> {
 
   @override
   Future<DataState<Loan>> call({Map<String, dynamic>? params}) {
-    String phoneToken = params!['phone_token'];
-    String bookBarcode = params['physical_book_barcode'];
-    return _loanRepository.postLoan(phoneToken, bookBarcode);
+    String bookBarcode = params!['physical_book_barcode'];
+    return _loanRepository.postLoan(bookBarcode);
   }
 }

@@ -27,8 +27,6 @@ class User extends Equatable{
 	final bool isAdmin;
   @JsonKey(name: 'profile_image')
   final String profileImage;
-  @JsonKey(name: 'phone_token')
-  final String phoneToken;
 
 	const User({
 		this.id,
@@ -43,7 +41,6 @@ class User extends Equatable{
 		this.academicProgram,
     this.profileImage  = '/default_avatar.jpg',
 		this.isAdmin = false,
-    required this.phoneToken,
 	});
 
 	@override

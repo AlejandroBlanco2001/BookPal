@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bookpal/core/constants/constants.dart';
 import 'package:bookpal/domain/usecases/scanning/read_nfc_usecase.dart';
 import 'package:equatable/equatable.dart';
-import 'package:nfc_manager/nfc_manager.dart';
 
 part 'nfc_event.dart';
 part 'nfc_state.dart';
@@ -18,14 +18,17 @@ class NfcBloc extends Bloc<NfcEvent, NfcState> {
 
   FutureOr<void> onScanNFC(NfcEvent event, Emitter<NfcState> emit) async {
     emit(NfcScanning());
+    logger.d("Scanning NFC");
     try {
-      final ndefMessage = await _readNfc();
-      if (ndefMessage.records.isEmpty) {
+      final nfcResult = await _readNfc();
+      logger.d("Result: $nfcResult");
+      if (nfcResult == '' || nfcResult.isEmpty) {
         throw Exception('Empty response from nfc adapter');
       }
-      emit(NfcScanned(ndefMessage: ndefMessage, identifier: ndefMessage.records[0].payload.toString()));
+      emit(NfcScanned(nfcResult.trim()));
     } catch (e) {
-      emit(NfcError(error: e as Exception));
+      logger.d("Error: $e");
+      emit(NfcError(error: Exception(e)));
     }
   }
 }

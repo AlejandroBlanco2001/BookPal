@@ -11,6 +11,7 @@ class MakeLoanReturnUsecase implements Usecase<DataState<Loan>> {
   @override
   Future<DataState<Loan>> call({Map<String,dynamic>? params}) async {
     int id = params!['id'];
-    return await repository.makeReturn(id);
+    Map<String,String> fields = params["fields"];
+    return await repository.makeReturn(id, fields);
   }
 }

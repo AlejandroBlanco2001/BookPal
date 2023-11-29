@@ -32,12 +32,15 @@ class RemotePhysicalBookBloc
         Utilities.getBookIdentifierName(event.identifier): event.identifier
       });
       if (dataState is DataSuccess && dataState.data != null) {
+        logger.d('DataSuccess: ${dataState.data}');
         emit(RemotePhysicalBookLoaded(
             dataState.statusCode, dataState.data! as PhysicalBookModel));
       } else if (dataState is DataFailed) {
-        emit(RemotePhysicalBookError(dataState.error!, dataState.statusCode));
+        logger.d('DataFailed: $dataState. DataState content: ${dataState.error}, ${dataState.statusCode}, ${dataState.message}'); 
+        emit(RemotePhysicalBookError(dataState.error!, dataState.statusCode, dataState.message));
       }
     } on DioException catch (e) {
+      logger.d("DioE: ${e.toString()}");
       emit(RemotePhysicalBookError(e, e.response?.statusCode));
     } on Error catch (e) {
       logger.d('Message: ${e.toString()}\nStackTrace: ${e.stackTrace.toString()}');
@@ -52,7 +55,6 @@ class RemotePhysicalBookBloc
       final dataState =
           await _getPhysicalBooks(params: {'pageSize': event.pageSize});
       if (dataState is DataSuccess && dataState.data != null) {
-        logger.d('DataSuccess: $dataState');
         emit(RemotePhysicalBooksLoaded(
             dataState.statusCode, dataState.data! as List<PhysicalBookModel>));
       } else if (dataState is DataFailed) {

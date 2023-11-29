@@ -1,6 +1,21 @@
+import 'package:bookpal/app/widgets/loading/platform_activity_indicator.dart';
+import 'package:bookpal/core/constants/constants.dart';
+import 'package:bookpal/core/util/utilities.dart';
+import 'package:bookpal/presentation/barcode/bloc/qr_bloc.dart';
+import 'package:bookpal/presentation/favorites/bloc/favorite_bloc.dart';
+import 'package:bookpal/presentation/loan/remote_bloc/user_borrowed_bloc.dart';
 import 'package:bookpal/presentation/navigation/bloc/navigation_bloc.dart';
-import 'package:bookpal/presentation/storage_bucket/bloc/bucket_bloc.dart';
+import 'package:bookpal/presentation/navigation/bloc/navigation_pages_bloc.dart';
+import 'package:bookpal/presentation/physical_book/home_books_bloc/home_books_bloc.dart';
+import 'package:bookpal/presentation/physical_book/remote_bloc/search_bloc.dart';
+import 'package:bookpal/presentation/rating/bloc/rating_bloc.dart';
+import 'package:bookpal/presentation/rating/bloc/user_ratings_bloc.dart';
+import 'package:bookpal/presentation/theme/bloc/theme_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'firebase_options.dart';
 
 import 'package:bookpal/app/navigator.dart';
@@ -37,37 +52,104 @@ class BookPal extends StatelessWidget {
         BlocProvider<RemotePhysicalBookBloc>(
           create: (context) => getIt(),
         ),
+        BlocProvider<HomeBooksBloc>(
+          create: (context) => getIt()..add(FetchHomeBooks()),
+        ),
+        BlocProvider<SearchBloc>(
+          create: (_) => getIt(),
+        ),
         BlocProvider<RemoteCompanyBloc>(
-          create: (context) => getIt()..add(const GetCompany(1)),
+          create: (context) => getIt()..add(InitCompany()),
         ),
         BlocProvider<RemoteLoanBloc>(
+          create: (context) => getIt(),
+        ),
+        BlocProvider<UserBorrowedBloc>(
           create: (context) => getIt(),
         ),
         BlocProvider<BarcodeBloc>(
           create: (context) => getIt(),
         ),
+        BlocProvider<QRBloc>(
+          create: (_) => getIt(),
+        ),
         BlocProvider<NfcBloc>(
           create: (context) => getIt(),
         ),
         BlocProvider<LoginBloc>(
-          create: (context) =>
-              getIt()..add(InitLogin()),
+          create: (context) => getIt()..add(InitLogin()),
         ),
-        BlocProvider<BucketBloc>(
+        BlocProvider<FavoritesBloc>(
           create: (context) => getIt(),
+        ),
+        BlocProvider<RatingBloc>(
+          create: (context) => getIt(),
+        ),
+        BlocProvider<UserRatingsBloc>(
+          create: (_) => getIt(),
         ),
         BlocProvider<NavigationBloc>(
           create: (context) => getIt()..add(ToHomePage()),
         ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'BookPal',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+        BlocProvider<ThemeBloc>(
+          create: (context) => getIt(),
         ),
-        home: const MainNavigator(),
+        BlocProvider<NavigationPagesBloc>(
+          create: (context) => getIt(),
+        ),
+      ],
+      child: BlocBuilder<RemoteCompanyBloc, RemoteCompanyState>(
+        builder: (context, state) {
+          if (state is RemoteCompanyLoading ||
+              state is RemoteCompanyError ||
+              state is RemoteCompanyInitial) {
+            if (state is RemoteCompanyError) {
+              logger.d("Retrying init company");
+              context.read<RemoteCompanyBloc>().add(InitCompany());
+            }
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: Scaffold(
+                body: Center(
+                  child: (defaultTargetPlatform == TargetPlatform.iOS)
+                      ? const CupertinoActivityIndicator()
+                      : const CircularProgressIndicator(),
+                ),
+              ),
+            );
+          }
+          return FutureBuilder(
+            future: Utilities.getDownloadUrl(
+                '$companiesLogosPath${state.company!.logo}'),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                context
+                    .read<ThemeBloc>()
+                    .add(CreateThemeFromLogo(snapshot.data!));
+              }
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'BookPal',
+                theme: ThemeData(
+                  colorScheme: ColorScheme.fromSeed(
+                    seedColor: HexColor(state.company!.primaryColor!),
+                    primary: HexColor(state.company!.primaryColor!),
+                    secondary: HexColor(state.company!.secondaryColor!),
+                  ),
+                  useMaterial3: true,
+                ),
+                home: GlobalLoaderOverlay(
+                  overlayColor: Colors.black.withOpacity(.45),
+                  useDefaultLoading: false,
+                  overlayWidgetBuilder: (_) => const Center(
+                    child: PlatformActivityIndicator(),
+                  ),
+                  child: const MainNavigator(),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }
